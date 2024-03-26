@@ -45,6 +45,7 @@ class Button:
     def height(self, value: int):
         self.pad_y = (value - self.text_img.get_height()) // 2
 
+
     def draw(self, win):
         # outline
         if self.outline_width > 0 and self.outline_color:

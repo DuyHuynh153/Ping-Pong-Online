@@ -255,6 +255,7 @@ TINT_SELF_DARK = Color(0, 128, 0)  # Dark green
 TINT_SELF_MEDIUM = Color(0, 255, 0)  # Medium green
 TINT_SELF_LIGHT = Color(173, 255, 47)  # Light green
 
+
 TINT_ENEMY_DARK = Color(128, 0, 0)  # Dark red (for contrast with green)
 TINT_ENEMY_MEDIUM = Color(255, 0, 0)  # Medium red (for contrast with green)
 TINT_ENEMY_LIGHT = Color(255, 69, 0)  # Light red (for contrast with green)

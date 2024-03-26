@@ -4,6 +4,7 @@ from R import __get_won_display_info_offline_single_player, \
 
 class GameMode:
 
+
     def __init__(self, _id: int, display_name: str, short_name: str, online: bool, self_left_preference: bool,
                  won_display_info_provider):
         self.id = _id

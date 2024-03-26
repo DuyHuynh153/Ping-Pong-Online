@@ -83,6 +83,7 @@ class Paddle(BaseGameObject):
                    rel_width=difficulty.paddle_rel_width, rel_height=difficulty.paddle_rel_height,
                    rel_vel=difficulty.paddle_rel_vel, color=COLOR_PADDLE_SELF if is_self else COLOR_PADDLE_ENEMY)
 
+
     @classmethod
     def create_right(cls, win_getter, difficulty: DifficultyLevel, is_self: bool):
         return cls(win_getter=win_getter, relx=1 - difficulty.paddle_rel_width - PADDLE_REL_PAD_X,

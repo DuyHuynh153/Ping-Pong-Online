@@ -7,6 +7,7 @@ HOST_NAME = socket.gethostname()
 # HOST_IP = socket.gethostbyname(HOST_NAME)
 HOST_IP = "127.0.0.1"
 
+
 # Server
 DEFAULT_SERVER_IP = HOST_IP
 DEFAULT_SERVER_PORT = 5467

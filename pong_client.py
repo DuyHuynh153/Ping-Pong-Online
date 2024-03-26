@@ -679,6 +679,7 @@ while run:
     clock.tick(FPS_CLIENT)
     draw(win, session, paused, get_all_home_buttons())
 
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
