@@ -20,14 +20,14 @@ def is_valid_ip(ip: str):
     return ip and re.search(IP_ADDRESS_PATTERN, ip)
 
 
-def get_user_name(default_user_name):
-    try:
-        import getpass
-        user_name = getpass.getuser()
-    except Exception:
-        user_name = default_user_name
-
-    return user_name
+# def get_user_name(default_user_name):
+#     try:
+#         import getpass
+#         user_name = getpass.getuser()
+#     except Exception:
+#         user_name = default_user_name
+#
+#     return user_name
 
 
 def signum(num) -> int:

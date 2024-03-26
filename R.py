@@ -7,7 +7,7 @@ from C import GAME_UPDATE_RESULT_SCORE_UP_LEFT, GAME_UPDATE_RESULT_BALL_HIT_TOP_
     GAME_UPDATE_RESULT_BALL_HIT_PADDLE_RIGHT, GAME_UPDATE_RESULT_SCORE_UP_RIGHT, GAME_UPDATE_RESULT_NORMAL, \
     GAME_UPDATE_RESULT_WON_LEFT, GAME_UPDATE_RESULT_WON_RIGHT, LOCAL_CONFIG_KEY_PLAYER_NAME
 
-from U import get_user_name, remove_all_whitespaces
+from U import  remove_all_whitespaces
 
 ID_NONE = -1
 ID_LEFT = 0
@@ -18,9 +18,16 @@ ID_RIGHT = 1
 ENCODING = 'utf-8'
 
 
-def encode_str(msg: str, encoding=ENCODING) -> bytes:
-    return bytes(msg, encoding=encoding)
+# def encode_str(msg: str, encoding=ENCODING) -> bytes:
+#     return bytes(msg, encoding=encoding)
+#
+#
+# def decode_str(_bytes: bytes, encoding=ENCODING) -> str:
+#     return _bytes.decode(encoding=encoding)
 
+
+def encode_str(msg: str, encoding=ENCODING) -> bytes:
+    return msg.encode(encoding=encoding)
 
 def decode_str(_bytes: bytes, encoding=ENCODING) -> str:
     return _bytes.decode(encoding=encoding)
@@ -69,7 +76,8 @@ def load_map(file_path: str, key_value_delimiter: str = '=', comment_token='#',
 
 
 DEFAULT_USER_NAME = "Guest"
-USER_NAME_LOCAL = get_user_name(default_user_name=DEFAULT_USER_NAME)
+USER_NAME_LOCAL = "duy huynh"
+# USER_NAME_LOCAL = get_user_name(default_user_name=DEFAULT_USER_NAME)
 
 # Main Vars
 DEFAULT_W_WIDTH, DEFAULT_W_HEIGHT = 1244, 700
@@ -79,15 +87,10 @@ WINNING_SCORE = 10
 
 DISPLAY_TITLE_PART1 = "Ping"
 DISPLAY_TITLE_PART2 = "Pong"
-DISPLAY_TITLE = "Ping Pong"
+DISPLAY_TITLE = "Ping Pong Game"
 
 
-DISPLAY_SUMMARY = "Made by RC"
-DISPLAY_DESCRIPTION = "A classic online multiplayer Ping-Pong game"
-DISPLAY_AUTHOR = "Rohan Chauhan"
 
-EXE_NAME = DISPLAY_TITLE
-EXE_VERSION = "1.0.0"
 
 STATUS_TEXT_WINNING_SCORE = "Target"
 
@@ -117,7 +120,7 @@ MSG_WAITING_CAPTION = "Press ESCAPE to stop matching"
 MSG_ENEMY_LEFT_CAPTION = "Press ENTER to continue"
 
 TITLE_CONTROLS = "CONTROLS"
-DES_CONTROLS = "Player 1 : UP-DOWN\nPlayer 2 : W-S\nPause : Space\nExit : Escape\nSound : Ctrl-A\nFullscreen : Ctrl-F"
+DES_CONTROLS = "Player 1 : UP-DOWN\nPlayer 2 : W-S\nPause : Space\nExit : Escape\nFullscreen : Ctrl-F"
 
 OFFLINE_MULTI_PLAYER_PLAYER1_NAME = "Player 1"
 OFFLINE_MULTI_PLAYER_PLAYER2_NAME = "Player 2"
@@ -141,35 +144,6 @@ def get_msg_enemy_left(enemy_name: str, default_msg=MSG_ENEMY_LEFT_DEFAULT) -> s
     return f"{enemy_name} has left!" if enemy_name else default_msg
 
 
-# def get_msg_won(self_won: bool, score_diff: int, enemy_name: str, offline_multiplayer: bool, offline_singleplayer: bool) -> tuple:
-#     if offline_multiplayer:
-#         if self_won:
-#             won_name = OFFLINE_MULTIPLAYER_PLAYER1_NAME
-#             lost_name = OFFLINE_MULTIPLAYER_PLAYER2_NAME
-#             col = COLOR_MSG_WON_SELF
-#         else:
-#             won_name = OFFLINE_MULTIPLAYER_PLAYER2_NAME
-#             lost_name = OFFLINE_MULTIPLAYER_PLAYER1_NAME
-#             col = COLOR_MSG_WON_ENEMY
-#         won_msg = f"{won_name} won!"
-#     else:
-#         _enemy_name = enemy_name if enemy_name else OFFLINE_SINGLEPLAER_AI_NAME if offline_singleplayer else DEFAULT_ENEMY_NAME
-#         if self_won:
-#             won_msg = MSG_WON_SELF
-#             lost_name = _enemy_name
-#             col = COLOR_MSG_WON_SELF
-#         else:
-#             won_msg = f"{_enemy_name} won!"
-#             lost_name = "You"
-#             col = COLOR_MSG_WON_ENEMY
-#
-#     return won_msg, f"{lost_name} lost by {score_diff} points. {MSG_WON_CAPTION}", col
-
-#
-# def get_msg_won_cap(offline_multiplayer: bool, self_won: bool, score_diff: int, enemy_name: str) -> str:
-#     if offline_multiplayer:
-#         return f"{(OFFLINE_MULTIPLAYER_PLAYER2_NAME if self_won else OFFLINE_MULTIPLAYER_PLAYER1_NAME)} lost by {score_diff} points. {MSG_WON_CAPTION}"
-#     return f"{} {'lost' if self_won else 'won'} by {score_diff} points. {MSG_WON_CAPTION}"
 
 
 def __get_won_msg_cap(player_name: str, score_diff: int, won: bool) -> str:
@@ -247,28 +221,49 @@ BG_LIGHT = gray(40)
 
 FG_DARK = WHITE
 FG_MEDIUM = gray(225)
-FG_LIGHT = gray(190)
+FG_LIGHT = gray(0)
 
-# COLOR_ACCENT_DARK = Color(57, 206, 255)
-# COLOR_ACCENT_MEDIUM = Color(33, 187, 255)
-# COLOR_ACCENT_LIGHT = Color(2, 169, 255)
 
-COLOR_ACCENT_DARK = Color(29, 255, 0)
-COLOR_ACCENT_MEDIUM = Color(29, 226, 0)
-COLOR_ACCENT_LIGHT = Color(29, 190, 0)
+# COLOR_ACCENT_DARK = Color(29, 255, 0)
+# COLOR_ACCENT_MEDIUM = Color(29, 226, 0)
+# COLOR_ACCENT_LIGHT = Color(29, 190, 0)
+#
+# COLOR_HIGHLIGHT = Color(253, 255, 52)
+#
+# COLOR_TRANSPARENT = Color(0, 0, 0, 0)
+# COLOR_TRANSLUCENT = Color(0, 0, 0, 125)
+#
+# TINT_SELF_DARK = Color(120, 255, 120)
+# TINT_SELF_MEDIUM = Color(55, 255, 55)
+# TINT_SELF_LIGHT = Color(0, 255, 0)
+#
+# TINT_ENEMY_DARK = Color(255, 120, 120)
+# TINT_ENEMY_MEDIUM = Color(255, 55, 55)
+# TINT_ENEMY_LIGHT = Color(255, 0, 0)
 
-COLOR_HIGHLIGHT = Color(253, 255, 52)
+# Colors
+COLOR_ACCENT_DARK = Color(0, 128, 0)  # Dark green
+COLOR_ACCENT_MEDIUM = Color(0, 255, 0)  # Medium green
+COLOR_ACCENT_LIGHT = Color(173, 255, 47)  # Light green
 
-COLOR_TRANSPARENT = Color(0, 0, 0, 0)
-COLOR_TRANSLUCENT = Color(0, 0, 0, 125)
+COLOR_HIGHLIGHT = Color(144, 238, 144)  # Light green
 
-TINT_SELF_DARK = Color(120, 255, 120)
-TINT_SELF_MEDIUM = Color(55, 255, 55)
-TINT_SELF_LIGHT = Color(0, 255, 0)
+COLOR_TRANSPARENT = Color(255, 255, 255, 0)  # Fully transparent white
+COLOR_TRANSLUCENT = Color(0, 128, 0, 125)  # Translucent green
 
-TINT_ENEMY_DARK = Color(255, 120, 120)
-TINT_ENEMY_MEDIUM = Color(255, 55, 55)
-TINT_ENEMY_LIGHT = Color(255, 0, 0)
+TINT_SELF_DARK = Color(0, 128, 0)  # Dark green
+TINT_SELF_MEDIUM = Color(0, 255, 0)  # Medium green
+TINT_SELF_LIGHT = Color(173, 255, 47)  # Light green
+
+TINT_ENEMY_DARK = Color(128, 0, 0)  # Dark red (for contrast with green)
+TINT_ENEMY_MEDIUM = Color(255, 0, 0)  # Medium red (for contrast with green)
+TINT_ENEMY_LIGHT = Color(255, 69, 0)  # Light red (for contrast with green)
+
+
+
+
+
+
 
 
 COLOR_HOME_TITLE_PART1 = COLOR_ACCENT_DARK

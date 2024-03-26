@@ -77,9 +77,6 @@ class BaseGameObject:
 
 
 class Paddle(BaseGameObject):
-    # _s_left = None
-    # _s_right = None
-
     @classmethod
     def create_left(cls, win_getter, difficulty: DifficultyLevel, is_self: bool):
         return cls(win_getter=win_getter, relx=PADDLE_REL_PAD_X, rely=(1 - difficulty.paddle_rel_height) / 2,
@@ -255,16 +252,6 @@ class Paddle(BaseGameObject):
 
 
 class Ball(BaseGameObject):
-
-    # _s_ins = None
-
-    # @classmethod
-    # def singleton(cls):
-    #     ins = cls._s_ins
-    #     if not ins:
-    #         ins = Ball()
-    #         cls._s_ins = ins
-    #     return ins
 
     @classmethod
     def create(cls, win_getter, difficulty: DifficultyLevel):

@@ -179,18 +179,31 @@ clock = pygame.time.Clock()  # Main loop clock
 # db_clock = pygame.time.Clock()  # double click timer clock
 
 pygame.font.init()
+# FONT_TITLE = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 60)
+# FONT_SUMMARY = pygame.font.Font(FILE_PATH_FONT_PD_SANS_LIGHT, 32)
+# FONT_STATUS = pygame.font.Font(FILE_PATH_FONT_PD_SANS_LIGHT, 14)
+# FONT_STATUS_PLAYER = pygame.font.Font(FILE_PATH_FONT_PD_SANS, 16)
+# FONT_BUTTONS = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 18)
+# FONT_BUTTONS_MEDIUM = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 14)
+# FONT_BUTTONS_SMALL = pygame.font.Font(FILE_PATH_FONT_PD_SANS, 13)
+#
+# FONT_SCORE = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 34)
+# FONT_WON_MSG = pygame.font.Font(FILE_PATH_FONT_PD_SANS_MEDIUM, 42)
+# FONT_CRITICAL_MSG = pygame.font.Font(FILE_PATH_FONT_PD_SANS, 42)
+# FONT_MSG_CAPTION = pygame.font.Font(FILE_PATH_FONT_PD_SANS_LIGHT, 18)
+
 FONT_TITLE = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 60)
-FONT_SUMMARY = pygame.font.Font(FILE_PATH_FONT_PD_SANS_LIGHT, 19)
-FONT_STATUS = pygame.font.Font(FILE_PATH_FONT_PD_SANS_LIGHT, 14)
-FONT_STATUS_PLAYER = pygame.font.Font(FILE_PATH_FONT_PD_SANS, 16)
-FONT_BUTTONS = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 18)
-FONT_BUTTONS_MEDIUM = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 14)
-FONT_BUTTONS_SMALL = pygame.font.Font(FILE_PATH_FONT_PD_SANS, 13)
+FONT_SUMMARY = pygame.font.Font(FILE_PATH_FONT_PD_SANS_LIGHT, 32)
+FONT_STATUS = pygame.font.Font(FILE_PATH_FONT_PD_SANS_LIGHT, 32)
+FONT_STATUS_PLAYER = pygame.font.Font(FILE_PATH_FONT_PD_SANS, 32)
+FONT_BUTTONS = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 26)
+FONT_BUTTONS_MEDIUM = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 26)
+FONT_BUTTONS_SMALL = pygame.font.Font(FILE_PATH_FONT_PD_SANS, 26)
 
 FONT_SCORE = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 34)
 FONT_WON_MSG = pygame.font.Font(FILE_PATH_FONT_PD_SANS_MEDIUM, 42)
 FONT_CRITICAL_MSG = pygame.font.Font(FILE_PATH_FONT_PD_SANS, 42)
-FONT_MSG_CAPTION = pygame.font.Font(FILE_PATH_FONT_PD_SANS_LIGHT, 18)
+FONT_MSG_CAPTION = pygame.font.Font(FILE_PATH_FONT_PD_SANS_LIGHT, 33)
 
 
 def get_win():
@@ -204,19 +217,20 @@ def _draw_home_screen(_win, _session: ClientSession, _buttons):
 
     _win.fill(BG_DARK)
 
-    _bg = IMAGES.home_bg
-    if _bg:
-        o_asp = _bg.get_width() / _bg.get_height()
-        d_asp = _win.get_width() / _win.get_height()
-        if o_asp < d_asp:
-            nw = _win.get_width()
-            nh = int(nw / o_asp)
-        else:
-            nh = _win.get_height()
-            nw = int(o_asp * nh)
 
-        _bg = pygame.transform.scale(_bg, (nw, nh))
-        _win.blit(_bg, ((_win.get_width() - nw) // 2, (_win.get_height() - nh) // 2))
+    # _bg = IMAGES.home_bg
+    # if _bg:
+    #     o_asp = _bg.get_width() / _bg.get_height()
+    #     d_asp = _win.get_width() / _win.get_height()
+    #     if o_asp < d_asp:
+    #         nw = _win.get_width()
+    #         nh = int(nw / o_asp)
+    #     else:
+    #         nh = _win.get_height()
+    #         nw = int(o_asp * nh)
+    #
+    #     _bg = pygame.transform.scale(_bg, (nw, nh))
+    #     _win.blit(_bg, ((_win.get_width() - nw) // 2, (_win.get_height() - nh) // 2))
 
     # Title
     title_part1 = FONT_TITLE.render(DISPLAY_TITLE_PART1 + ' ', True, COLOR_HOME_TITLE_PART1)
@@ -226,8 +240,6 @@ def _draw_home_screen(_win, _session: ClientSession, _buttons):
     _win.blit(title_part1, (_win.get_width() // 2 - title_part1.get_width(), title_y))
     _win.blit(title_part2, (_win.get_width() // 2, title_y))
 
-    summary = FONT_SUMMARY.render(DISPLAY_SUMMARY, True, COLOR_HOME_SUMMARY)
-    _win.blit(summary, ((_win.get_width() - summary.get_width()) // 2, title_y + title_part1.get_height() + 10))
 
     _player = FONT_SUMMARY.render(format_player_name(_session.player_name if _session else player_name), True, FG_DARK)
     _win.blit(_player, (_win.get_width() - _player.get_width() - CLIENT_HOME_SCREEN_PADX, CLIENT_HOME_SCREEN_PADY))
@@ -243,7 +255,7 @@ def _draw_home_screen(_win, _session: ClientSession, _buttons):
     # 10, 10, home_sound_buttons[1].x2 + 10, _sound_label.get_height() + _sound_label_pos[1]),
     #                  border_radius=10)
 
-    _win.blit(_sound_label, _sound_label_pos)
+    # _win.blit(_sound_label, _sound_label_pos)
 
     # Controls Description
     _controls_title = FONT_BUTTONS_SMALL.render(TITLE_CONTROLS, True, COLOR_HIGHLIGHT)
@@ -260,6 +272,7 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
     if not _session or _session.is_idle:
         _draw_home_screen(_win, _session, _home_buttons)
     else:
+        #  background of the play againt
         _win.fill(BG_DARK)
 
         # status
@@ -497,8 +510,11 @@ def consider_play_button_sound(hover: bool):
         AUDIO.play_button_sound(hover)
 
 
+# def get_all_home_buttons():
+#     return chain(home_game_mode_buttons, home_difficulty_buttons, home_sound_buttons, (home_exit_button,))
+
 def get_all_home_buttons():
-    return chain(home_game_mode_buttons, home_difficulty_buttons, home_sound_buttons, (home_exit_button,))
+    return chain(home_game_mode_buttons, home_difficulty_buttons,  (home_exit_button,))
 
 
 def sync_home_sound_buttons_state():
