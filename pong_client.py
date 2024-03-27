@@ -45,7 +45,7 @@ def create_exit_button(win_width, win_height):
 
 
 def update_difficulty_buttons_pos(buttons, win_width, win_height, max_b_height=0):
-    _dx = ((win_width - (buttons[-1].x2 - buttons[0].x)) // 2) - buttons[0].x  # to center button horizontally
+    _dx = ((win_width - (buttons[-1].x2 - buttons[0].x)) // 2) - buttons[0].x  # to center buttons horizontally
 
     if max_b_height <= 0:
         max_b_height = reduce(lambda a, b: a if a.height >= b.height else b, buttons).height
@@ -83,7 +83,8 @@ def create_difficulty_buttons(win_width, win_height) -> list:
     return buttons
 
 
-def update_game_mode_buttons_pos(buttons, win_width, win_height, vgap=20, max_b_width=0):
+def update_game_mode_buttons_pos(buttons, win_width, win_height, vgap=30, max_b_width=0):
+    #  getting the widest button if max_b_buttons is mssing
     if max_b_width <= 0:
         max_b_width = reduce(lambda a, b: a if a.width >= b.width else b, buttons).width
 
@@ -215,8 +216,8 @@ def get_win():
 def _draw_home_screen(_win, _session: ClientSession, _buttons):
     global home_sound_buttons_pos_pending
 
-    _win.fill(BG_DARK)
-
+    # _win.fill(BG_DARK)
+    _win.fill(gray(130))
 
     # _bg = IMAGES.home_bg
     # if _bg:
@@ -244,22 +245,11 @@ def _draw_home_screen(_win, _session: ClientSession, _buttons):
     _player = FONT_SUMMARY.render(format_player_name(_session.player_name if _session else player_name), True, FG_DARK)
     _win.blit(_player, (_win.get_width() - _player.get_width() - CLIENT_HOME_SCREEN_PADX, CLIENT_HOME_SCREEN_PADY))
 
-    _sound_label = FONT_BUTTONS_SMALL.render(LABEL_TEXT_SOUND, True, FG_DARK)
-    _sound_label_pos = (CLIENT_HOME_SCREEN_PADX_SOUND_LABEL, CLIENT_HOME_SCREEN_PADY_SOUND_LABEL)
 
-    if home_sound_buttons_pos_pending:
-        update_sound_buttons_pos(home_sound_buttons, _sound_label_pos, _sound_label.get_size())
-        home_sound_buttons_pos_pending = False
-
-    # pygame.draw.rect(_win, BG_LIGHT, (
-    # 10, 10, home_sound_buttons[1].x2 + 10, _sound_label.get_height() + _sound_label_pos[1]),
-    #                  border_radius=10)
-
-    # _win.blit(_sound_label, _sound_label_pos)
 
     # Controls Description
     _controls_title = FONT_BUTTONS_SMALL.render(TITLE_CONTROLS, True, COLOR_HIGHLIGHT)
-    _controls_title_pos = (CLIENT_HOME_SCREEN_PADX, _sound_label_pos[1] * 2 + _sound_label.get_height())
+    _controls_title_pos = (CLIENT_HOME_SCREEN_PADX, CLIENT_HOME_SCREEN_PADX * 2 + _player.get_height())
     _win.blit(_controls_title, _controls_title_pos)
     blit_text(_win, DES_CONTROLS, (_controls_title_pos[0], _controls_title_pos[1] + _controls_title.get_height() + 12),
               FONT_BUTTONS_SMALL, color=FG_DARK)
@@ -676,7 +666,7 @@ def handle_videoresize(_event=None):
 
 
 while run:
-    clock.tick(FPS_CLIENT)
+    clock.tick(60)
     draw(win, session, paused, get_all_home_buttons())
 
 
