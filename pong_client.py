@@ -216,8 +216,8 @@ def get_win():
 def _draw_home_screen(_win, _session: ClientSession, _buttons):
     global home_sound_buttons_pos_pending
 
-    # _win.fill(BG_DARK)
-    _win.fill(gray(130))
+    _win.fill(BG_DARK)
+    # _win.fill(gray(130))
 
     # _bg = IMAGES.home_bg
     # if _bg:
@@ -266,14 +266,15 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
         _win.fill(BG_DARK)
 
         # status
-        _status_text = _session.game_mode.short_name + \
-                       (
-                           f"{STATUS_TEXT_DELIMITER}{_session.difficulty.display_name} ({STATUS_TEXT_WINNING_SCORE}: {_session.difficulty.winning_score})" if _session.difficulty else "") + \
-                       (STATUS_TEXT_DELIMITER + (
-                           STATUS_TEXT_SOUND_ON if _session.sounds_enabled else STATUS_TEXT_SOUND_OFF))
-
-        _status = FONT_STATUS.render(_status_text, True, COLOR_STATUS_TEXT)
-        _win.blit(_status, (_win.get_width() - _status.get_width() - 6, _win.get_height() - _status.get_height() - 4))
+        # _status_text = _session.game_mode.short_name + \
+        #                (
+        #                    f"{STATUS_TEXT_DELIMITER}{_session.difficulty.display_name} ({STATUS_TEXT_WINNING_SCORE}: {_session.difficulty.winning_score})" if _session.difficulty else "") + \
+        #                (STATUS_TEXT_DELIMITER + (
+        #                    STATUS_TEXT_SOUND_ON if _session.sounds_enabled else STATUS_TEXT_SOUND_OFF))
+        #
+        # # _status_text = "huynh lam duy"
+        # _status = FONT_STATUS.render(_status_text, True, COLOR_STATUS_TEXT)
+        # _win.blit(_status, (_win.get_width() - _status.get_width() - 6, _win.get_height() - _status.get_height() - 4))
 
         if _session.is_connecting or _session.is_waiting or _session.has_enemy_left:
             if _session.is_connecting:
@@ -298,7 +299,7 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
                 _win.get_width() - right_player_name.get_width() - CLIENT_HOME_SCREEN_PADX, CLIENT_HOME_SCREEN_PADY))
         elif _session.is_running:
             state = _session.game_state
-            assert state is not None, "Running session has no GameState !!"
+            # assert state is not None, "Running session has no GameState !!"
 
             self_left = _session.is_self_left
 
@@ -317,6 +318,7 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
                     (_win.get_width() - won_cap.get_width()) // 2,
                     (_win.get_height() + won_img.get_height()) // 2 + 10))
             else:
+                #  ve duong phan cach giua cua game
                 div_h = int(_win.get_height() * VERTICAL_DIVIDER_REL_HEIGHT)
                 for i in range(_win.get_height() - 16 // div_h):
                     if i % 2 == 1:
@@ -496,8 +498,9 @@ def toggle_fullscreen() -> bool:
 
 
 def consider_play_button_sound(hover: bool):
-    if home_selected_sound_enabled:
-        AUDIO.play_button_sound(hover)
+    # if home_selected_sound_enabled:
+    #     AUDIO.play_button_sound(hover)
+    pass
 
 
 # def get_all_home_buttons():
@@ -545,7 +548,7 @@ def go_back():
     global session
     global _display_updated
 
-    if not session or session.is_idle:
+    if not session or session.is_idle:  # idle mean that no interact with screen for perious time
         run = False
     else:
         session.set_idle()
@@ -570,12 +573,12 @@ def handle_keydown(_event):
             consider_play_button_sound(False)
             paused = False
             _display_updated = True
-    elif _event.key == pygame.K_a:
-        if pygame.key.get_mods() & pygame.KMOD_CTRL:  # if ctrl pressed
-            home_selected_sound_enabled = not home_selected_sound_enabled
-            if session:
-                session.sounds_enabled = home_selected_sound_enabled
-            sync_home_sound_buttons_state()
+    # elif _event.key == pygame.K_a:
+    #     if pygame.key.get_mods() & pygame.KMOD_CTRL:  # if ctrl pressed
+    #         home_selected_sound_enabled = not home_selected_sound_enabled
+    #         if session:
+    #             session.sounds_enabled = home_selected_sound_enabled
+            # sync_home_sound_buttons_state()
     elif _event.key == pygame.K_SPACE:
         if session and session.is_running and not session.game_mode.online:
             paused = not paused
@@ -631,15 +634,15 @@ def handle_mouse_button_down(_event=None):
         if _got_diff:
             sync_home_difficulty_buttons_state()
         else:
-            for bt in home_sound_buttons:
-                if bt.is_over(*m_pos):
-                    home_selected_sound_enabled = bt.tag
-                    _got_sound = True
-                    break
-
-            if _got_sound:
-                sync_home_sound_buttons_state()
-            elif home_selected_difficulty:
+            # for bt in home_sound_buttons:
+            #     if bt.is_over(*m_pos):
+            #         home_selected_sound_enabled = bt.tag
+            #         _got_sound = True
+            #         break
+            #
+            # if _got_sound:
+            #     sync_home_sound_buttons_state()
+            if home_selected_difficulty:
                 for bt in home_game_mode_buttons:
                     if bt.is_over(*m_pos):
                         if session:

@@ -17,19 +17,22 @@ sessions = []
 server_ip = DEFAULT_SERVER_IP
 server_port = DEFAULT_SERVER_PORT
 
-if len(sys.argv) > 1:
-    _ip = sys.argv[1]
-    if is_valid_ip(_ip):
-        server_ip = _ip
-    else:
-        print(f"Invalid input IP Address: {_ip}")
+
+# this line below need for check valid ip and port
+
+# if len(sys.argv) > 1:
+#     _ip = sys.argv[1]
+#     if is_valid_ip(_ip):
+#         server_ip = _ip
+#     else:
+#         print(f"Invalid input IP Address: {_ip}")
 
 
-if len(sys.argv) > 2:
-    try:
-        server_port = int(sys.argv[2])
-    except ValueError:
-        print(f"Invalid input port: {sys.argv[2]}")
+# if len(sys.argv) > 2:
+#     try:
+#         server_port = int(sys.argv[2])
+#     except ValueError:
+#         print(f"Invalid input port: {sys.argv[2]}")
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -37,21 +40,22 @@ try:
     sock.bind((server_ip, server_port))
 except Exception as e:
     print(f"Failed to initialize server at IP: {server_ip}, PORT: {server_port} -> {e}")
-    if server_ip != DEFAULT_SERVER_IP or server_port != DEFAULT_SERVER_PORT:
-        print("Falling back to default ip and port...")
-        server_ip = DEFAULT_SERVER_IP
-        server_port = DEFAULT_SERVER_PORT
-        try:
-            sock.bind((server_ip, server_port))
-        except Exception as e:
-            print(f"Failed to initialize server at default address -> IP: {server_ip}, PORT: {server_port} -> {e}")
-            sys.exit(2)
-    else:
-        sys.exit(2)
+    sys.exit(2)
+    # if server_ip != DEFAULT_SERVER_IP or server_port != DEFAULT_SERVER_PORT:
+    #     print("Falling back to default ip and port...")
+    #     server_ip = DEFAULT_SERVER_IP
+    #     server_port = DEFAULT_SERVER_PORT
+    #     try:
+    #         sock.bind((server_ip, server_port))
+    #     except Exception as e:
+    #         print(f"Failed to initialize server at default address -> IP: {server_ip}, PORT: {server_port} -> {e}")
+    #         sys.exit(2)
+    # else:
+    #     sys.exit(2)
 
-
-if SERVER_TIMEOUT_SECS > 0:
-    sock.settimeout(SERVER_TIMEOUT_SECS)
+#
+# if SERVER_TIMEOUT_SECS > 0:
+#     sock.settimeout(SERVER_TIMEOUT_SECS)
 print(f"Server UP -> IP: {DEFAULT_SERVER_IP}, PORT: {DEFAULT_SERVER_PORT}")
 
 pygame.init()
@@ -70,10 +74,11 @@ def create_session(win_getter, _session_id: int, difficulty: DifficultyLevel) ->
 
 while True:
     try:
-        _bytes, addr = sock.recvfrom(SERVER_RECV_BUF_SIZE)
-        msg = decode_str(_bytes)
+        # using recvfrom because it needs to know the sender
+        _bytes, addr = sock.recvfrom(1024)
+        msg = decode_str(_bytes)  # decode the info about the game send by addr
 
-        arr = msg.split(SESSION_INFO_DELIMITER)
+        arr = msg.split(SESSION_INFO_DELIMITER)  # arr = ['request', 'difficulty','player']
         req = arr[0]
 
         if req == REQ_TYPE_NEW_PLAYER:                # '{req_code}:{difficulty_code}'
@@ -86,6 +91,8 @@ while True:
             if not sessions:
                 sessions.append(create_session(get_win, _id, _difficulty))
 
+
+            #  this code below taking 1 session that caontain aleast 1 player are not playing
             _session: ServerSession = None
             for s in sessions:
                 if s.is_vacant and s.game_state.difficulty == _difficulty:

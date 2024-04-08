@@ -36,7 +36,7 @@ GAME_MODE_OFFLINE_SINGLE_PLAYER = GameMode(_id=0xFFF0,
                                            won_display_info_provider=__get_won_display_info_offline_single_player)
 
 GAME_MODE_OFFLINE_MULTI_PLAYER = GameMode(_id=0xFFF1,
-                                          display_name="Offline - multi player",
+                                          display_name="Offline - 2 player",
                                           short_name="Multi Player",
                                           online=False, self_left_preference=False,
                                           won_display_info_provider=__get_won_display_info_offline_multiplayer)

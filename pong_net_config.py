@@ -5,14 +5,14 @@ import C
 
 HOST_NAME = socket.gethostname()
 # HOST_IP = socket.gethostbyname(HOST_NAME)
-HOST_IP = "127.0.0.1"
+HOST_IP = "192.168.1.15"
 
 
 # Server
 DEFAULT_SERVER_IP = HOST_IP
 DEFAULT_SERVER_PORT = 5467
 SERVER_TIMEOUT_SECS = 0
-SERVER_RECV_BUF_SIZE = 1024
+# SERVER_RECV_BUF_SIZE = 1024
 
 # SERVER_MAX_PLAYERS = 100
 
@@ -41,12 +41,12 @@ def load_server_addr(file_path: str = R.FILE_PATH_CLIENT_NETWORK_CONFIG,
             ip = default_ip
 
     port = default_port
-    port_str = data.get(C.NET_CONFIG_KEY_SERVER_PORT)
-    if port_str:
-        try:
-            port = int(port_str)
-        except ValueError:
-            print(f"Invalid port in file.... PORT: {port_str}")
-            port = default_port
+    # port_str = data.get(C.NET_CONFIG_KEY_SERVER_PORT)
+    # if port_str:
+    #     try:
+    #         port = int(port_str)
+    #     except ValueError:
+    #         print(f"Invalid port in file.... PORT: {port_str}")
+    #         port = default_port
 
     return ip, port
