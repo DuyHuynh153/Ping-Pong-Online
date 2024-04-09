@@ -111,7 +111,6 @@ class Paddle(BaseGameObject):
                  relx: float, rely: float,
                  rel_width: float, rel_height: float,
                  rel_vel: float, color: pygame.Color = FG_DARK
-                 # , rel_padx: int = PADDLE_REL_PAD_X, rel_pady: int = PADDLE_REL_PAD_Y
                  ):
 
         super(Paddle, self).__init__(win_getter, relx, rely)
@@ -204,28 +203,32 @@ class Paddle(BaseGameObject):
     def draw(self):
         pygame.draw.rect(self.win, self.color, (self.x, self.y, self.width, self.height), border_radius=PADDLE_CORNERS)
 
+
+
+    # change if you can
     def rely_max(self, rel_pady=PADDLE_REL_PAD_Y) -> float:
         return 1 - self.rel_height - rel_pady
+
 
     @staticmethod
     def rely_min(rel_pady=PADDLE_REL_PAD_Y) -> float:
         return rel_pady
 
-    @property
-    def center_relx(self) -> float:
-        return self.relx + (self.rel_width / 2)
-
-    @property
-    def center_rely(self) -> float:
-        return self.rely + (self.rel_height / 2)
-
-    @property
-    def center_absx(self) -> float:
-        return self.get_absx(self.center_relx)
-
-    @property
-    def center_absy(self) -> float:
-        return self.get_absy(self.center_rely)
+    # @property
+    # def center_relx(self) -> float:
+    #     return self.relx + (self.rel_width / 2)
+    #
+    # @property
+    # def center_rely(self) -> float:
+    #     return self.rely + (self.rel_height / 2)
+    #
+    # @property
+    # def center_absx(self) -> float:
+    #     return self.get_absx(self.center_relx)
+    #
+    # @property
+    # def center_absy(self) -> float:
+    #     return self.get_absy(self.center_rely)
 
     def set_raw_rel_pos(self, relx, rely):
         self.relx, self.rely = relx, rely
@@ -246,7 +249,6 @@ class Paddle(BaseGameObject):
             _max = self.rely_max(rel_pady=rel_pady)
             self.rely = min(_max, _final)
 
-        # self.move_by((-1 if up else 1) * self.vel)
 
     def reset(self):
         super(Paddle, self).reset()
@@ -280,7 +282,8 @@ class Ball(BaseGameObject):
 
     @property
     def radius(self):
-        return min(self.win_width, self.win_height) * self.rel_radius
+        # return min(self.win_width, self.win_height) * self.rel_radius
+        return self.rel_radius
 
     @property
     def abs_velx(self) -> int:

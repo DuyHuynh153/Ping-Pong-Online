@@ -5,7 +5,7 @@ from functools import reduce
 from Button import Button
 from DifficultyLevel import DIFFICULTY_LEVEL_DEFAULT, DIFFICULTY_LEVELS, load_local_ai_efficiencies
 from GameMode import *
-from GameState import *
+from GameState_old import *
 from U import is_valid_ip, blit_text
 from pong_net_config import *
 from pong_sessions import ClientSession

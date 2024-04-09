@@ -7,7 +7,7 @@ from math import floor
 
 from C import *
 from R import REMOTE_PLAYER_DELIMITER, SESSION_INFO_DELIMITER, encode_str, decode_str, ID_NONE, ID_LEFT, ID_RIGHT, AUDIO, CLIENT_DEFAULT_SOUNDS_ENABLED, USER_NAME_LOCAL
-from GameState import GameState
+from GameState_old import GameState
 from GameMode import *
 from DifficultyLevel import DifficultyLevel, load_difficulty
 from pong_net_config import FPS_SERVER, FPS_CLIENT, CLIENT_RECV_BUF_SIZE, CLIENT_TIMEOUT_SECS
