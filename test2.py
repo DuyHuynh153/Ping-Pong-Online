@@ -4,16 +4,6 @@ import pickle
 
 pygame.init()
 
-# Server configuration
-# SERVER = "172.20.10.2"  # Change this to the server's IP address
-# PORT = 5555
-
-# Connect to the server
-# client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# client.connect((SERVER, PORT))
-
-
-# pygame.init()
 
 
 WIDTH, HEIGHT = 700, 500
@@ -28,7 +18,7 @@ BLACK = (0, 0, 0)
 PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100
 BALL_RADIUS = 7
 
-SCORE_FONT = pygame.font.SysFont("comicsans", 50)
+SCORE_FONT = pygame.font.SysFont("product_sans_regular", 50)
 WINNING_SCORE = 10
 
 
@@ -144,14 +134,79 @@ def handle_paddle_movement(keys, left_paddle, right_paddle):
         right_paddle.move(up=False)
 
 
+def draw_buttons_menu(win):
+    game_started = False  # Track if the game has started
+    clock = pygame.time.Clock()
+
+    run = True
+    while run:
+        clock.tick(60)
+        win.fill((128, 128, 128))
+        # Clear the screen
+        win.fill(BLACK)
+
+        # Draw buttons
+        button_width, button_height = 200, 50
+        button_x = (WIDTH - button_width) // 2
+        play_ai_button_rect = pygame.Rect(button_x, 200, button_width, button_height)
+        player_2_button_rect = pygame.Rect(button_x, 300, button_width, button_height)
+
+        # Check if the mouse is hovering over the buttons
+        play_ai_hover = play_ai_button_rect.collidepoint(pygame.mouse.get_pos())
+        player_2_hover = player_2_button_rect.collidepoint(pygame.mouse.get_pos())
+
+        # Draw the buttons with hover effect
+        pygame.draw.rect(win, (200, 200, 200) if play_ai_hover else WHITE, play_ai_button_rect)
+        pygame.draw.rect(win, (200, 200, 200) if player_2_hover else WHITE, player_2_button_rect)
+
+        # Draw text on buttons
+        font = pygame.font.SysFont("product_sans_regular", 30)
+        play_ai_text = font.render("Play with AI", True, BLACK)
+        player_2_text = font.render("2 Player", True, BLACK)
+        win.blit(play_ai_text, (play_ai_button_rect.centerx - play_ai_text.get_width() // 2,
+                                play_ai_button_rect.centery - play_ai_text.get_height() // 2))
+        win.blit(player_2_text, (player_2_button_rect.centerx - player_2_text.get_width() // 2,
+                                 player_2_button_rect.centery - player_2_text.get_height() // 2))
+
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_started = False
+                pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                # Check if the mouse click is inside one of the buttons
+                if not game_started:
+
+                    if play_ai_button_rect.collidepoint(mouse_pos):
+                        print("Play with AI button clicked")
+                        # Handle "Play with AI" button click logic here
+                    elif player_2_button_rect.collidepoint(mouse_pos):
+                        print("2 Player button clicked")
+                        game_started = True
+                        run = False
+
+    main()
+
+
+
+
 def main():
     run = True
     clock = pygame.time.Clock()
+    # Get current display dimensions
+    screen_info = pygame.display.Info()
+    WIDTH, HEIGHT = screen_info.current_w, screen_info.current_h
 
-    left_paddle = Paddle(10, HEIGHT//2 - PADDLE_HEIGHT //
+    # Create fullscreen window
+    WIN = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+    pygame.display.set_caption("Pong")
+
+
+    left_paddle = Paddle(10, HEIGHT // 2 - PADDLE_HEIGHT //
                          2, PADDLE_WIDTH, PADDLE_HEIGHT)
     right_paddle = Paddle(WIDTH - 10 - PADDLE_WIDTH, HEIGHT //
-                          2 - PADDLE_HEIGHT//2, PADDLE_WIDTH, PADDLE_HEIGHT)
+                          2 - PADDLE_HEIGHT // 2, PADDLE_WIDTH, PADDLE_HEIGHT)
     ball = Ball(WIDTH // 2, HEIGHT // 2, BALL_RADIUS)
 
     left_score = 0
@@ -189,8 +244,8 @@ def main():
 
         if won:
             text = SCORE_FONT.render(win_text, 1, WHITE)
-            WIN.blit(text, (WIDTH//2 - text.get_width() //
-                            2, HEIGHT//2 - text.get_height()//2))
+            WIN.blit(text, (WIDTH // 2 - text.get_width() //
+                            2, HEIGHT // 2 - text.get_height() // 2))
             pygame.display.update()
             pygame.time.delay(5000)
             ball.reset()
@@ -199,38 +254,8 @@ def main():
             left_score = 0
             right_score = 0
 
-        # Serialize game objects
-    #     game_data = {
-    #         'left_paddle': left_paddle,
-    #         'right_paddle': right_paddle,
-    #         'ball': ball,
-    #         'left_score': left_score,
-    #         'right_score': right_score
-    #     }
-    #     serialized_data = pickle.dumps(game_data)
-    #
-    #     # Send serialized game data to the server
-    #     client.send(serialized_data)
-    #
-    #     # Receive game state from the server
-    #     received_data = client.recv(4096)
-    #     if received_data:
-    #         # Deserialize the received data
-    #         game_state = pickle.loads(received_data)
-    #         # Extract game objects from the received state
-    #         left_paddle = game_state['left_paddle']
-    #         right_paddle = game_state['right_paddle']
-    #         ball = game_state['ball']
-    #         left_score = game_state['left_score']
-    #         right_score = game_state['right_score']
-    #
-    #     # Handle user input, update game state, handle collisions, etc.
-    #
-    # # Close the connection when the game ends
-    # client.close()
-
     pygame.quit()
 
 
 if __name__ == '__main__':
-    main()
+    draw_buttons_menu(WIN)

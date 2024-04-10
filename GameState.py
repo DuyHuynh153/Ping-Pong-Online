@@ -214,21 +214,21 @@ class Paddle(BaseGameObject):
     def rely_min(rel_pady=PADDLE_REL_PAD_Y) -> float:
         return rel_pady
 
-    # @property
-    # def center_relx(self) -> float:
-    #     return self.relx + (self.rel_width / 2)
-    #
-    # @property
-    # def center_rely(self) -> float:
-    #     return self.rely + (self.rel_height / 2)
-    #
-    # @property
-    # def center_absx(self) -> float:
-    #     return self.get_absx(self.center_relx)
-    #
-    # @property
-    # def center_absy(self) -> float:
-    #     return self.get_absy(self.center_rely)
+    @property
+    def center_relx(self) -> float:
+        return self.relx + (self.rel_width / 2)
+
+    @property
+    def center_rely(self) -> float:
+        return self.rely + (self.rel_height / 2)
+
+    @property
+    def center_absx(self) -> float:
+        return self.get_absx(self.center_relx)
+
+    @property
+    def center_absy(self) -> float:
+        return self.get_absy(self.center_rely)
 
     def set_raw_rel_pos(self, relx, rely):
         self.relx, self.rely = relx, rely
@@ -299,9 +299,9 @@ class Ball(BaseGameObject):
     def move_to_rel(self, relx, rely):
         self.relx, self.rely = relx, rely
 
-    def move_by_rel(self, rel_dx, rel_dy):
-        self.relx += rel_dx
-        self.rely += rel_dy
+    def move_by_rel(self, rel_velx, rel_vely):
+        self.relx += rel_velx
+        self.rely += rel_vely
 
     def move(self):
         self.move_by_rel(self.rel_velx, self.rel_vely)
@@ -360,19 +360,28 @@ class Ball(BaseGameObject):
         if paddle:
             self.rel_velx *= -1
 
+            # middle_y = paddle.rely + paddle.center_rely
+            # difference_in_y = middle_y - self.rely
+            # redution_factor = paddle.center_rely / self.rel_vel_max_component
+            # y_vel_new = difference_in_y / redution_factor
+            # self.rel_vely = -y_vel_new
+
+
             # parenthesis expression is in range [-1, 1]
             rel_y_vel = (((paddle.center_rely - self.rely) * 2) / paddle.rel_height) * self.rel_vel_max_component
             self.rel_vely = -rel_y_vel
 
+
+
         return result
 
-    @property
-    def heading_rad(self) -> float:
-        return math.atan2(self.rel_vely, self.rel_velx)
-
-    @property
-    def heading_deg(self):
-        return math.degrees(self.heading_rad)
+    # @property
+    # def heading_rad(self) -> float:
+    #     return math.atan2(self.rel_vely, self.rel_velx)
+    #
+    # @property
+    # def heading_deg(self):
+    #     return math.degrees(self.heading_rad)
 
 
 class GameState:
@@ -409,6 +418,7 @@ class GameState:
 
     def dump_paddle_coords(self, left: bool) -> str:
         paddle = self.get_paddle(left)
+        # return paddle.relx, paddle.rely
         return f"{to_abs(paddle.relx)}{GAME_STATE_DELIMITER1}{to_abs(paddle.rely)}"
 
     def load_paddle_coords(self, s: str, left: bool):
@@ -500,9 +510,9 @@ class GameState:
 
     def ai_handle_player(self, left: bool):
         paddle = self.get_paddle(left)
-        # enemy = self.get_paddle(not left)
 
-        # Intersect the entire Paddle Y-axis with the trajectory of the ball
+
+        #  Intersect the entire Paddle Y-axis with the trajectory of the ball
         tu = line_line_intersection(to_abs(paddle.relx), to_abs(0), to_abs(paddle.relx2), to_abs(1),
                                     to_abs(self.ball.relx), to_abs(self.ball.rely),
                                     to_abs(self.ball.relx + self.ball.rel_velx),
@@ -553,12 +563,10 @@ class GameState:
         if self.ball.relx < 0:
             self.score_right += 1
             self.ball.reset()  # todo: seed next level
-            # self.ball.accelerate()
             result = GAME_UPDATE_RESULT_WON_RIGHT if self.is_right_won() else GAME_UPDATE_RESULT_SCORE_UP_RIGHT
         elif self.ball.relx > 1:
             self.score_left += 1
             self.ball.reset()  # todo: seed next level
-            # self.ball.accelerate()
             result = GAME_UPDATE_RESULT_WON_LEFT if self.is_left_won() else GAME_UPDATE_RESULT_SCORE_UP_LEFT
 
         return result

@@ -76,7 +76,7 @@ def load_map(file_path: str, key_value_delimiter: str = '=', comment_token='#',
 
 
 DEFAULT_USER_NAME = "Guest"
-USER_NAME_LOCAL = "duy huynh"
+USER_NAME_LOCAL = "duy"
 # USER_NAME_LOCAL = get_user_name(default_user_name=DEFAULT_USER_NAME)
 
 # Main Vars

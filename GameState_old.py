@@ -55,6 +55,7 @@ class BaseGameObject:
     def x(self, value: int):
         self._relx = self.get_relx(value)
 
+
     @property
     def rely(self) -> float:
         return self._rely

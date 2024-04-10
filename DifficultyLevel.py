@@ -19,7 +19,8 @@ class DifficultyLevel:
         vel_factor = 60 / R.FPS         # velocities are designed to work with 60 fps
 
         self.ball_rel_radius: float = ball_rel_radius
-        self.ball_rel_vel_max_component: float = ball_rel_vel_max_component * vel_factor
+        # self.ball_rel_vel_max_component: float = ball_rel_vel_max_component * vel_factor
+        self.ball_rel_vel_max_component: float = ball_rel_vel_max_component
         self.ball_reset_delay_secs: float = ball_reset_delay_secs
         self.ball_random_initial_vel_enabled = ball_random_initial_vel_enabled
         self.ball_x_vel_min_factor = ball_x_vel_min_factor
@@ -30,7 +31,8 @@ class DifficultyLevel:
         self.paddle_rel_width: float = to_rel(
             max(to_abs(paddle_rel_width), to_abs(get_vel_max_total(self.ball_rel_vel_max_component)) + 4))
         self.paddle_rel_height: float = paddle_rel_height
-        self.paddle_rel_vel: float = paddle_rel_vel * vel_factor
+        # self.paddle_rel_vel: float = paddle_rel_vel * vel_factor
+        self.paddle_rel_vel: float = paddle_rel_vel
 
     @property
     def local_config_key_ai_efficiency(self):

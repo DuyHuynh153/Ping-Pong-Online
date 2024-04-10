@@ -668,39 +668,42 @@ def handle_videoresize(_event=None):
         update_exit_button_pos(home_exit_button, size[0], size[1])
 
 
-while run:
-    clock.tick(60)
-    draw(win, session, paused, get_all_home_buttons())
+if __name__ == '__main__':
+
+    while run:
+        clock.tick(60)
+        draw(win, session, paused, get_all_home_buttons())
 
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                break
+            elif event.type == pygame.KEYDOWN:
+                handle_keydown(event)
+            elif event.type == pygame.MOUSEMOTION:
+                handle_mouse_motion(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                handle_mouse_button_down(event)
+            elif event.type == pygame.VIDEORESIZE:
+                handle_videoresize(event)
+
+        if not run:
             break
-        elif event.type == pygame.KEYDOWN:
-            handle_keydown(event)
-        elif event.type == pygame.MOUSEMOTION:
-            handle_mouse_motion(event)
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            handle_mouse_button_down(event)
-        elif event.type == pygame.VIDEORESIZE:
-            handle_videoresize(event)
 
-    if not run:
-        break
+        if _display_updated:
+            handle_videoresize()
+            _display_updated = False
 
-    if _display_updated:
-        handle_videoresize()
-        _display_updated = False
+        if not session or session.is_idle:  # Home Screen
+            pass
+        elif session.is_running and session.game_state and not session.game_state.any_won():
+            if session.game_mode.online or not paused:
+                keys = pygame.key.get_pressed()
+                session.update_game(keys)
 
-    if not session or session.is_idle:  # Home Screen
-        pass
-    elif session.is_running and session.game_state and not session.game_state.any_won():
-        if session.game_mode.online or not paused:
-            keys = pygame.key.get_pressed()
-            session.update_game(keys)
+    if session:
+        session.log_out()
+    pygame.quit()
+    sys.exit(2)
 
-if session:
-    session.log_out()
-pygame.quit()
-sys.exit(2)
