@@ -22,6 +22,8 @@ Welcome to the Ping Pong Game! This is a simple yet addictive game built using P
 ### PLay Online 
 ![Online Mode](res/images/play_online.png)
 
+
+
 ## Instsallation
 
 1. Clone the repository to your local machine:
