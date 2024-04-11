@@ -9,18 +9,18 @@ Welcome to the Ping Pong Game! This is a simple yet addictive game built using P
 - **Online Mode**: Play against friends or family members over the same network.
 
 ### Home Screen
-![HomeScreen](Ping-Pong-Online/img/home_screen.png)
+![HomeScreen](res/images/home_screen.png)
 
 ## Gameplay Modes
 
-### Single Player Mode
-![Single Player Mode](screenshots/single_player_mode.png)
+### Play With AI
+![Play With AI](res/images/play_with_ai.png)
 
 ### Two Player Mode (Offline)
-![Two Player Offline](screenshots/two_player_mode.png)
+![Two Player Offline](res/images/play_offline_2_player.png)
 
-### Online Mode
-![Online Mode](screenshots/online_mode.png)
+### PLay Online 
+![Online Mode](res/images/play_online.png)
 
 ## Instsallation
 
