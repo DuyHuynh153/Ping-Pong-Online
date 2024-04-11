@@ -55,6 +55,7 @@ class BaseGameObject:
     def x(self, value: int):
         self._relx = self.get_relx(value)
 
+
     @property
     def rely(self) -> float:
         return self._rely
@@ -91,26 +92,13 @@ class Paddle(BaseGameObject):
                    rel_width=difficulty.paddle_rel_width, rel_height=difficulty.paddle_rel_height,
                    rel_vel=difficulty.paddle_rel_vel, color=COLOR_PADDLE_SELF if is_self else COLOR_PADDLE_ENEMY)
 
-    # @classmethod
-    # def left_singleton(cls):
-    #     ins = cls._s_left
-    #     if not ins:
-    #         ins = cls.create_left(False)
-    #         cls._s_left = ins
-    #     return ins
-    #
-    # @classmethod
-    # def right_singleton(cls):
-    #     ins = cls._s_right
-    #     if not ins:
-    #         ins = cls.create_right(True)
-    #         cls._s_right = ins
-    #     return ins
+
 
     def __init__(self, win_getter,
                  relx: float, rely: float,
                  rel_width: float, rel_height: float,
                  rel_vel: float, color: pygame.Color = FG_DARK
+                 # , rel_padx: int = PADDLE_REL_PAD_X, rel_pady: int = PADDLE_REL_PAD_Y
                  ):
 
         super(Paddle, self).__init__(win_getter, relx, rely)
@@ -203,12 +191,8 @@ class Paddle(BaseGameObject):
     def draw(self):
         pygame.draw.rect(self.win, self.color, (self.x, self.y, self.width, self.height), border_radius=PADDLE_CORNERS)
 
-
-
-    # change if you can
     def rely_max(self, rel_pady=PADDLE_REL_PAD_Y) -> float:
         return 1 - self.rel_height - rel_pady
-
 
     @staticmethod
     def rely_min(rel_pady=PADDLE_REL_PAD_Y) -> float:
@@ -249,6 +233,7 @@ class Paddle(BaseGameObject):
             _max = self.rely_max(rel_pady=rel_pady)
             self.rely = min(_max, _final)
 
+        # self.move_by((-1 if up else 1) * self.vel)
 
     def reset(self):
         super(Paddle, self).reset()
@@ -282,8 +267,7 @@ class Ball(BaseGameObject):
 
     @property
     def radius(self):
-        # return min(self.win_width, self.win_height) * self.rel_radius
-        return self.rel_radius
+        return min(self.win_width, self.win_height) * self.rel_radius
 
     @property
     def abs_velx(self) -> int:
@@ -299,9 +283,9 @@ class Ball(BaseGameObject):
     def move_to_rel(self, relx, rely):
         self.relx, self.rely = relx, rely
 
-    def move_by_rel(self, rel_velx, rel_vely):
-        self.relx += rel_velx
-        self.rely += rel_vely
+    def move_by_rel(self, rel_dx, rel_dy):
+        self.relx += rel_dx
+        self.rely += rel_dy
 
     def move(self):
         self.move_by_rel(self.rel_velx, self.rel_vely)
@@ -331,11 +315,7 @@ class Ball(BaseGameObject):
     def center_bottom_rel(self) -> tuple:
         return self.relx, self.rely + self.rel_radius
 
-    #     # todo: acceleration
-    #
-    # def accelerate(self):
-    #     self.x_vel += (signum(self.x_vel)) * 1          # acceleration
-    #     self.y_vel += (signum(self.y_vel)) * 1          # acceleration
+
 
     def collide(self, left_paddle: Paddle, right_paddle: Paddle, rel_pady=0) -> int:
         result = GAME_UPDATE_RESULT_NORMAL
@@ -360,18 +340,9 @@ class Ball(BaseGameObject):
         if paddle:
             self.rel_velx *= -1
 
-            # middle_y = paddle.rely + paddle.center_rely
-            # difference_in_y = middle_y - self.rely
-            # redution_factor = paddle.center_rely / self.rel_vel_max_component
-            # y_vel_new = difference_in_y / redution_factor
-            # self.rel_vely = -y_vel_new
-
-
             # parenthesis expression is in range [-1, 1]
             rel_y_vel = (((paddle.center_rely - self.rely) * 2) / paddle.rel_height) * self.rel_vel_max_component
             self.rel_vely = -rel_y_vel
-
-
 
         return result
 
@@ -418,7 +389,6 @@ class GameState:
 
     def dump_paddle_coords(self, left: bool) -> str:
         paddle = self.get_paddle(left)
-        # return paddle.relx, paddle.rely
         return f"{to_abs(paddle.relx)}{GAME_STATE_DELIMITER1}{to_abs(paddle.rely)}"
 
     def load_paddle_coords(self, s: str, left: bool):
@@ -510,9 +480,9 @@ class GameState:
 
     def ai_handle_player(self, left: bool):
         paddle = self.get_paddle(left)
+        # enemy = self.get_paddle(not left)
 
-
-        #  Intersect the entire Paddle Y-axis with the trajectory of the ball
+        # Intersect the entire Paddle Y-axis with the trajectory of the ball
         tu = line_line_intersection(to_abs(paddle.relx), to_abs(0), to_abs(paddle.relx2), to_abs(1),
                                     to_abs(self.ball.relx), to_abs(self.ball.rely),
                                     to_abs(self.ball.relx + self.ball.rel_velx),
@@ -563,6 +533,7 @@ class GameState:
         if self.ball.relx < 0:
             self.score_right += 1
             self.ball.reset()  # todo: seed next level
+            # self.ball.accelerate()
             result = GAME_UPDATE_RESULT_WON_RIGHT if self.is_right_won() else GAME_UPDATE_RESULT_SCORE_UP_RIGHT
         elif self.ball.relx > 1:
             self.score_left += 1

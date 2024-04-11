@@ -5,7 +5,7 @@ from functools import reduce
 from Button import Button
 from DifficultyLevel import DIFFICULTY_LEVEL_DEFAULT, DIFFICULTY_LEVELS, load_local_ai_efficiencies
 from GameMode import *
-from GameState_old import *
+from GameState import *
 from U import is_valid_ip, blit_text
 from pong_net_config import *
 from pong_sessions import ClientSession
@@ -15,7 +15,7 @@ print("\n")
 
 def create_fullscreen_display() -> pygame.Surface:
     _win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-    pygame.display.set_caption(DISPLAY_TITLE)
+    pygame.display.set_caption("Ping Pong")
     return _win
 
 
@@ -166,10 +166,10 @@ def update_sound_buttons_pos(buttons, sound_label_pos, sound_label_size):
 
 pygame.mixer.init()
 pygame.init()
-
-window_icon = IMAGES.window_icon
-if window_icon:
-    pygame.display.set_icon(window_icon)
+#
+# window_icon = IMAGES.window_icon
+# if window_icon:
+#     pygame.display.set_icon(window_icon)
 
 if DEFAULT_FULLSCREEN:
     win = create_fullscreen_display()
@@ -180,18 +180,6 @@ clock = pygame.time.Clock()  # Main loop clock
 # db_clock = pygame.time.Clock()  # double click timer clock
 
 pygame.font.init()
-# FONT_TITLE = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 60)
-# FONT_SUMMARY = pygame.font.Font(FILE_PATH_FONT_PD_SANS_LIGHT, 32)
-# FONT_STATUS = pygame.font.Font(FILE_PATH_FONT_PD_SANS_LIGHT, 14)
-# FONT_STATUS_PLAYER = pygame.font.Font(FILE_PATH_FONT_PD_SANS, 16)
-# FONT_BUTTONS = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 18)
-# FONT_BUTTONS_MEDIUM = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 14)
-# FONT_BUTTONS_SMALL = pygame.font.Font(FILE_PATH_FONT_PD_SANS, 13)
-#
-# FONT_SCORE = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 34)
-# FONT_WON_MSG = pygame.font.Font(FILE_PATH_FONT_PD_SANS_MEDIUM, 42)
-# FONT_CRITICAL_MSG = pygame.font.Font(FILE_PATH_FONT_PD_SANS, 42)
-# FONT_MSG_CAPTION = pygame.font.Font(FILE_PATH_FONT_PD_SANS_LIGHT, 18)
 
 FONT_TITLE = pygame.font.Font(FILE_PATH_FONT_AQUIRE, 60)
 FONT_SUMMARY = pygame.font.Font(FILE_PATH_FONT_PD_SANS_LIGHT, 32)
@@ -404,41 +392,48 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
 
 
 # player_name
-player_name = CONFIG.get_client_local_config_player_name()
+# player_name = CONFIG.get_client_local_config_player_name()
+player_name = "huynh lam duy"
+
 
 # Server
+# server_ip = DEFAULT_SERVER_IP
+# server_port = DEFAULT_SERVER_PORT
+
+# __loaded_server_addr = load_server_addr(default_ip=DEFAULT_SERVER_IP, default_port=DEFAULT_SERVER_PORT)
+# __ip_from_argv = False
+# __port_from_argv = False
+#
+# if len(sys.argv) > 1:
+#     _ip = sys.argv[1]
+#     if is_valid_ip(_ip):
+#         server_ip = _ip
+#         __ip_from_argv = True
+#     else:
+#         print(f"Invalid input IP Address: {_ip}")
+#
+# if len(sys.argv) > 2:
+#     try:
+#         server_port = int(sys.argv[2])
+#         __port_from_argv = True
+#     except ValueError:
+#         print("Invalid input port: " + sys.argv[2])
+#
+# if not __ip_from_argv:
+#     server_ip = __loaded_server_addr[0]
+#
+# if not __port_from_argv:
+#     server_port = __loaded_server_addr[1]
+
 server_ip = DEFAULT_SERVER_IP
 server_port = DEFAULT_SERVER_PORT
-__loaded_server_addr = load_server_addr(default_ip=DEFAULT_SERVER_IP, default_port=DEFAULT_SERVER_PORT)
-__ip_from_argv = False
-__port_from_argv = False
-
-if len(sys.argv) > 1:
-    _ip = sys.argv[1]
-    if is_valid_ip(_ip):
-        server_ip = _ip
-        __ip_from_argv = True
-    else:
-        print(f"Invalid input IP Address: {_ip}")
-
-if len(sys.argv) > 2:
-    try:
-        server_port = int(sys.argv[2])
-        __port_from_argv = True
-    except ValueError:
-        print("Invalid input port: " + sys.argv[2])
-
-if not __ip_from_argv:
-    server_ip = __loaded_server_addr[0]
-
-if not __port_from_argv:
-    server_port = __loaded_server_addr[1]
 
 server_addr = (server_ip, server_port)
 
 # Main Loop
 load_local_ai_efficiencies()
 home_selected_difficulty: DifficultyLevel = DIFFICULTY_LEVEL_DEFAULT
+
 home_selected_sound_enabled: bool = CLIENT_DEFAULT_SOUNDS_ENABLED
 session: ClientSession = None
 
