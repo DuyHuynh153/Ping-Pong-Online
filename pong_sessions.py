@@ -69,7 +69,7 @@ class ServerSession:
         self.session_id = session_id
         self.game_state = game_state
 
-        self._socket: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self._socket: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # using dgram insted of stream
         self._run = False
         self._thread: threading.Thread = None
 
@@ -78,12 +78,16 @@ class ServerSession:
 
         self._cooldown_counter = 0
 
+
+    # checking if there any empty slot in the session
     @property
     def is_vacant(self) -> bool:
+        # return True of one of the player is None, mean one of 2 player is not play yet or them both
         return self._player_left is None or self._player_right is None
 
     @property
     def is_full(self):
+        # return true if that session is full (already have 2 player)
         return not self.is_vacant
 
     def get_player(self, left: bool) -> RemotePlayer:
@@ -186,14 +190,6 @@ class ServerSession:
             self._socket.sendto(msg, self._player_left.address)
         if self._player_right:
             self._socket.sendto(msg, self._player_right.address)
-
-    # def _wait(self, secs: int, initial_delay: float= 0):
-    #     if initial_delay:
-    #         time.sleep(initial_delay)
-    #
-    #     for _ in range(secs):
-    #         self._send_both(self.create_coords_update_msg())
-    #         time.sleep(1)
 
     def _worker(self):
         p_left, p_right = self._player_left, self._player_right
@@ -318,7 +314,8 @@ class ClientSession:
         self._sounds_enabled = value
 
     def toggle_sounds_enabled(self):
-        self._sounds_enabled = not self._sounds_enabled
+        pass
+        # self._sounds_enabled = not self._sounds_enabled
 
     # def stop_receiving(self):
     #     self._session_state = SESSION_STATE_IDLE

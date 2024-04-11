@@ -1,7 +1,7 @@
 import R
 from U import to_abs, to_rel, get_vel_max_total
 from C import LOCAL_CONFIG_KEY_AI_EFFICIENCY
-from R import CONFIG
+# from R import CONFIG
 
 
 class DifficultyLevel:
@@ -80,14 +80,14 @@ DIFFICULTY_LEVEL_EXPERT = DifficultyLevel(_id=0xAAA3, key="EXPERT", display_name
                                           ball_x_vel_min_factor=0.8,
                                           winning_socre=10, default_ai_efficiency_percent=85)
 
-DIFFICULTY_LEVEL_DEFAULT = DIFFICULTY_LEVEL_NORMAL
+DIFFICULTY_LEVEL_DEFAULT = DIFFICULTY_LEVEL_EASY
 
 
 DIFFICULTY_LEVELS: list = [
     DIFFICULTY_LEVEL_EASY,
-    # DIFFICULTY_LEVEL_NORMAL,
-    DIFFICULTY_LEVEL_HARD,
-    # DIFFICULTY_LEVEL_EXPERT
+
+    DIFFICULTY_LEVEL_HARD
+
 ]
 
 
@@ -98,16 +98,16 @@ def load_difficulty(_id: int, default: DifficultyLevel = DIFFICULTY_LEVEL_DEFAUL
     return default
 
 
-def load_local_ai_efficiencies():
-    data = CONFIG.client_local_config
-
-    for d in DIFFICULTY_LEVELS:
-        key = d.local_config_key_ai_efficiency
-        val = data.get(key, '')
-        if val:
-            try:
-                i_val = int(val)
-                if 0 <= i_val <= 100:
-                    d.ai_efficiency_percent = i_val
-            except ValueError:
-                pass
+# def load_local_ai_efficiencies():
+#     data = CONFIG.client_local_config
+#
+#     for d in DIFFICULTY_LEVELS:
+#         key = d.local_config_key_ai_efficiency
+#         val = data.get(key, '')
+#         if val:
+#             try:
+#                 i_val = int(val)
+#                 if 0 <= i_val <= 100:
+#                     d.ai_efficiency_percent = i_val
+#             except ValueError:
+#                 pass

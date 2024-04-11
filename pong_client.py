@@ -3,7 +3,7 @@ from math import ceil
 from functools import reduce
 
 from Button import Button
-from DifficultyLevel import DIFFICULTY_LEVEL_DEFAULT, DIFFICULTY_LEVELS, load_local_ai_efficiencies
+from DifficultyLevel import DIFFICULTY_LEVEL_DEFAULT, DIFFICULTY_LEVELS
 from GameMode import *
 from GameState import *
 from U import is_valid_ip, blit_text
@@ -253,16 +253,7 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
         #  background of the play againt
         _win.fill(BG_DARK)
 
-        # status
-        # _status_text = _session.game_mode.short_name + \
-        #                (
-        #                    f"{STATUS_TEXT_DELIMITER}{_session.difficulty.display_name} ({STATUS_TEXT_WINNING_SCORE}: {_session.difficulty.winning_score})" if _session.difficulty else "") + \
-        #                (STATUS_TEXT_DELIMITER + (
-        #                    STATUS_TEXT_SOUND_ON if _session.sounds_enabled else STATUS_TEXT_SOUND_OFF))
-        #
-        # # _status_text = "huynh lam duy"
-        # _status = FONT_STATUS.render(_status_text, True, COLOR_STATUS_TEXT)
-        # _win.blit(_status, (_win.get_width() - _status.get_width() - 6, _win.get_height() - _status.get_height() - 4))
+
 
         if _session.is_connecting or _session.is_waiting or _session.has_enemy_left:
             if _session.is_connecting:
@@ -306,7 +297,7 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
                     (_win.get_width() - won_cap.get_width()) // 2,
                     (_win.get_height() + won_img.get_height()) // 2 + 10))
             else:
-                #  ve duong phan cach giua cua game
+                #  draw middle line of the game
                 div_h = int(_win.get_height() * VERTICAL_DIVIDER_REL_HEIGHT)
                 for i in range(_win.get_height() - 16 // div_h):
                     if i % 2 == 1:
@@ -366,12 +357,12 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
                     # pygame.draw.rect(_win, (0, 0, 0, 0), (0, 0, _win.get_width(), _win.get_height()))  # overlay
 
                     p_msg = FONT_CRITICAL_MSG.render(MSG_PAUSED, True, TINT_ENEMY_MEDIUM)
-                    p_msg_pos = (
-                        (_win.get_width() - p_msg.get_width()) // 2, (_win.get_height() - p_msg.get_height()) // 2)
+                    p_msg_pos = ((_win.get_width() - p_msg.get_width()) // 2, (_win.get_height() - p_msg.get_height()) // 2)
                     p_cap = FONT_MSG_CAPTION.render(MSG_PAUSED_CAPTION, True, FG_DARK)
                     p_cap_pos = (
                         (_win.get_width() - p_cap.get_width()) // 2,
-                        ((_win.get_height() + p_msg.get_height()) // 2) + 8)
+                        ((_win.get_height() + p_msg.get_height()) // 2) + 8
+                    )
                     _win.blit(p_msg, p_msg_pos)
                     _win.blit(p_cap, p_cap_pos)
 
@@ -431,7 +422,7 @@ server_port = DEFAULT_SERVER_PORT
 server_addr = (server_ip, server_port)
 
 # Main Loop
-load_local_ai_efficiencies()
+# load_local_ai_efficiencies()
 home_selected_difficulty: DifficultyLevel = DIFFICULTY_LEVEL_DEFAULT
 
 home_selected_sound_enabled: bool = CLIENT_DEFAULT_SOUNDS_ENABLED
@@ -439,7 +430,7 @@ session: ClientSession = None
 
 home_game_mode_buttons = create_game_mode_buttons(win.get_width(), win.get_height())
 home_difficulty_buttons = create_difficulty_buttons(win.get_width(), win.get_height())
-home_sound_buttons = create_sound_buttons()
+# home_sound_buttons = create_sound_buttons()
 home_exit_button = create_exit_button(win.get_width(), win.get_height())
 
 run = True
@@ -505,9 +496,9 @@ def get_all_home_buttons():
     return chain(home_game_mode_buttons, home_difficulty_buttons,  (home_exit_button,))
 
 
-def sync_home_sound_buttons_state():
-    for _bt in home_sound_buttons:
-        _bt.active = _bt.tag == home_selected_sound_enabled
+# def sync_home_sound_buttons_state():
+#     for _bt in home_sound_buttons:
+#         _bt.active = _bt.tag == home_selected_sound_enabled
 
 
 def sync_home_difficulty_buttons_state():
@@ -523,8 +514,10 @@ def sync_all_home_buttons_state(_event=None):
 
     for _bt in get_all_home_buttons():
         _focus = _bt.is_over(*m_pos)
+        # _bt.active = _focus
+        # Set button active state based on focus or matching selected difficulty ID
         _bt.active = _focus or (home_selected_difficulty and _bt.id == home_selected_difficulty.id) \
-                     or _bt.id == (ID_SOUND_ON_BUTTON if home_selected_sound_enabled else ID_SOUND_OFF_BUTTON)
+                     # or _bt.id == (ID_SOUND_ON_BUTTON if home_selected_sound_enabled else ID_SOUND_OFF_BUTTON)
 
         if _focus:
             focused_bt = _bt
@@ -532,7 +525,7 @@ def sync_all_home_buttons_state(_event=None):
     if focused_bt:
         if not _last_focused_button or _last_focused_button != focused_bt:
             _last_focused_button = focused_bt
-            consider_play_button_sound(hover=True)
+            # consider_play_button_sound(hover=True)
     else:
         _last_focused_button = None
 
@@ -547,7 +540,7 @@ def go_back():
         run = False
     else:
         session.set_idle()
-        consider_play_button_sound(False)
+        # consider_play_button_sound(False)
         paused = False
         _display_updated = True
 
@@ -629,14 +622,7 @@ def handle_mouse_button_down(_event=None):
         if _got_diff:
             sync_home_difficulty_buttons_state()
         else:
-            # for bt in home_sound_buttons:
-            #     if bt.is_over(*m_pos):
-            #         home_selected_sound_enabled = bt.tag
-            #         _got_sound = True
-            #         break
-            #
-            # if _got_sound:
-            #     sync_home_sound_buttons_state()
+
             if home_selected_difficulty:
                 for bt in home_game_mode_buttons:
                     if bt.is_over(*m_pos):
@@ -649,8 +635,8 @@ def handle_mouse_button_down(_event=None):
                         _got_game_mode = True
                         break
 
-        if _got_diff or _got_sound or _got_game_mode:
-            consider_play_button_sound(hover=False)
+        # if _got_diff or _got_sound or _got_game_mode:
+        #     consider_play_button_sound(hover=False)
 
 
 def handle_videoresize(_event=None):

@@ -26,11 +26,11 @@ ENCODING = 'utf-8'
 #     return _bytes.decode(encoding=encoding)
 
 
-def encode_str(msg: str, encoding=ENCODING) -> bytes:
-    return msg.encode(encoding=encoding)
+def encode_str(msg: str):
+    return msg.encode()
 
-def decode_str(_bytes: bytes, encoding=ENCODING) -> str:
-    return _bytes.decode(encoding=encoding)
+def decode_str(msg: bytes):
+    return msg.decode()
 
 
 def gray(i) -> Color:
@@ -75,7 +75,7 @@ def load_map(file_path: str, key_value_delimiter: str = '=', comment_token='#',
     return _map
 
 
-DEFAULT_USER_NAME = "Guest"
+DEFAULT_USER_NAME = "hahaha"
 USER_NAME_LOCAL = "duy"
 # USER_NAME_LOCAL = get_user_name(default_user_name=DEFAULT_USER_NAME)
 
@@ -224,22 +224,6 @@ FG_MEDIUM = gray(225)
 FG_LIGHT = gray(0)
 
 
-# COLOR_ACCENT_DARK = Color(29, 255, 0)
-# COLOR_ACCENT_MEDIUM = Color(29, 226, 0)
-# COLOR_ACCENT_LIGHT = Color(29, 190, 0)
-#
-# COLOR_HIGHLIGHT = Color(253, 255, 52)
-#
-# COLOR_TRANSPARENT = Color(0, 0, 0, 0)
-# COLOR_TRANSLUCENT = Color(0, 0, 0, 125)
-#
-# TINT_SELF_DARK = Color(120, 255, 120)
-# TINT_SELF_MEDIUM = Color(55, 255, 55)
-# TINT_SELF_LIGHT = Color(0, 255, 0)
-#
-# TINT_ENEMY_DARK = Color(255, 120, 120)
-# TINT_ENEMY_MEDIUM = Color(255, 55, 55)
-# TINT_ENEMY_LIGHT = Color(255, 0, 0)
 
 # Colors
 COLOR_ACCENT_DARK = Color(0, 128, 0)  # Dark green
@@ -302,12 +286,7 @@ BALL_DEFAULT_REL_VEl_MAX_COMPONENT = 0.0075
 BALL_DEFAULT_REL_VEl_MIN_COMPONENT_FACTOR = 0.66
 BALL_DEFAULT_RESET_DELAY_SECS = 2
 BALL_DEFAULT_RANDOM_INITIAL_VEL_ENABLED = True
-# BALL_VEl_TOTAL_MAX = ceil(1.4143 * BALL_VEl_COMPONENT_MAX)
-# BALL_VEl_X_INITIAL = BALL_VEl_MAX
-# BALL_VEl_Y_INITIAL = 0
-# BALL_DEFAULT_DRAW_TRAJECTORY = True
-# BALL_ACC = 1
-# BALL_ACC_ENABLED = True
+
 
 
 # Vertical Divider
@@ -337,39 +316,39 @@ FILE_PATH_CLIENT_LOCAL_CONFIG = os.path.join(DIR_CONFIG, "local_config.ini")
 FILE_PATH_CLIENT_NETWORK_CONFIG = os.path.join(DIR_CONFIG, "client_net_config.ini")
 
 
-class Config:
+# class Config:
+#
+#     def __init__(self):
+#         self._client_local_config: dict = None
+#         self._client_network_config: dict = None
+#
+#     def invalidate(self):
+#         self._client_local_config = None
+#         self._client_network_config = None
+#
+#     def preload(self):
+#         a = self.client_local_config
+#         b = self.client_network_config
 
-    def __init__(self):
-        self._client_local_config: dict = None
-        self._client_network_config: dict = None
-
-    def invalidate(self):
-        self._client_local_config = None
-        self._client_network_config = None
-
-    def preload(self):
-        a = self.client_local_config
-        b = self.client_network_config
-
-    @property
-    def client_local_config(self) -> dict:
-        if not self._client_local_config and is_file(FILE_PATH_CLIENT_LOCAL_CONFIG):
-            self._client_local_config = load_map(FILE_PATH_CLIENT_LOCAL_CONFIG)
-        return self._client_local_config
-
-    @property
-    def client_network_config(self) -> dict:
-        if not self._client_network_config and is_file(FILE_PATH_CLIENT_NETWORK_CONFIG):
-            self._client_network_config = load_map(FILE_PATH_CLIENT_NETWORK_CONFIG)
-        return self._client_network_config
-
-    def get_client_local_config_player_name(self, default=USER_NAME_LOCAL) -> str:
-        data = self.client_local_config
-        val = data.get(LOCAL_CONFIG_KEY_PLAYER_NAME, '')
-        return val if val else default
+    # @property
+    # def client_local_config(self) -> dict:
+    #     if not self._client_local_config and is_file(FILE_PATH_CLIENT_LOCAL_CONFIG):
+    #         self._client_local_config = load_map(FILE_PATH_CLIENT_LOCAL_CONFIG)
+    #     return self._client_local_config
+    #
+    # @property
+    # def client_network_config(self) -> dict:
+    #     if not self._client_network_config and is_file(FILE_PATH_CLIENT_NETWORK_CONFIG):
+    #         self._client_network_config = load_map(FILE_PATH_CLIENT_NETWORK_CONFIG)
+    #     return self._client_network_config
+    #
+    # def get_client_local_config_player_name(self, default=USER_NAME_LOCAL) -> str:
+    #     data = self.client_local_config
+    #     val = data.get(LOCAL_CONFIG_KEY_PLAYER_NAME, '')
+    #     return val if val else default
 
 
-CONFIG = Config()
+# CONFIG = Config()
 
 
 # Images (set "" for None)
@@ -410,7 +389,7 @@ class Images:
         return self._home_bg
 
 
-IMAGES = Images()           # Singleton
+# IMAGES = Images()           # Singleton
 
 
 # Sounds (set "" for None)
@@ -426,7 +405,7 @@ FILE_PATH_SOUND_WON_ENEMY = os.path.join(DIR_RES_SOUND, "won_enemy.wav")
 FILE_PATH_SOUND_BUTTON_HOVER = os.path.join(DIR_RES_SOUND, "button_hover.wav")
 FILE_PATH_SOUND_BUTTON_CLICK = os.path.join(DIR_RES_SOUND, "button_click.wav")
 
-CLIENT_DEFAULT_SOUNDS_ENABLED = True
+CLIENT_DEFAULT_SOUNDS_ENABLED = False
 
 ID_SOUND_ON_BUTTON = 0xFF65A
 ID_SOUND_OFF_BUTTON = 0xFB4C
