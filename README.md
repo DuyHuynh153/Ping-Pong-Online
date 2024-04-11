@@ -1,12 +1,14 @@
 # Ping Pong Game
 
-Welcome to the Ping Pong Game! This is a simple yet addictive game built using Python 3 and Pygame library. It offers various gameplay modes to keep you entertained whether you're playing alone or with friends.
+Welcome to the Ping Pong Game! 
+This is a simple yet addictive game built using Python 3 and Pygame library. 
+It offers various gameplay modes to keep you entertained whether you're playing alone or with friends.
 
 ## Features
 
-- **Single Player Mode**: Play against an AI opponent with varying difficulty levels.
-- **Two Player Mode (Offline)**: Compete against a friend in a classic 1v1 match.
-- **Online Mode**: Play against friends or family members over the same network.
+- **Play With AI Mode**: Play against an AI opponent with 2 difficulty levels: easy and hard.
+- **Two Player Mode (Offline)**: Compete against a friend in a classic 1v1 match in only one screen.
+- **Online Mode**: Play against other client in the same network, and can play with 2 separate computers.
 
 ### Home Screen
 ![HomeScreen](res/images/home_screen.png)
@@ -26,7 +28,7 @@ Welcome to the Ping Pong Game! This is a simple yet addictive game built using P
 
 1. Clone the repository to your local machine:
 ```bash
-git clone https://github.com/your-username/ping-pong-game.git
+git clone https://github.com/DuyHuynh153/Ping-Pong-Online.git
 
 ```
 2. Create a Virtual Environment:
