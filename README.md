@@ -1,4 +1,4 @@
-# Ping Pong Game
+# Ping Pong Online Game
 
 Welcome to the Ping Pong Game! This is a simple yet addictive game built using Python 3 and Pygame library. It offers various gameplay modes to keep you entertained whether you're playing alone or with friends.
 
