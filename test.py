@@ -5,8 +5,8 @@ import pickle
 pygame.init()
 
 # Server configuration
-# SERVER = "172.20.10.2"  # Change this to the server's IP address
-# PORT = 5555
+SERVER = "172.20.10.2"  # Change this to the server's IP address
+PORT = 5555
 
 # Connect to the server
 # client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

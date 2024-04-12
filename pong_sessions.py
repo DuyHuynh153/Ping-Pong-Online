@@ -6,12 +6,16 @@ from math import floor
 
 
 from C import *
-from R import REMOTE_PLAYER_DELIMITER, SESSION_INFO_DELIMITER, encode_str, decode_str, ID_NONE, ID_LEFT, ID_RIGHT, AUDIO, CLIENT_DEFAULT_SOUNDS_ENABLED, USER_NAME_LOCAL
+# from R import REMOTE_PLAYER_DELIMITER, SESSION_INFO_DELIMITER, encode_str, decode_str, ID_NONE, ID_LEFT, ID_RIGHT, AUDIO, CLIENT_DEFAULT_SOUNDS_ENABLED, USER_NAME_LOCAL
+from R import REMOTE_PLAYER_DELIMITER, SESSION_INFO_DELIMITER, encode_str, decode_str, ID_NONE, ID_LEFT, ID_RIGHT, USER_NAME_LOCAL
 from GameState import GameState
 from GameMode import *
 from DifficultyLevel import DifficultyLevel, load_difficulty
-from pong_net_config import FPS_SERVER, FPS_CLIENT, CLIENT_RECV_BUF_SIZE, CLIENT_TIMEOUT_SECS
+# from pong_net_config import FPS_SERVER, FPS_CLIENT, CLIENT_RECV_BUF_SIZE, CLIENT_TIMEOUT_SECS
 
+FPS_SERVER = FPS_CLIENT = 60
+CLIENT_TIMEOUT_SECS = 0
+CLIENT_RECV_BUF_SIZE = 1024
 
 class RemotePlayer:
     def __init__(self, address: tuple, player_id: int, player_name: str):
@@ -229,8 +233,10 @@ class ServerSession:
 
 class ClientSession:
 
+    # def __init__(self, win_getter, game_mode: GameMode, server_addr: tuple, player_name: str,
+    #              sounds_enabled: bool = CLIENT_DEFAULT_SOUNDS_ENABLED):
     def __init__(self, win_getter, game_mode: GameMode, server_addr: tuple, player_name: str,
-                 sounds_enabled: bool = CLIENT_DEFAULT_SOUNDS_ENABLED):
+                 ):
         self.win_getter = win_getter
         self.game_mode = game_mode
         self.server_addr = server_addr
@@ -244,7 +250,7 @@ class ClientSession:
         self._game_state: GameState = None
         self._last_req_difficulty: DifficultyLevel = None
         self._thread: threading.Thread = None
-        self._sounds_enabled = sounds_enabled
+        # self._sounds_enabled = sounds_enabled
 
         self._state: int = CLIENT_SESSION_STATE_IDLE
         self._cooldown_counter = 0
@@ -398,8 +404,8 @@ class ClientSession:
                 else:
                     _update_result = game_state.update()
 
-                    if self.sounds_enabled:
-                        AUDIO.consider_play_sound(_update_result=_update_result, _self_left=self.is_self_left)
+                    # if self.sounds_enabled:
+                    #     AUDIO.consider_play_sound(_update_result=_update_result, _self_left=self.is_self_left)
 
                     _score_changed = is_score_changed(_update_result)
                     if _score_changed and not self.game_state.any_won():  # Game not Finished
@@ -462,8 +468,8 @@ class ClientSession:
                 else:
                     print(f"Unknown message from server -> Type: {m_type}, Full msg: {msg}")
 
-                if self.sounds_enabled and update_result >= 0:
-                    AUDIO.consider_play_sound(_update_result=update_result, _self_left=self.is_self_left)
+                # if self.sounds_enabled and update_result >= 0:
+                #     AUDIO.consider_play_sound(_update_result=update_result, _self_left=self.is_self_left)
 
                 if send_coords_update:
                     self._send_msg(self.create_coords_update_msg())

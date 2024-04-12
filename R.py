@@ -393,177 +393,177 @@ class Images:
 
 
 # Sounds (set "" for None)
-FILE_PATH_SOUND_BALL_HIT_TOP_WALL = os.path.join(DIR_RES_SOUND, "ball_hit_top_wall.wav")
-FILE_PATH_SOUND_BALL_HIT_BOTTOM_WALL = os.path.join(DIR_RES_SOUND, "ball_hit_bottom_wall.wav")
-FILE_PATH_SOUND_BALL_HIT_SELF_PADDLE = os.path.join(DIR_RES_SOUND, "ball_hit_paddle_self.wav")
-FILE_PATH_SOUND_BALL_HIT_ENEMY_PADDLE = os.path.join(DIR_RES_SOUND, "ball_hit_paddle_enemy.wav")
-FILE_PATH_SOUND_SCORE_UP_SELF = os.path.join(DIR_RES_SOUND, "score_up_self.wav")
-FILE_PATH_SOUND_SCORE_UP_ENEMY = os.path.join(DIR_RES_SOUND, "score_up_enemy.wav")
-FILE_PATH_SOUND_WON_SELF = os.path.join(DIR_RES_SOUND, "won_self.wav")
-FILE_PATH_SOUND_WON_ENEMY = os.path.join(DIR_RES_SOUND, "won_enemy.wav")
+# FILE_PATH_SOUND_BALL_HIT_TOP_WALL = os.path.join(DIR_RES_SOUND, "ball_hit_top_wall.wav")
+# FILE_PATH_SOUND_BALL_HIT_BOTTOM_WALL = os.path.join(DIR_RES_SOUND, "ball_hit_bottom_wall.wav")
+# FILE_PATH_SOUND_BALL_HIT_SELF_PADDLE = os.path.join(DIR_RES_SOUND, "ball_hit_paddle_self.wav")
+# FILE_PATH_SOUND_BALL_HIT_ENEMY_PADDLE = os.path.join(DIR_RES_SOUND, "ball_hit_paddle_enemy.wav")
+# FILE_PATH_SOUND_SCORE_UP_SELF = os.path.join(DIR_RES_SOUND, "score_up_self.wav")
+# FILE_PATH_SOUND_SCORE_UP_ENEMY = os.path.join(DIR_RES_SOUND, "score_up_enemy.wav")
+# FILE_PATH_SOUND_WON_SELF = os.path.join(DIR_RES_SOUND, "won_self.wav")
+# FILE_PATH_SOUND_WON_ENEMY = os.path.join(DIR_RES_SOUND, "won_enemy.wav")
+#
+# FILE_PATH_SOUND_BUTTON_HOVER = os.path.join(DIR_RES_SOUND, "button_hover.wav")
+# FILE_PATH_SOUND_BUTTON_CLICK = os.path.join(DIR_RES_SOUND, "button_click.wav")
 
-FILE_PATH_SOUND_BUTTON_HOVER = os.path.join(DIR_RES_SOUND, "button_hover.wav")
-FILE_PATH_SOUND_BUTTON_CLICK = os.path.join(DIR_RES_SOUND, "button_click.wav")
+# CLIENT_DEFAULT_SOUNDS_ENABLED = False
 
-CLIENT_DEFAULT_SOUNDS_ENABLED = False
-
-ID_SOUND_ON_BUTTON = 0xFF65A
-ID_SOUND_OFF_BUTTON = 0xFB4C
-LABEL_TEXT_SOUND = "Sound"
-SWITCH_TEXT_SOUND_ON = "ON"
-SWITCH_TEXT_SOUND_OFF = "OFF"
-
-STATUS_TEXT_SOUND_ON = "Sound On"
-STATUS_TEXT_SOUND_OFF = "Sound Off"
+# ID_SOUND_ON_BUTTON = 0xFF65A
+# ID_SOUND_OFF_BUTTON = 0xFB4C
+# LABEL_TEXT_SOUND = "Sound"
+# SWITCH_TEXT_SOUND_ON = "ON"
+# SWITCH_TEXT_SOUND_OFF = "OFF"
+#
+# STATUS_TEXT_SOUND_ON = "Sound On"
+# STATUS_TEXT_SOUND_OFF = "Sound Off"
 
 ID_EXIT_BUTTON = -0xFF0AC
 EXIT_BUTTON_TEXT = "Quit"
 
 
-class Audio:
-
-    @staticmethod
-    def play_once(sound: mixer.Sound) -> bool:
-        if sound:
-            sound.play()
-            return True
-        return False
-
-    def __init__(self):
-        self._ball_hit_top_wall: mixer.Sound = None
-        self._ball_hit_bottom_wall: mixer.Sound = None
-        self._ball_hit_self_paddle: mixer.Sound = None
-        self._ball_hit_enemy_paddle: mixer.Sound = None
-        self._score_up_self: mixer.Sound = None
-        self._score_up_enemy: mixer.Sound = None
-        self._won_self: mixer.Sound = None
-        self._won_enemy: mixer.Sound = None
-
-        self._button_hover: mixer.Sound = None
-        self._button_click: mixer.Sound = None
-
-    def invalidate(self):
-        self._ball_hit_top_wall = None
-        self._ball_hit_bottom_wall = None
-        self._ball_hit_self_paddle = None
-        self._ball_hit_enemy_paddle = None
-        self._score_up_self = None
-        self._score_up_enemy = None
-        self._won_self = None
-        self._won_enemy = None
-        self._button_hover = None
-        self._button_click = None
-
-    @property
-    def ball_hit_top_wall(self) -> mixer.Sound:
-        if not self._ball_hit_top_wall and is_file(FILE_PATH_SOUND_BALL_HIT_TOP_WALL):
-            self._ball_hit_top_wall = mixer.Sound(FILE_PATH_SOUND_BALL_HIT_TOP_WALL)
-        return self._ball_hit_top_wall
-
-    @property
-    def ball_hit_bottom_wall(self) -> mixer.Sound:
-        if not self._ball_hit_bottom_wall and is_file(FILE_PATH_SOUND_BALL_HIT_BOTTOM_WALL):
-            self._ball_hit_bottom_wall = mixer.Sound(FILE_PATH_SOUND_BALL_HIT_BOTTOM_WALL)
-        return self._ball_hit_bottom_wall
-
-    @property
-    def ball_hit_self_paddle(self) -> mixer.Sound:
-        if not self._ball_hit_self_paddle and is_file(FILE_PATH_SOUND_BALL_HIT_SELF_PADDLE):
-            self._ball_hit_self_paddle = mixer.Sound(FILE_PATH_SOUND_BALL_HIT_SELF_PADDLE)
-        return self._ball_hit_self_paddle
-
-    @property
-    def ball_hit_enemy_paddle(self) -> mixer.Sound:
-        if not self._ball_hit_enemy_paddle and is_file(FILE_PATH_SOUND_BALL_HIT_ENEMY_PADDLE):
-            self._ball_hit_enemy_paddle = mixer.Sound(FILE_PATH_SOUND_BALL_HIT_ENEMY_PADDLE)
-        return self._ball_hit_enemy_paddle
-
-    def get_ball_hit_paddle(self, _self: bool) -> mixer.Sound:
-        return self.ball_hit_self_paddle if _self else self.ball_hit_enemy_paddle
-
-    @property
-    def score_up_self(self) -> mixer.Sound:
-        if not self._score_up_self and is_file(FILE_PATH_SOUND_SCORE_UP_SELF):
-            self._score_up_self = mixer.Sound(FILE_PATH_SOUND_SCORE_UP_SELF)
-        return self._score_up_self
-
-    @property
-    def score_up_enemy(self) -> mixer.Sound:
-        if not self._score_up_enemy and is_file(FILE_PATH_SOUND_SCORE_UP_ENEMY):
-            self._score_up_enemy = mixer.Sound(FILE_PATH_SOUND_SCORE_UP_ENEMY)
-        return self._score_up_enemy
-
-    def get_score_up(self, _self: bool) -> mixer.Sound:
-        return self.score_up_self if _self else self.score_up_enemy
-
-    @property
-    def won_self(self) -> mixer.Sound:
-        if not self._won_self and is_file(FILE_PATH_SOUND_WON_SELF):
-            self._won_self = mixer.Sound(FILE_PATH_SOUND_WON_SELF)
-        return self._won_self
-
-    @property
-    def won_enemy(self) -> mixer.Sound:
-        if not self._won_enemy and is_file(FILE_PATH_SOUND_WON_ENEMY):
-            self._won_enemy = mixer.Sound(FILE_PATH_SOUND_WON_ENEMY)
-        return self._won_enemy
-
-    def get_won(self, _self: bool) -> mixer.Sound:
-        return self.won_self if _self else self.won_enemy
-
-    def get(self, _update_result: int, _self_left: bool) -> mixer.Sound:
-        _sound = None
-
-        if _update_result == GAME_UPDATE_RESULT_NORMAL:
-            pass
-        elif _update_result == GAME_UPDATE_RESULT_BALL_HIT_TOP_WALL:
-            _sound = self.ball_hit_top_wall
-        elif _update_result == GAME_UPDATE_RESULT_BALL_HIT_BOTTOM_WALL:
-            _sound = self.ball_hit_bottom_wall
-        elif _update_result == GAME_UPDATE_RESULT_BALL_HIT_PADDLE_LEFT:
-            _sound = self.get_ball_hit_paddle(_self_left)
-        elif _update_result == GAME_UPDATE_RESULT_BALL_HIT_PADDLE_RIGHT:
-            _sound = self.get_ball_hit_paddle(not _self_left)
-        elif _update_result == GAME_UPDATE_RESULT_SCORE_UP_LEFT:
-            _sound = self.get_score_up(_self_left)
-        elif _update_result == GAME_UPDATE_RESULT_SCORE_UP_RIGHT:
-            _sound = self.get_score_up(not _self_left)
-        elif _update_result == GAME_UPDATE_RESULT_WON_LEFT:
-            _sound = self.get_won(_self_left)
-        elif _update_result == GAME_UPDATE_RESULT_WON_RIGHT:
-            _sound = self.get_won(not _self_left)
-
-        return _sound
-
-    def consider_play_sound(self, _update_result: int, _self_left: bool) -> bool:
-        _sound = self.get(_update_result=_update_result, _self_left=_self_left)
-        return self.play_once(_sound)
-
-    @property
-    def button_hover(self) -> mixer.Sound:
-        if not self._button_hover and is_file(FILE_PATH_SOUND_BUTTON_HOVER):
-            self._button_hover = mixer.Sound(FILE_PATH_SOUND_BUTTON_HOVER)
-        return self._button_hover
-
-    def play_button_hover(self) -> bool:
-        return self.play_once(self.button_hover)
-
-    @property
-    def button_click(self) -> mixer.Sound:
-        if not self._button_click and is_file(FILE_PATH_SOUND_BUTTON_CLICK):
-            self._button_click = mixer.Sound(FILE_PATH_SOUND_BUTTON_CLICK)
-        return self._button_click
-
-    def play_button_click(self) -> bool:
-        return self.play_once(self.button_click)
-
-    def play_button_sound(self, hover: bool) -> bool:
-        return self.play_button_hover() if hover else self.play_button_click()
-
-
-AUDIO: Audio = Audio()      # Singleton
-
-
+# class Audio:
+#
+#     @staticmethod
+#     def play_once(sound: mixer.Sound) -> bool:
+#         if sound:
+#             sound.play()
+#             return True
+#         return False
+#
+#     def __init__(self):
+#         self._ball_hit_top_wall: mixer.Sound = None
+#         self._ball_hit_bottom_wall: mixer.Sound = None
+#         self._ball_hit_self_paddle: mixer.Sound = None
+#         self._ball_hit_enemy_paddle: mixer.Sound = None
+#         self._score_up_self: mixer.Sound = None
+#         self._score_up_enemy: mixer.Sound = None
+#         self._won_self: mixer.Sound = None
+#         self._won_enemy: mixer.Sound = None
+#
+#         self._button_hover: mixer.Sound = None
+#         self._button_click: mixer.Sound = None
+#
+#     def invalidate(self):
+#         self._ball_hit_top_wall = None
+#         self._ball_hit_bottom_wall = None
+#         self._ball_hit_self_paddle = None
+#         self._ball_hit_enemy_paddle = None
+#         self._score_up_self = None
+#         self._score_up_enemy = None
+#         self._won_self = None
+#         self._won_enemy = None
+#         self._button_hover = None
+#         self._button_click = None
+#
+#     @property
+#     def ball_hit_top_wall(self) -> mixer.Sound:
+#         if not self._ball_hit_top_wall and is_file(FILE_PATH_SOUND_BALL_HIT_TOP_WALL):
+#             self._ball_hit_top_wall = mixer.Sound(FILE_PATH_SOUND_BALL_HIT_TOP_WALL)
+#         return self._ball_hit_top_wall
+#
+#     @property
+#     def ball_hit_bottom_wall(self) -> mixer.Sound:
+#         if not self._ball_hit_bottom_wall and is_file(FILE_PATH_SOUND_BALL_HIT_BOTTOM_WALL):
+#             self._ball_hit_bottom_wall = mixer.Sound(FILE_PATH_SOUND_BALL_HIT_BOTTOM_WALL)
+#         return self._ball_hit_bottom_wall
+#
+#     @property
+#     def ball_hit_self_paddle(self) -> mixer.Sound:
+#         if not self._ball_hit_self_paddle and is_file(FILE_PATH_SOUND_BALL_HIT_SELF_PADDLE):
+#             self._ball_hit_self_paddle = mixer.Sound(FILE_PATH_SOUND_BALL_HIT_SELF_PADDLE)
+#         return self._ball_hit_self_paddle
+#
+#     @property
+#     def ball_hit_enemy_paddle(self) -> mixer.Sound:
+#         if not self._ball_hit_enemy_paddle and is_file(FILE_PATH_SOUND_BALL_HIT_ENEMY_PADDLE):
+#             self._ball_hit_enemy_paddle = mixer.Sound(FILE_PATH_SOUND_BALL_HIT_ENEMY_PADDLE)
+#         return self._ball_hit_enemy_paddle
+#
+#     def get_ball_hit_paddle(self, _self: bool) -> mixer.Sound:
+#         return self.ball_hit_self_paddle if _self else self.ball_hit_enemy_paddle
+#
+#     @property
+#     def score_up_self(self) -> mixer.Sound:
+#         if not self._score_up_self and is_file(FILE_PATH_SOUND_SCORE_UP_SELF):
+#             self._score_up_self = mixer.Sound(FILE_PATH_SOUND_SCORE_UP_SELF)
+#         return self._score_up_self
+#
+#     @property
+#     def score_up_enemy(self) -> mixer.Sound:
+#         if not self._score_up_enemy and is_file(FILE_PATH_SOUND_SCORE_UP_ENEMY):
+#             self._score_up_enemy = mixer.Sound(FILE_PATH_SOUND_SCORE_UP_ENEMY)
+#         return self._score_up_enemy
+#
+#     def get_score_up(self, _self: bool) -> mixer.Sound:
+#         return self.score_up_self if _self else self.score_up_enemy
+#
+#     @property
+#     def won_self(self) -> mixer.Sound:
+#         if not self._won_self and is_file(FILE_PATH_SOUND_WON_SELF):
+#             self._won_self = mixer.Sound(FILE_PATH_SOUND_WON_SELF)
+#         return self._won_self
+#
+#     @property
+#     def won_enemy(self) -> mixer.Sound:
+#         if not self._won_enemy and is_file(FILE_PATH_SOUND_WON_ENEMY):
+#             self._won_enemy = mixer.Sound(FILE_PATH_SOUND_WON_ENEMY)
+#         return self._won_enemy
+#
+#     def get_won(self, _self: bool) -> mixer.Sound:
+#         return self.won_self if _self else self.won_enemy
+#
+#     def get(self, _update_result: int, _self_left: bool) -> mixer.Sound:
+#         _sound = None
+#
+#         if _update_result == GAME_UPDATE_RESULT_NORMAL:
+#             pass
+#         elif _update_result == GAME_UPDATE_RESULT_BALL_HIT_TOP_WALL:
+#             _sound = self.ball_hit_top_wall
+#         elif _update_result == GAME_UPDATE_RESULT_BALL_HIT_BOTTOM_WALL:
+#             _sound = self.ball_hit_bottom_wall
+#         elif _update_result == GAME_UPDATE_RESULT_BALL_HIT_PADDLE_LEFT:
+#             _sound = self.get_ball_hit_paddle(_self_left)
+#         elif _update_result == GAME_UPDATE_RESULT_BALL_HIT_PADDLE_RIGHT:
+#             _sound = self.get_ball_hit_paddle(not _self_left)
+#         elif _update_result == GAME_UPDATE_RESULT_SCORE_UP_LEFT:
+#             _sound = self.get_score_up(_self_left)
+#         elif _update_result == GAME_UPDATE_RESULT_SCORE_UP_RIGHT:
+#             _sound = self.get_score_up(not _self_left)
+#         elif _update_result == GAME_UPDATE_RESULT_WON_LEFT:
+#             _sound = self.get_won(_self_left)
+#         elif _update_result == GAME_UPDATE_RESULT_WON_RIGHT:
+#             _sound = self.get_won(not _self_left)
+#
+#         return _sound
+#
+#     def consider_play_sound(self, _update_result: int, _self_left: bool) -> bool:
+#         _sound = self.get(_update_result=_update_result, _self_left=_self_left)
+#         return self.play_once(_sound)
+#
+#     @property
+#     def button_hover(self) -> mixer.Sound:
+#         if not self._button_hover and is_file(FILE_PATH_SOUND_BUTTON_HOVER):
+#             self._button_hover = mixer.Sound(FILE_PATH_SOUND_BUTTON_HOVER)
+#         return self._button_hover
+#
+#     def play_button_hover(self) -> bool:
+#         return self.play_once(self.button_hover)
+#
+#     @property
+#     def button_click(self) -> mixer.Sound:
+#         if not self._button_click and is_file(FILE_PATH_SOUND_BUTTON_CLICK):
+#             self._button_click = mixer.Sound(FILE_PATH_SOUND_BUTTON_CLICK)
+#         return self._button_click
+#
+#     def play_button_click(self) -> bool:
+#         return self.play_once(self.button_click)
+#
+#     def play_button_sound(self, hover: bool) -> bool:
+#         return self.play_button_hover() if hover else self.play_button_click()
+#
+#
+# AUDIO: Audio = Audio()      # Singleton
+#
+#
 # Fonts
 FILE_PATH_FONT_PD_SANS = os.path.join(DIR_RES_FONT, 'product_sans_regular.ttf')
 FILE_PATH_FONT_PD_SANS_MEDIUM = os.path.join(DIR_RES_FONT, 'product_sans_medium.ttf')

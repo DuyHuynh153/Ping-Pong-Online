@@ -9,13 +9,13 @@ from pong_net_config import *
 from GameState import GameState
 from DifficultyLevel import DifficultyLevel, load_difficulty
 from pong_sessions import ServerSession
-
+import socket
 print("\n")
 
 sessions = []
 
-server_ip = DEFAULT_SERVER_IP
-server_port = DEFAULT_SERVER_PORT
+server_ip = "172.20.10.2"
+server_port = 5467
 
 
 # this line below need for check valid ip and port
@@ -56,7 +56,7 @@ except Exception as e:
 #
 # if SERVER_TIMEOUT_SECS > 0:
 #     sock.settimeout(SERVER_TIMEOUT_SECS)
-print(f"Server UP -> IP: {DEFAULT_SERVER_IP}, PORT: {DEFAULT_SERVER_PORT}")
+print(f"Server UP -> IP: {server_ip}, PORT: {server_port}")
 
 pygame.init()
 win = pygame.Surface((DEFAULT_W_WIDTH, DEFAULT_W_HEIGHT))       # dummy window

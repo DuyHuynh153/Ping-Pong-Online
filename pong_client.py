@@ -120,51 +120,51 @@ def create_game_mode_buttons(win_width, win_height) -> list:
     return buttons
 
 
-def create_sound_buttons():
-    # label = FONT_BUTTONS_SMALL.render(LABEL_TEXT_SOUND, True, FG_DARK)
-
-    button_pad_x = 5
-    button_pad_y = 7
-    button_corner = 6
-
-    bt_on = Button(_id=ID_SOUND_ON_BUTTON, text=SWITCH_TEXT_SOUND_ON, x=0, y=0,
-                   pad_x=button_pad_x,
-                   pad_y=button_pad_y, corner=button_corner,
-                   bg=BG_MEDIUM, bg_active=COLOR_HIGHLIGHT,
-                   font=FONT_BUTTONS_SMALL, text_color=FG_MEDIUM, text_color_active=BG_DARK)
-
-    bt_on.tag = True
-
-    bt_off = Button(_id=ID_SOUND_OFF_BUTTON, text=SWITCH_TEXT_SOUND_OFF, x=0, y=0,
-                    pad_x=button_pad_x,
-                    pad_y=button_pad_y, corner=button_corner,
-                    bg=BG_MEDIUM, bg_active=TINT_ENEMY_DARK,
-                    font=FONT_BUTTONS_SMALL, text_color=FG_MEDIUM, text_color_active=BG_DARK)
-
-    bt_off.tag = False
-
-    max_b_width = max(bt_on.width, bt_off.width)
-    max_b_height = max(bt_on.height, bt_off.height)
-    bt_on.width = bt_off.width = max_b_width
-    bt_on.height = bt_off.height = max_b_height
-
-    return bt_on, bt_off
-
-
-def update_sound_buttons_pos(buttons, sound_label_pos, sound_label_size):
-    button_hgap = 10
-    max_b_h = buttons[0].height
-
-    x = sound_label_pos[0] + sound_label_size[0] + 16
-    y = sound_label_pos[1] + (sound_label_size[1] - max_b_h) // 2
-
-    for b in buttons:
-        b.x = x
-        b.y = y
-        x = b.x2 + button_hgap
+# def create_sound_buttons():
+#     # label = FONT_BUTTONS_SMALL.render(LABEL_TEXT_SOUND, True, FG_DARK)
+#
+#     button_pad_x = 5
+#     button_pad_y = 7
+#     button_corner = 6
+#
+#     bt_on = Button(_id=ID_SOUND_ON_BUTTON, text=SWITCH_TEXT_SOUND_ON, x=0, y=0,
+#                    pad_x=button_pad_x,
+#                    pad_y=button_pad_y, corner=button_corner,
+#                    bg=BG_MEDIUM, bg_active=COLOR_HIGHLIGHT,
+#                    font=FONT_BUTTONS_SMALL, text_color=FG_MEDIUM, text_color_active=BG_DARK)
+#
+#     bt_on.tag = True
+#
+#     bt_off = Button(_id=ID_SOUND_OFF_BUTTON, text=SWITCH_TEXT_SOUND_OFF, x=0, y=0,
+#                     pad_x=button_pad_x,
+#                     pad_y=button_pad_y, corner=button_corner,
+#                     bg=BG_MEDIUM, bg_active=TINT_ENEMY_DARK,
+#                     font=FONT_BUTTONS_SMALL, text_color=FG_MEDIUM, text_color_active=BG_DARK)
+#
+#     bt_off.tag = False
+#
+#     max_b_width = max(bt_on.width, bt_off.width)
+#     max_b_height = max(bt_on.height, bt_off.height)
+#     bt_on.width = bt_off.width = max_b_width
+#     bt_on.height = bt_off.height = max_b_height
+#
+#     return bt_on, bt_off
 
 
-pygame.mixer.init()
+# def update_sound_buttons_pos(buttons, sound_label_pos, sound_label_size):
+#     button_hgap = 10
+#     max_b_h = buttons[0].height
+#
+#     x = sound_label_pos[0] + sound_label_size[0] + 16
+#     y = sound_label_pos[1] + (sound_label_size[1] - max_b_h) // 2
+#
+#     for b in buttons:
+#         b.x = x
+#         b.y = y
+#         x = b.x2 + button_hgap
+
+
+# pygame.mixer.init()
 pygame.init()
 #
 # window_icon = IMAGES.window_icon
@@ -384,7 +384,7 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
 
 # player_name
 # player_name = CONFIG.get_client_local_config_player_name()
-player_name = "huynh lam duy"
+player_name = "duy huynh"
 
 
 # Server
@@ -416,8 +416,8 @@ player_name = "huynh lam duy"
 # if not __port_from_argv:
 #     server_port = __loaded_server_addr[1]
 
-server_ip = DEFAULT_SERVER_IP
-server_port = DEFAULT_SERVER_PORT
+server_ip = "172.20.10.2"
+server_port = 5467
 
 server_addr = (server_ip, server_port)
 
@@ -425,7 +425,7 @@ server_addr = (server_ip, server_port)
 # load_local_ai_efficiencies()
 home_selected_difficulty: DifficultyLevel = DIFFICULTY_LEVEL_DEFAULT
 
-home_selected_sound_enabled: bool = CLIENT_DEFAULT_SOUNDS_ENABLED
+# home_selected_sound_enabled: bool = CLIENT_DEFAULT_SOUNDS_ENABLED
 session: ClientSession = None
 
 home_game_mode_buttons = create_game_mode_buttons(win.get_width(), win.get_height())
@@ -435,7 +435,7 @@ home_exit_button = create_exit_button(win.get_width(), win.get_height())
 
 run = True
 paused = False
-home_sound_buttons_pos_pending = True
+# home_sound_buttons_pos_pending = True
 
 _display_updated = False
 _last_focused_button: Button = None
@@ -629,8 +629,12 @@ def handle_mouse_button_down(_event=None):
                         if session:
                             session.log_out()
                         paused = False
+                        # session = ClientSession(win_getter=get_win, game_mode=bt.tag, server_addr=server_addr,
+                        #                         player_name=player_name, sounds_enabled=home_selected_sound_enabled)
+
                         session = ClientSession(win_getter=get_win, game_mode=bt.tag, server_addr=server_addr,
-                                                player_name=player_name, sounds_enabled=home_selected_sound_enabled)
+                                                player_name=player_name)
+
                         session.req_new_session(difficulty=home_selected_difficulty)
                         _got_game_mode = True
                         break

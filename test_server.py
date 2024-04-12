@@ -1,9 +1,10 @@
 import socket
 import threading
 import pickle
+import warnings
 
 # Server configuration
-SERVER = socket.gethostbyname(socket.gethostname())
+SERVER = "192.168.28.137"
 PORT = 5555
 ADDR = (SERVER, PORT)
 
@@ -13,6 +14,9 @@ server.bind(ADDR)
 
 # List of connected clients
 clients = []
+
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
 
 # Function to handle client connections
 def handle_client(conn, addr):
