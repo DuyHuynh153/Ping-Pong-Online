@@ -384,7 +384,7 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
 
 # player_name
 # player_name = CONFIG.get_client_local_config_player_name()
-player_name = "duy huynh"
+player_name = "huynh lam duy"
 
 
 # Server
@@ -416,8 +416,8 @@ player_name = "duy huynh"
 # if not __port_from_argv:
 #     server_port = __loaded_server_addr[1]
 
-server_ip = "172.20.10.2"
-server_port = 5467
+server_ip = DEFAULT_SERVER_IP
+server_port = DEFAULT_SERVER_PORT
 
 server_addr = (server_ip, server_port)
 
@@ -435,7 +435,7 @@ home_exit_button = create_exit_button(win.get_width(), win.get_height())
 
 run = True
 paused = False
-# home_sound_buttons_pos_pending = True
+home_sound_buttons_pos_pending = True
 
 _display_updated = False
 _last_focused_button: Button = None
@@ -592,7 +592,7 @@ def handle_mouse_button_down(_event=None):
     global player_name
     global paused
     global home_selected_difficulty
-    global home_selected_sound_enabled
+    # global home_selected_sound_enabled
     global home_exit_button
 
     # if _event and _event.button == pygame.BUTTON_LEFT:
@@ -631,13 +631,11 @@ def handle_mouse_button_down(_event=None):
                         paused = False
                         # session = ClientSession(win_getter=get_win, game_mode=bt.tag, server_addr=server_addr,
                         #                         player_name=player_name, sounds_enabled=home_selected_sound_enabled)
-
                         session = ClientSession(win_getter=get_win, game_mode=bt.tag, server_addr=server_addr,
-                                                player_name=player_name)
-
+                                               player_name=player_name)
                         session.req_new_session(difficulty=home_selected_difficulty)
                         _got_game_mode = True
-                        break
+                        # break
 
         # if _got_diff or _got_sound or _got_game_mode:
         #     consider_play_button_sound(hover=False)

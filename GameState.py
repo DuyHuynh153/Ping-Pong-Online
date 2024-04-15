@@ -3,7 +3,9 @@ import pygame
 import math
 
 import U
-from R import *
+# from R import *
+from Resource import *
+from C import *
 from U import lerp, line_line_intersection, get_ball_initial_rel_vel, to_rel, to_abs
 from DifficultyLevel import DifficultyLevel
 
@@ -464,6 +466,9 @@ class GameState:
         if keys[pygame.K_DOWN]:
             paddle.move(up=False)
 
+
+
+
     _s_rand_err_choices = None
     _s_rand_err_choice_index = 0
 
@@ -516,6 +521,9 @@ class GameState:
         if move_dir < 0:
             return
 
+
+
+
         # stochastic application of difficulty level
         make_mistake = self.should_ai_make_mistake(self.difficulty.ai_efficiency_percent)
         if not make_mistake:
@@ -532,12 +540,11 @@ class GameState:
 
         if self.ball.relx < 0:
             self.score_right += 1
-            self.ball.reset()  # todo: seed next level
-            # self.ball.accelerate()
+            self.ball.reset()
             result = GAME_UPDATE_RESULT_WON_RIGHT if self.is_right_won() else GAME_UPDATE_RESULT_SCORE_UP_RIGHT
         elif self.ball.relx > 1:
             self.score_left += 1
-            self.ball.reset()  # todo: seed next level
+            self.ball.reset()
             result = GAME_UPDATE_RESULT_WON_LEFT if self.is_left_won() else GAME_UPDATE_RESULT_SCORE_UP_LEFT
 
         return result

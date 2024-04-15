@@ -3,7 +3,8 @@ import sys
 import pygame
 
 from C import *
-from R import SESSION_INFO_DELIMITER, decode_str, ID_LEFT, ID_RIGHT, DEFAULT_W_WIDTH, DEFAULT_W_HEIGHT
+# from R import SESSION_INFO_DELIMITER, decode_str, ID_LEFT, ID_RIGHT, DEFAULT_W_WIDTH, DEFAULT_W_HEIGHT
+from Resource import SESSION_INFO_DELIMITER, decode_str, ID_LEFT, ID_RIGHT, DEFAULT_W_WIDTH, DEFAULT_W_HEIGHT
 from U import is_valid_ip
 from pong_net_config import *
 from GameState import GameState
@@ -14,7 +15,7 @@ print("\n")
 
 sessions = []
 
-server_ip = "172.20.10.2"
+server_ip = "192.168.1.17"
 server_port = 5467
 
 

@@ -7,15 +7,12 @@ from math import floor
 
 from C import *
 # from R import REMOTE_PLAYER_DELIMITER, SESSION_INFO_DELIMITER, encode_str, decode_str, ID_NONE, ID_LEFT, ID_RIGHT, AUDIO, CLIENT_DEFAULT_SOUNDS_ENABLED, USER_NAME_LOCAL
-from R import REMOTE_PLAYER_DELIMITER, SESSION_INFO_DELIMITER, encode_str, decode_str, ID_NONE, ID_LEFT, ID_RIGHT, USER_NAME_LOCAL
+from Resource import REMOTE_PLAYER_DELIMITER, SESSION_INFO_DELIMITER, encode_str, decode_str, ID_NONE, ID_LEFT, ID_RIGHT
 from GameState import GameState
 from GameMode import *
 from DifficultyLevel import DifficultyLevel, load_difficulty
-# from pong_net_config import FPS_SERVER, FPS_CLIENT, CLIENT_RECV_BUF_SIZE, CLIENT_TIMEOUT_SECS
+from pong_net_config import FPS_SERVER, FPS_CLIENT, CLIENT_RECV_BUF_SIZE, CLIENT_TIMEOUT_SECS
 
-FPS_SERVER = FPS_CLIENT = 60
-CLIENT_TIMEOUT_SECS = 0
-CLIENT_RECV_BUF_SIZE = 1024
 
 class RemotePlayer:
     def __init__(self, address: tuple, player_id: int, player_name: str):
@@ -73,7 +70,7 @@ class ServerSession:
         self.session_id = session_id
         self.game_state = game_state
 
-        self._socket: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # using dgram insted of stream
+        self._socket: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # using dgram instead of stream
         self._run = False
         self._thread: threading.Thread = None
 
@@ -235,8 +232,8 @@ class ClientSession:
 
     # def __init__(self, win_getter, game_mode: GameMode, server_addr: tuple, player_name: str,
     #              sounds_enabled: bool = CLIENT_DEFAULT_SOUNDS_ENABLED):
-    def __init__(self, win_getter, game_mode: GameMode, server_addr: tuple, player_name: str,
-                 ):
+    def __init__(self, win_getter, game_mode: GameMode, server_addr: tuple, player_name: str
+                  ):
         self.win_getter = win_getter
         self.game_mode = game_mode
         self.server_addr = server_addr
@@ -311,16 +308,16 @@ class ClientSession:
     def is_self_left(self) -> bool:
         return self.player_id == ID_LEFT if self.game_mode.online else self.game_mode.self_left_preference
 
-    @property
-    def sounds_enabled(self) -> bool:
-        return self._sounds_enabled
+    # @property
+    # def sounds_enabled(self) -> bool:
+    #     return self._sounds_enabled
 
-    @sounds_enabled.setter
-    def sounds_enabled(self, value: bool):
-        self._sounds_enabled = value
+    # @sounds_enabled.setter
+    # def sounds_enabled(self, value: bool):
+    #     self._sounds_enabled = value
 
-    def toggle_sounds_enabled(self):
-        pass
+    # def toggle_sounds_enabled(self):
+    #     pass
         # self._sounds_enabled = not self._sounds_enabled
 
     # def stop_receiving(self):

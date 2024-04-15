@@ -37,46 +37,46 @@ def gray(i) -> Color:
     return Color(i, i, i)
 
 
-def load_map(file_path: str, key_value_delimiter: str = '=', comment_token='#',
-             remove_whitespaces: bool = True, key_filter=None, value_filter=None) -> dict:
-    """
-    Load key-value pairs from a given file
+# def load_map(file_path: str, key_value_delimiter: str = '=', comment_token='#',
+#              remove_whitespaces: bool = True, key_filter=None, value_filter=None) -> dict:
+#     """
+#     Load key-value pairs from a given file
+#
+#     :param file_path: path of input file
+#     :param key_value_delimiter: delimiter for each entry, line format = key{delimiter}value
+#     :param comment_token: signifies starting of a comment
+#     :param remove_whitespaces: whether to remove whitespaces from each line
+#     :param key_filter: a predicate to decide whether an entry corresponding to key must be included
+#     :param value_filter: a predicate to decide whether an entry corresponding to value must be included
+#
+#     :return: dict containing key-value pairs (all as strings)
+#     """
+#     _map = {}
+#
+#     try:
+#         with open(file_path, "r+") as f:
+#             for line in f.readlines():
+#                 if comment_token:
+#                     comment_token_index = line.find(comment_token)
+#                     if comment_token_index >= 0:
+#                         line = line[:comment_token_index]
+#                 if remove_whitespaces:
+#                     line = remove_all_whitespaces(line)
+#                 line = line.replace('\n', '')
+#                 if line:
+#                     _dat = line.split(key_value_delimiter)
+#                     if len(_dat) == 2:
+#                         k, v = _dat[0], _dat[1]
+#                         if k and (not key_filter or key_filter(k)) and (not value_filter or value_filter(v)):
+#                             _map[_dat[0]] = _dat[1]
+#     except Exception as e:
+#         print(f"Error while loading data from file {file_path}: {e}")
+#
+#     return _map
 
-    :param file_path: path of input file
-    :param key_value_delimiter: delimiter for each entry, line format = key{delimiter}value
-    :param comment_token: signifies starting of a comment
-    :param remove_whitespaces: whether to remove whitespaces from each line
-    :param key_filter: a predicate to decide whether an entry corresponding to key must be included
-    :param value_filter: a predicate to decide whether an entry corresponding to value must be included
 
-    :return: dict containing key-value pairs (all as strings)
-    """
-    _map = {}
-
-    try:
-        with open(file_path, "r+") as f:
-            for line in f.readlines():
-                if comment_token:
-                    comment_token_index = line.find(comment_token)
-                    if comment_token_index >= 0:
-                        line = line[:comment_token_index]
-                if remove_whitespaces:
-                    line = remove_all_whitespaces(line)
-                line = line.replace('\n', '')
-                if line:
-                    _dat = line.split(key_value_delimiter)
-                    if len(_dat) == 2:
-                        k, v = _dat[0], _dat[1]
-                        if k and (not key_filter or key_filter(k)) and (not value_filter or value_filter(v)):
-                            _map[_dat[0]] = _dat[1]
-    except Exception as e:
-        print(f"Error while loading data from file {file_path}: {e}")
-
-    return _map
-
-
-DEFAULT_USER_NAME = "hahaha"
-USER_NAME_LOCAL = "duy"
+# DEFAULT_USER_NAME = "hahaha"
+# USER_NAME_LOCAL = "duy"
 # USER_NAME_LOCAL = get_user_name(default_user_name=DEFAULT_USER_NAME)
 
 # Main Vars
@@ -192,7 +192,8 @@ def __get_won_display_info_online_multiplayer(self_won: bool, score_diff: int, e
 
 
 def get_self_name_status(name):
-    return f"{name} (You)" if name else "You"
+    # return f"{name} (You)" if name else "You"
+    return f"{name} (You)"
 
 
 def get_enemy_name_status(name):
@@ -300,8 +301,8 @@ FROZEN = getattr(sys, 'frozen', False)
 DIR_MAIN = os.path.dirname(sys.executable) if FROZEN else os.path.dirname(os.path.abspath(os.path.realpath(__file__)))
 
 DIR_RES = os.path.join(DIR_MAIN, "res")
-DIR_RES_IMAGES = os.path.join(DIR_RES, "images")
-DIR_RES_SOUND = os.path.join(DIR_RES, "sound")
+# DIR_RES_IMAGES = os.path.join(DIR_RES, "images")
+# DIR_RES_SOUND = os.path.join(DIR_RES, "sound")
 DIR_RES_FONT = os.path.join(DIR_RES, "font")
 
 DIR_CONFIG = os.path.join(DIR_MAIN, "config")
@@ -352,41 +353,41 @@ FILE_PATH_CLIENT_NETWORK_CONFIG = os.path.join(DIR_CONFIG, "client_net_config.in
 
 
 # Images (set "" for None)
-FILE_PATH_IMG_EXE_ICON = os.path.join(DIR_RES_IMAGES, "icon_64.ico")
-FILE_PATH_IMG_WINDOW_ICON = os.path.join(DIR_RES_IMAGES, "pong_window_icon_32.png")
-FILE_PATH_IMG_INTRO_ICON = os.path.join(DIR_RES_IMAGES, "pong_icon_dark_squircle_512.png")
-FILE_PATH_IMG_HOME_BG = os.path.join(DIR_RES_IMAGES, "pong_home_bg_512.png")
+# FILE_PATH_IMG_EXE_ICON = os.path.join(DIR_RES_IMAGES, "icon_64.ico")
+# FILE_PATH_IMG_WINDOW_ICON = os.path.join(DIR_RES_IMAGES, "pong_window_icon_32.png")
+# FILE_PATH_IMG_INTRO_ICON = os.path.join(DIR_RES_IMAGES, "pong_icon_dark_squircle_512.png")
+# FILE_PATH_IMG_HOME_BG = os.path.join(DIR_RES_IMAGES, "pong_home_bg_512.png")
 
 
-class Images:
-
-    def __init__(self):
-        self._window_icon: surface.Surface = None
-        self._intro_icon: surface.Surface = None
-        self._home_bg: surface.Surface = None
-
-    def invalidate(self):
-        self._window_icon = None
-        self._intro_icon = None
-        self._home_bg = None
-
-    @property
-    def window_icon(self) -> surface.Surface:
-        if not self._window_icon and is_file(FILE_PATH_IMG_WINDOW_ICON):
-            self._window_icon = image.load(FILE_PATH_IMG_WINDOW_ICON)
-        return self._window_icon
-
-    @property
-    def intro_icon(self) -> surface.Surface:
-        if not self._intro_icon and is_file(FILE_PATH_IMG_INTRO_ICON):
-            self._intro_icon = image.load(FILE_PATH_IMG_INTRO_ICON)
-        return self._intro_icon
-
-    @property
-    def home_bg(self) -> surface.Surface:
-        if not self._home_bg and is_file(FILE_PATH_IMG_HOME_BG):
-            self._home_bg = image.load(FILE_PATH_IMG_HOME_BG)
-        return self._home_bg
+# class Images:
+#
+#     def __init__(self):
+#         self._window_icon: surface.Surface = None
+#         self._intro_icon: surface.Surface = None
+#         self._home_bg: surface.Surface = None
+#
+#     def invalidate(self):
+#         self._window_icon = None
+#         self._intro_icon = None
+#         self._home_bg = None
+#
+#     @property
+#     def window_icon(self) -> surface.Surface:
+#         if not self._window_icon and is_file(FILE_PATH_IMG_WINDOW_ICON):
+#             self._window_icon = image.load(FILE_PATH_IMG_WINDOW_ICON)
+#         return self._window_icon
+#
+#     @property
+#     def intro_icon(self) -> surface.Surface:
+#         if not self._intro_icon and is_file(FILE_PATH_IMG_INTRO_ICON):
+#             self._intro_icon = image.load(FILE_PATH_IMG_INTRO_ICON)
+#         return self._intro_icon
+#
+#     @property
+#     def home_bg(self) -> surface.Surface:
+#         if not self._home_bg and is_file(FILE_PATH_IMG_HOME_BG):
+#             self._home_bg = image.load(FILE_PATH_IMG_HOME_BG)
+#         return self._home_bg
 
 
 # IMAGES = Images()           # Singleton
@@ -404,9 +405,9 @@ class Images:
 #
 # FILE_PATH_SOUND_BUTTON_HOVER = os.path.join(DIR_RES_SOUND, "button_hover.wav")
 # FILE_PATH_SOUND_BUTTON_CLICK = os.path.join(DIR_RES_SOUND, "button_click.wav")
-
+#
 # CLIENT_DEFAULT_SOUNDS_ENABLED = False
-
+#
 # ID_SOUND_ON_BUTTON = 0xFF65A
 # ID_SOUND_OFF_BUTTON = 0xFB4C
 # LABEL_TEXT_SOUND = "Sound"
@@ -560,10 +561,10 @@ EXIT_BUTTON_TEXT = "Quit"
 #     def play_button_sound(self, hover: bool) -> bool:
 #         return self.play_button_hover() if hover else self.play_button_click()
 #
-#
+
 # AUDIO: Audio = Audio()      # Singleton
-#
-#
+
+
 # Fonts
 FILE_PATH_FONT_PD_SANS = os.path.join(DIR_RES_FONT, 'product_sans_regular.ttf')
 FILE_PATH_FONT_PD_SANS_MEDIUM = os.path.join(DIR_RES_FONT, 'product_sans_medium.ttf')

@@ -1,4 +1,8 @@
-from R import __get_won_display_info_offline_single_player, \
+# from R import __get_won_display_info_offline_single_player, \
+#     __get_won_display_info_offline_multiplayer, \
+#     __get_won_display_info_online_multiplayer
+
+from Resource import __get_won_display_info_offline_single_player, \
     __get_won_display_info_offline_multiplayer, \
     __get_won_display_info_online_multiplayer
 
