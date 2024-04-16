@@ -2,10 +2,10 @@ import random
 import pygame
 import math
 
-import U
+import Utils
 # from R import *
 from Resource import *
-from U import lerp, line_line_intersection, get_ball_initial_rel_vel, to_rel, to_abs
+from Utils import lerp, line_line_intersection, get_ball_initial_rel_vel, to_rel, to_abs
 from DifficultyLevel import DifficultyLevel
 
 

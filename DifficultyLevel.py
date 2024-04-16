@@ -1,6 +1,6 @@
 import R
-from U import to_abs, to_rel, get_vel_max_total
-from C import LOCAL_CONFIG_KEY_AI_EFFICIENCY
+from Utils import to_abs, to_rel, get_vel_max_total
+from Constants import LOCAL_CONFIG_KEY_AI_EFFICIENCY
 # from R import CONFIG
 
 

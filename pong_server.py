@@ -2,10 +2,10 @@ import sys
 
 import pygame
 
-from C import *
+from Constants import *
 # from R import SESSION_INFO_DELIMITER, decode_str, ID_LEFT, ID_RIGHT, DEFAULT_W_WIDTH, DEFAULT_W_HEIGHT
 from Resource import SESSION_INFO_DELIMITER, decode_str, ID_LEFT, ID_RIGHT, DEFAULT_W_WIDTH, DEFAULT_W_HEIGHT
-from U import is_valid_ip
+from Utils import is_valid_ip
 from pong_net_config import *
 from GameState import GameState
 from DifficultyLevel import DifficultyLevel, load_difficulty
@@ -15,25 +15,10 @@ print("\n")
 
 sessions = []
 
-server_ip = "192.168.1.17"
+server_ip = "192.168.1.16"
 server_port = 5467
 
 
-# this line below need for check valid ip and port
-
-# if len(sys.argv) > 1:
-#     _ip = sys.argv[1]
-#     if is_valid_ip(_ip):
-#         server_ip = _ip
-#     else:
-#         print(f"Invalid input IP Address: {_ip}")
-
-
-# if len(sys.argv) > 2:
-#     try:
-#         server_port = int(sys.argv[2])
-#     except ValueError:
-#         print(f"Invalid input port: {sys.argv[2]}")
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 

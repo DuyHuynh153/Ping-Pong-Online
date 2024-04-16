@@ -2,11 +2,11 @@ import random
 import pygame
 import math
 
-import U
+import Utils
 # from R import *
 from Resource import *
-from C import *
-from U import lerp, line_line_intersection, get_ball_initial_rel_vel, to_rel, to_abs
+from Constants import *
+from Utils import lerp, line_line_intersection, get_ball_initial_rel_vel, to_rel, to_abs
 from DifficultyLevel import DifficultyLevel
 
 
@@ -499,7 +499,7 @@ class GameState:
         move_dir = -1  # -1: do not move, 0: down, 1: up
 
         t = tu[0]
-        if U.outside01(t):
+        if Utils.outside01(t):
             # ball will collide with top/bottom wall, so just flip the collision point about the x-axis
             if t < 0:  # t < 0: Top wall
                 t = abs(t)

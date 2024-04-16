@@ -6,7 +6,7 @@ from Button import Button
 from DifficultyLevel import DIFFICULTY_LEVEL_DEFAULT, DIFFICULTY_LEVELS
 from GameMode import *
 from GameState import *
-from U import is_valid_ip, blit_text
+from Utils import is_valid_ip, blit_text
 from pong_net_config import *
 from pong_sessions import ClientSession
 
@@ -435,7 +435,7 @@ home_exit_button = create_exit_button(win.get_width(), win.get_height())
 
 run = True
 paused = False
-home_sound_buttons_pos_pending = True
+# home_sound_buttons_pos_pending = True
 
 _display_updated = False
 _last_focused_button: Button = None
@@ -483,10 +483,10 @@ def toggle_fullscreen() -> bool:
     # return True
 
 
-def consider_play_button_sound(hover: bool):
+# def consider_play_button_sound(hover: bool):
     # if home_selected_sound_enabled:
     #     AUDIO.play_button_sound(hover)
-    pass
+    # pass
 
 
 # def get_all_home_buttons():
@@ -558,7 +558,7 @@ def handle_keydown(_event):
         if session and (
                 session.has_enemy_left or (session.is_running and session.game_state and session.game_state.any_won())):
             session.set_idle()
-            consider_play_button_sound(False)
+            # consider_play_button_sound(False)
             paused = False
             _display_updated = True
     # elif _event.key == pygame.K_a:
