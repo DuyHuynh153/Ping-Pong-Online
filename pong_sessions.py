@@ -6,7 +6,6 @@ from math import floor
 
 
 from Constants import *
-# from R import REMOTE_PLAYER_DELIMITER, SESSION_INFO_DELIMITER, encode_str, decode_str, ID_NONE, ID_LEFT, ID_RIGHT, AUDIO, CLIENT_DEFAULT_SOUNDS_ENABLED, USER_NAME_LOCAL
 from Resource import REMOTE_PLAYER_DELIMITER, SESSION_INFO_DELIMITER, encode_str, decode_str, ID_NONE, ID_LEFT, ID_RIGHT
 from GameState import GameState
 from GameMode import *
@@ -50,9 +49,9 @@ class RemotePlayer:
 
     def __repr__(self):
         return f"RemotePlayer(ID: {self.id}, name: {self.name}, addr: {self.address})"
-
-    def __str__(self):
-        return self.__repr__()
+    #
+    # def __str__(self):
+    #     return self.__repr__()
 
     def dump_string(self):
         return f"{self.ip}{REMOTE_PLAYER_DELIMITER}{self.port}{REMOTE_PLAYER_DELIMITER}{self.id}{REMOTE_PLAYER_DELIMITER}{self.name}"
@@ -151,8 +150,8 @@ class ServerSession:
         self._cooldown_counter = 0
 
     def start(self):
-        if self._run or self.is_vacant:
-            return
+        # if self._run or self.is_vacant:
+        #     return
 
         self._run = True
         self._cooldown_counter = 0
@@ -172,9 +171,9 @@ class ServerSession:
         return encode_str(f"{MSG_TYPE_COORDS_UPDATE}{SESSION_INFO_DELIMITER}{self.game_state.server_dump_all_coords()}"
                           f"{SESSION_INFO_DELIMITER}{update_result}")
 
-    def create_score_update_msg(self, update_result: int) -> bytes:
-        return encode_str(f"{MSG_TYPE_SCORE_UPDATE}{SESSION_INFO_DELIMITER}{self.game_state.dump_score()}"
-                          f"{SESSION_INFO_DELIMITER}{update_result}")
+    # def create_score_update_msg(self, update_result: int) -> bytes:
+    #     return encode_str(f"{MSG_TYPE_SCORE_UPDATE}{SESSION_INFO_DELIMITER}{self.game_state.dump_score()}"
+    #                       f"{SESSION_INFO_DELIMITER}{update_result}")
 
     def create_coords_and_score_update_msg(self, update_result: int) -> bytes:
         return encode_str(
@@ -197,8 +196,8 @@ class ServerSession:
         if not (self._run and p_left and p_right):
             return
 
-        p_left.id = ID_LEFT
-        p_right.id = ID_RIGHT
+        # p_left.id = ID_LEFT
+        # p_right.id = ID_RIGHT
 
         sock = self._socket
 
@@ -212,6 +211,7 @@ class ServerSession:
         while self._run:
             clock.tick(FPS_SERVER)
 
+            # the cool down attribute is use to ensure that 2 player have to waiting for a while before the game to continue if a score is hit
             if self._cooldown_counter > 0:
                 self._cooldown_counter -= 1
                 self._send_both(self.create_coords_update_msg(update_result=GAME_UPDATE_RESULT_NORMAL))
@@ -230,8 +230,6 @@ class ServerSession:
 
 class ClientSession:
 
-    # def __init__(self, win_getter, game_mode: GameMode, server_addr: tuple, player_name: str,
-    #              sounds_enabled: bool = CLIENT_DEFAULT_SOUNDS_ENABLED):
     def __init__(self, win_getter, game_mode: GameMode, server_addr: tuple, player_name: str
                   ):
         self.win_getter = win_getter
@@ -247,7 +245,6 @@ class ClientSession:
         self._game_state: GameState = None
         self._last_req_difficulty: DifficultyLevel = None
         self._thread: threading.Thread = None
-        # self._sounds_enabled = sounds_enabled
 
         self._state: int = CLIENT_SESSION_STATE_IDLE
         self._cooldown_counter = 0
@@ -260,8 +257,7 @@ class ClientSession:
     def socket(self) -> socket.socket:
         if not self._socket:
             self._socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            if CLIENT_TIMEOUT_SECS > 0:
-                self._socket.settimeout(CLIENT_TIMEOUT_SECS)
+            self._socket.settimeout(CLIENT_TIMEOUT_SECS)
         return self._socket
 
     @property
@@ -308,20 +304,7 @@ class ClientSession:
     def is_self_left(self) -> bool:
         return self.player_id == ID_LEFT if self.game_mode.online else self.game_mode.self_left_preference
 
-    # @property
-    # def sounds_enabled(self) -> bool:
-    #     return self._sounds_enabled
 
-    # @sounds_enabled.setter
-    # def sounds_enabled(self, value: bool):
-    #     self._sounds_enabled = value
-
-    # def toggle_sounds_enabled(self):
-    #     pass
-        # self._sounds_enabled = not self._sounds_enabled
-
-    # def stop_receiving(self):
-    #     self._session_state = SESSION_STATE_IDLE
 
     def create_new_session_msg(self, difficulty: DifficultyLevel) -> bytes:
         return encode_str(f"{REQ_TYPE_NEW_PLAYER}{SESSION_INFO_DELIMITER}{difficulty.id}{SESSION_INFO_DELIMITER}{self.player_name}")
@@ -360,11 +343,13 @@ class ClientSession:
         if req:
             self._send_msg(self.create_new_session_msg(req))
 
-    def req_new_session(self, difficulty: DifficultyLevel, force: bool = False):
-        if not (force or self._state == CLIENT_SESSION_STATE_IDLE or self._state == CLIENT_SESSION_STATE_ENEMY_LEFT):
+
+    def req_new_session(self, difficulty: DifficultyLevel):
+        if not (self._state == CLIENT_SESSION_STATE_IDLE or self._state == CLIENT_SESSION_STATE_ENEMY_LEFT):
             return
 
-        self.log_out()
+        # else if the state is  connecting or waiting or running
+        # self.log_out()
         self._last_req_difficulty = difficulty
 
         if self.game_mode == GAME_MODE_ONLINE_MULTI_PLAYER:
@@ -401,8 +386,6 @@ class ClientSession:
                 else:
                     _update_result = game_state.update()
 
-                    # if self.sounds_enabled:
-                    #     AUDIO.consider_play_sound(_update_result=_update_result, _self_left=self.is_self_left)
 
                     _score_changed = is_score_changed(_update_result)
                     if _score_changed and not self.game_state.any_won():  # Game not Finished
@@ -411,24 +394,20 @@ class ClientSession:
     def _worker(self):
         while self._state != CLIENT_SESSION_STATE_IDLE:
             try:
-                _bytes, addr = self.socket.recvfrom(CLIENT_RECV_BUF_SIZE)
+                _bytes, addr = self.socket.recvfrom(1024)
             except socket.timeout or socket.error or OSError as e:
                 print("Failed to connect to server, Error: " + str(e))
                 if self.is_connecting:
                     print("Retrying to connect to server...")
                     self._resend_last_new_session_req()
-                # else:
-                #     self._session_state =
+
             else:
                 msg = decode_str(_bytes)
                 arr = msg.split(SESSION_INFO_DELIMITER)
                 m_type = arr[0]
 
                 send_coords_update = False
-                update_result = -1
 
-                if self.is_idle:
-                    break
 
                 if m_type == MSG_TYPE_SESSION_WAITING:
                     self.session_id = int(arr[1])
@@ -446,17 +425,12 @@ class ClientSession:
                     if self.is_running:
                         self.game_state.client_load_all_coords(arr[1], self.is_self_left)
                         send_coords_update = True
-                    update_result = int(arr[2])
-                elif m_type == MSG_TYPE_SCORE_UPDATE:
-                    if self.is_running:
-                        self.game_state.load_score(arr[1])
-                    update_result = int(arr[2])
+
                 elif m_type == MSG_TYPE_COORDS_AND_SCORE_UPDATE:
                     if self.is_running:
                         self.game_state.client_load_all_coords(arr[1], self.is_self_left)
                         self.game_state.load_score(arr[2])
                         send_coords_update = True
-                    update_result = int(arr[3])
                 elif m_type == MSG_TYPE_ENEMY_LEFT:
                     if not self._other_player:
                         self._other_player = RemotePlayer.load_string(arr[1])
@@ -464,9 +438,5 @@ class ClientSession:
                     # self._game_state = None
                 else:
                     print(f"Unknown message from server -> Type: {m_type}, Full msg: {msg}")
-
-                # if self.sounds_enabled and update_result >= 0:
-                #     AUDIO.consider_play_sound(_update_result=update_result, _self_left=self.is_self_left)
-
                 if send_coords_update:
                     self._send_msg(self.create_coords_update_msg())

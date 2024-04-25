@@ -2,12 +2,7 @@ import pygame
 
 
 class Button:
-    # def __init__(self, _id: int, x, y, pad_x, pad_y, text: str, font: pygame.font.Font,
-    #              bg: pygame.Color, bg_active: pygame.Color = None,
-    #              text_color: pygame.Color = None, text_color_active: pygame.Color = None,
-    #              outline_width: int = 0, outline_color: pygame.Color = None,
-    #              corner=0,
-    #              tag=None):
+
     def __init__(self, _id: int, x, y, pad_x, pad_y, text: str, font: pygame.font.Font,
                  bg: pygame.Color, bg_active: pygame.Color = None,
                  text_color: pygame.Color = None, text_color_active: pygame.Color = None,
@@ -25,8 +20,6 @@ class Button:
         self.font = font
         self.text_color = text_color
         self.text_color_active = text_color_active
-        # self.outline_width = outline_width
-        # self.outline_color = outline_color
         self.corner = corner
 
         self.text_img = self.font.render(self.text, True, self.text_color)
@@ -52,21 +45,14 @@ class Button:
 
 
     def draw(self, win):
-        # outline
-        # if self.outline_width > 0 and self.outline_color:
-        #     pygame.draw.rect(win, self.outline_color,
-        #                      (self.x - self.outline_width, self.y - self.outline_width,
-        #                       self.width + (self.outline_width * 2), self.height + (self.outline_width * 2)),
-        #                      width=self.outline_width, border_radius=self.corner)
 
         pygame.draw.rect(win, self.bg_active if self._active and self.bg_active else self.bg,
                          (self.x, self.y, self.width, self.height), border_radius=self.corner)
-        if self.text:
-            text = self.font.render(self.text, True, self.text_color_active if self._active and self.text_color_active
-                                    else self.text_color)
+        text = self.font.render(self.text, True, self.text_color_active if self._active and self.text_color_active
+                                else self.text_color)
 
-            win.blit(text, (
-                self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
+        win.blit(text, (
+            self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
 
     @property
     def x2(self) -> int:
@@ -98,5 +84,4 @@ class Button:
     def is_over(self, x, y):
         return self.x < x < self.x2 and self.y < y < self.y2
 
-    def sync_active(self, x, y):
-        self._active = self.is_over(x, y)
+

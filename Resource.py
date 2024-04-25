@@ -155,15 +155,11 @@ def get_ai_name_status(ai_efficiency_percent: int):
         return f"{OFFLINE_SINGLE_PLAYER_AI_NAME} (EASY)"
 
 
-    # return f"{OFFLINE_SINGLE_PLAYER_AI_NAME} ("hard" if {ai_efficiency_percent}%)"
 
 
 # Home Screen
 CLIENT_HOME_SCREEN_PADX = 20
 CLIENT_HOME_SCREEN_PADY = 20
-
-CLIENT_HOME_SCREEN_PADX_SOUND_LABEL = 26
-CLIENT_HOME_SCREEN_PADY_SOUND_LABEL = 26
 
 
 # Colors
@@ -246,7 +242,7 @@ BALL_DEFAULT_RANDOM_INITIAL_VEL_ENABLED = True
 
 # Vertical Divider
 VERTICAL_DIVIDER_WIDTH = 6
-VERTICAL_DIVIDER_REL_HEIGHT = 0.045
+VERTICAL_DIVIDER_REL_HEIGHT = 0.07
 VERTICAL_DIVIDER_CORNERS = 4
 
 
@@ -255,8 +251,6 @@ FROZEN = getattr(sys, 'frozen', False)
 DIR_MAIN = os.path.dirname(sys.executable) if FROZEN else os.path.dirname(os.path.abspath(os.path.realpath(__file__)))
 
 DIR_RES = os.path.join(DIR_MAIN, "res")
-# DIR_RES_IMAGES = os.path.join(DIR_RES, "images")
-# DIR_RES_SOUND = os.path.join(DIR_RES, "sound")
 DIR_RES_FONT = os.path.join(DIR_RES, "font")
 
 DIR_CONFIG = os.path.join(DIR_MAIN, "config")

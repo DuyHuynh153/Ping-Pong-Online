@@ -14,7 +14,7 @@ It offers various gameplay modes to keep you entertained whether you're playing 
 ![HomeScreen](res/images/home_screen.png)
 
 ## Gameplay Modes
-
+d
 ### Play With AI
 ![Play With AI](res/images/play_with_ai.png)
 

@@ -6,22 +6,22 @@ from Button import Button
 from DifficultyLevel import DIFFICULTY_LEVEL_DEFAULT, DIFFICULTY_LEVELS
 from GameMode import *
 from GameState import *
-from Utils import is_valid_ip, blit_text
+from Utils import blit_text
 from pong_net_config import *
 from pong_sessions import ClientSession
 
 print("\n")
 
 
-def create_fullscreen_display() -> pygame.Surface:
+def create_fullscreen_display() :
     _win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     pygame.display.set_caption("Ping Pong")
     return _win
 
 
-def create_non_fullscreen_display(_size: tuple) -> pygame.Surface:
+def create_non_fullscreen_display(_size: tuple) :
     _win = pygame.display.set_mode(_size, pygame.RESIZABLE)
-    pygame.display.set_caption(DISPLAY_TITLE)
+    pygame.display.set_caption("Ping Pong")
     return _win
 
 
@@ -84,7 +84,7 @@ def create_difficulty_buttons(win_width, win_height) -> list:
 
 
 def update_game_mode_buttons_pos(buttons, win_width, win_height, vgap=30, max_b_width=0):
-    #  getting the widest button if max_b_buttons is mssing
+    #  getting the widest button if max_b_buttons is missing
     if max_b_width <= 0:
         max_b_width = reduce(lambda a, b: a if a.width >= b.width else b, buttons).width
 
@@ -93,7 +93,8 @@ def update_game_mode_buttons_pos(buttons, win_width, win_height, vgap=30, max_b_
         _bt.width = max_b_width
         _bt.x = (win_width - max_b_width) // 2
         _bt.y = last_button_y2 + vgap
-        _bt.corner = ceil(_bt.height / 2.0)
+        # _bt.corner = ceil(_bt.height / 2.0)
+        _bt.corner = 40
 
         last_button_y2 = _bt.y2
 
@@ -120,56 +121,8 @@ def create_game_mode_buttons(win_width, win_height) -> list:
     return buttons
 
 
-# def create_sound_buttons():
-#     # label = FONT_BUTTONS_SMALL.render(LABEL_TEXT_SOUND, True, FG_DARK)
-#
-#     button_pad_x = 5
-#     button_pad_y = 7
-#     button_corner = 6
-#
-#     bt_on = Button(_id=ID_SOUND_ON_BUTTON, text=SWITCH_TEXT_SOUND_ON, x=0, y=0,
-#                    pad_x=button_pad_x,
-#                    pad_y=button_pad_y, corner=button_corner,
-#                    bg=BG_MEDIUM, bg_active=COLOR_HIGHLIGHT,
-#                    font=FONT_BUTTONS_SMALL, text_color=FG_MEDIUM, text_color_active=BG_DARK)
-#
-#     bt_on.tag = True
-#
-#     bt_off = Button(_id=ID_SOUND_OFF_BUTTON, text=SWITCH_TEXT_SOUND_OFF, x=0, y=0,
-#                     pad_x=button_pad_x,
-#                     pad_y=button_pad_y, corner=button_corner,
-#                     bg=BG_MEDIUM, bg_active=TINT_ENEMY_DARK,
-#                     font=FONT_BUTTONS_SMALL, text_color=FG_MEDIUM, text_color_active=BG_DARK)
-#
-#     bt_off.tag = False
-#
-#     max_b_width = max(bt_on.width, bt_off.width)
-#     max_b_height = max(bt_on.height, bt_off.height)
-#     bt_on.width = bt_off.width = max_b_width
-#     bt_on.height = bt_off.height = max_b_height
-#
-#     return bt_on, bt_off
 
-
-# def update_sound_buttons_pos(buttons, sound_label_pos, sound_label_size):
-#     button_hgap = 10
-#     max_b_h = buttons[0].height
-#
-#     x = sound_label_pos[0] + sound_label_size[0] + 16
-#     y = sound_label_pos[1] + (sound_label_size[1] - max_b_h) // 2
-#
-#     for b in buttons:
-#         b.x = x
-#         b.y = y
-#         x = b.x2 + button_hgap
-
-
-# pygame.mixer.init()
 pygame.init()
-#
-# window_icon = IMAGES.window_icon
-# if window_icon:
-#     pygame.display.set_icon(window_icon)
 
 if DEFAULT_FULLSCREEN:
     win = create_fullscreen_display()
@@ -202,29 +155,15 @@ def get_win():
 
 
 def _draw_home_screen(_win, _session: ClientSession, _buttons):
-    global home_sound_buttons_pos_pending
 
     _win.fill(BG_DARK)
-    # _win.fill(gray(130))
 
-    # _bg = IMAGES.home_bg
-    # if _bg:
-    #     o_asp = _bg.get_width() / _bg.get_height()
-    #     d_asp = _win.get_width() / _win.get_height()
-    #     if o_asp < d_asp:
-    #         nw = _win.get_width()
-    #         nh = int(nw / o_asp)
-    #     else:
-    #         nh = _win.get_height()
-    #         nw = int(o_asp * nh)
-    #
-    #     _bg = pygame.transform.scale(_bg, (nw, nh))
-    #     _win.blit(_bg, ((_win.get_width() - nw) // 2, (_win.get_height() - nh) // 2))
+
 
     # Title
-    title_part1 = FONT_TITLE.render(DISPLAY_TITLE_PART1 + ' ', True, COLOR_HOME_TITLE_PART1)
-    title_part2 = FONT_TITLE.render(' ' + DISPLAY_TITLE_PART2, True, COLOR_HOME_TITLE_PART2)
-    title_y = (_win.get_height() - title_part1.get_height()) // 3
+    title_part1 = FONT_TITLE.render("PING" + ' ', True, COLOR_HOME_TITLE_PART1)
+    title_part2 = FONT_TITLE.render(' ' + "PONG", True, COLOR_HOME_TITLE_PART2)
+    title_y = (_win.get_height() - title_part1.get_height()) // 4
 
     _win.blit(title_part1, (_win.get_width() // 2 - title_part1.get_width(), title_y))
     _win.blit(title_part2, (_win.get_width() // 2, title_y))
@@ -325,7 +264,7 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
                 elif _session.game_mode == GAME_MODE_OFFLINE_SINGLE_PLAYER:
                     _self_name = get_self_name_status(_session.player_name)
                     _enemy_name = get_ai_name_status(_session.difficulty.ai_efficiency_percent)
-                else:
+                else:  # this mean player choose to play 2 player in one PC
                     _self_name = OFFLINE_MULTI_PLAYER_PLAYER1_NAME
                     _enemy_name = OFFLINE_MULTI_PLAYER_PLAYER2_NAME
 
@@ -338,7 +277,7 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
 
                 if left_name:
                     left_img = FONT_STATUS_PLAYER.render(left_name, True, COLOR_PLAYER_STATUS_TEXT)
-                    _win.blit(left_img, (_win.get_width() // 4 - left_img.get_width() // 2, CLIENT_HOME_SCREEN_PADY))
+                    _win.blit(left_img, (_win.get_width() // 4 - left_img.get_width() // 2,CLIENT_HOME_SCREEN_PADY))
 
                 if right_name:
                     right_img = FONT_STATUS_PLAYER.render(right_name, True, COLOR_PLAYER_STATUS_TEXT)
@@ -351,7 +290,7 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
 
                 if _paused and not _session.game_mode.online:
                     overlay = pygame.Surface((_win.get_width(), _win.get_height()))
-                    overlay.fill(COLOR_TRANSLUCENT)
+                    overlay.fill(Color(0, 128, 0, 125))
                     overlay.set_alpha(COLOR_TRANSLUCENT.a)
                     _win.blit(overlay, (0, 0))
                     # pygame.draw.rect(_win, (0, 0, 0, 0), (0, 0, _win.get_width(), _win.get_height()))  # overlay
@@ -381,61 +320,25 @@ def draw(_win, _session: ClientSession, _paused: bool, _home_buttons):
 
     pygame.display.update()
 
-
-# player_name
-# player_name = CONFIG.get_client_local_config_player_name()
-player_name = "huynh lam duy"
+player_name = "lam duy"
 
 
-# Server
-# server_ip = DEFAULT_SERVER_IP
-# server_port = DEFAULT_SERVER_PORT
-
-# __loaded_server_addr = load_server_addr(default_ip=DEFAULT_SERVER_IP, default_port=DEFAULT_SERVER_PORT)
-# __ip_from_argv = False
-# __port_from_argv = False
-#
-# if len(sys.argv) > 1:
-#     _ip = sys.argv[1]
-#     if is_valid_ip(_ip):
-#         server_ip = _ip
-#         __ip_from_argv = True
-#     else:
-#         print(f"Invalid input IP Address: {_ip}")
-#
-# if len(sys.argv) > 2:
-#     try:
-#         server_port = int(sys.argv[2])
-#         __port_from_argv = True
-#     except ValueError:
-#         print("Invalid input port: " + sys.argv[2])
-#
-# if not __ip_from_argv:
-#     server_ip = __loaded_server_addr[0]
-#
-# if not __port_from_argv:
-#     server_port = __loaded_server_addr[1]
 
 server_ip = DEFAULT_SERVER_IP
 server_port = DEFAULT_SERVER_PORT
 
 server_addr = (server_ip, server_port)
 
-# Main Loop
-# load_local_ai_efficiencies()
 home_selected_difficulty: DifficultyLevel = DIFFICULTY_LEVEL_DEFAULT
 
-# home_selected_sound_enabled: bool = CLIENT_DEFAULT_SOUNDS_ENABLED
 session: ClientSession = None
 
 home_game_mode_buttons = create_game_mode_buttons(win.get_width(), win.get_height())
 home_difficulty_buttons = create_difficulty_buttons(win.get_width(), win.get_height())
-# home_sound_buttons = create_sound_buttons()
 home_exit_button = create_exit_button(win.get_width(), win.get_height())
 
 run = True
 paused = False
-# home_sound_buttons_pos_pending = True
 
 _display_updated = False
 _last_focused_button: Button = None
@@ -479,26 +382,10 @@ def toggle_fullscreen() -> bool:
     fs = not is_fullsreen()
     __set_fullscreen(fs)
     return fs
-    # pygame.display.toggle_fullscreen()
-    # return True
-
-
-# def consider_play_button_sound(hover: bool):
-    # if home_selected_sound_enabled:
-    #     AUDIO.play_button_sound(hover)
-    # pass
-
-
-# def get_all_home_buttons():
-#     return chain(home_game_mode_buttons, home_difficulty_buttons, home_sound_buttons, (home_exit_button,))
 
 def get_all_home_buttons():
     return chain(home_game_mode_buttons, home_difficulty_buttons,  (home_exit_button,))
 
-
-# def sync_home_sound_buttons_state():
-#     for _bt in home_sound_buttons:
-#         _bt.active = _bt.tag == home_selected_sound_enabled
 
 
 def sync_home_difficulty_buttons_state():
@@ -514,10 +401,7 @@ def sync_all_home_buttons_state(_event=None):
 
     for _bt in get_all_home_buttons():
         _focus = _bt.is_over(*m_pos)
-        # _bt.active = _focus
-        # Set button active state based on focus or matching selected difficulty ID
-        _bt.active = _focus or (home_selected_difficulty and _bt.id == home_selected_difficulty.id) \
-                     # or _bt.id == (ID_SOUND_ON_BUTTON if home_selected_sound_enabled else ID_SOUND_OFF_BUTTON)
+        _bt.active = _focus or (home_selected_difficulty and _bt.id == home_selected_difficulty.id)
 
         if _focus:
             focused_bt = _bt
@@ -525,7 +409,6 @@ def sync_all_home_buttons_state(_event=None):
     if focused_bt:
         if not _last_focused_button or _last_focused_button != focused_bt:
             _last_focused_button = focused_bt
-            # consider_play_button_sound(hover=True)
     else:
         _last_focused_button = None
 
@@ -536,11 +419,10 @@ def go_back():
     global session
     global _display_updated
 
-    if not session or session.is_idle:  # idle mean that no interact with screen for perious time
+    if not session or session.is_idle:  # idle mean that no interacts with screen for periods time
         run = False
     else:
         session.set_idle()
-        # consider_play_button_sound(False)
         paused = False
         _display_updated = True
 
@@ -549,24 +431,16 @@ def handle_keydown(_event):
     global run
     global paused
     global session
-    global home_selected_sound_enabled
     global _display_updated
 
     if _event.key == pygame.K_ESCAPE:
         go_back()
-    elif _event.key == pygame.K_RETURN:
+    elif _event.key == pygame.K_RETURN:  # if client hit enter key
         if session and (
                 session.has_enemy_left or (session.is_running and session.game_state and session.game_state.any_won())):
             session.set_idle()
-            # consider_play_button_sound(False)
             paused = False
             _display_updated = True
-    # elif _event.key == pygame.K_a:
-    #     if pygame.key.get_mods() & pygame.KMOD_CTRL:  # if ctrl pressed
-    #         home_selected_sound_enabled = not home_selected_sound_enabled
-    #         if session:
-    #             session.sounds_enabled = home_selected_sound_enabled
-            # sync_home_sound_buttons_state()
     elif _event.key == pygame.K_SPACE:
         if session and session.is_running and not session.game_mode.online:
             paused = not paused
@@ -576,15 +450,10 @@ def handle_keydown(_event):
 
 
 def handle_mouse_motion(_event=None):
-    global session
-
-    if not session or session.is_idle:
-        sync_all_home_buttons_state(event)
+    sync_all_home_buttons_state(event)
 
 
-# def on_double_left_click(_event) -> bool:
-#     toggle_fullscreen()
-#     return True     # handled
+
 
 
 def handle_mouse_button_down(_event=None):
@@ -592,16 +461,8 @@ def handle_mouse_button_down(_event=None):
     global player_name
     global paused
     global home_selected_difficulty
-    # global home_selected_sound_enabled
     global home_exit_button
 
-    # if _event and _event.button == pygame.BUTTON_LEFT:
-    #     print("left click")
-    #     if db_clock.tick() < DOUBLE_CLICK_MS:
-    #         print("Double Left click")
-    #         handled = on_double_left_click(_event)
-    #         if handled:
-    #             return
 
     if not session or session.is_idle:
         m_pos = _event.pos if _event else pygame.mouse.get_pos()
@@ -611,7 +472,6 @@ def handle_mouse_button_down(_event=None):
             return
 
         _got_diff = False
-        _got_sound = False
         _got_game_mode = False
         for bt in home_difficulty_buttons:
             if bt.is_over(*m_pos):
@@ -629,16 +489,13 @@ def handle_mouse_button_down(_event=None):
                         if session:
                             session.log_out()
                         paused = False
-                        # session = ClientSession(win_getter=get_win, game_mode=bt.tag, server_addr=server_addr,
-                        #                         player_name=player_name, sounds_enabled=home_selected_sound_enabled)
+
                         session = ClientSession(win_getter=get_win, game_mode=bt.tag, server_addr=server_addr,
                                                player_name=player_name)
                         session.req_new_session(difficulty=home_selected_difficulty)
                         _got_game_mode = True
                         # break
 
-        # if _got_diff or _got_sound or _got_game_mode:
-        #     consider_play_button_sound(hover=False)
 
 
 def handle_videoresize(_event=None):

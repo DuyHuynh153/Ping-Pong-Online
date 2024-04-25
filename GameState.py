@@ -6,7 +6,7 @@ import Utils
 # from R import *
 from Resource import *
 from Constants import *
-from Utils import lerp, line_line_intersection, get_ball_initial_rel_vel, to_rel, to_abs
+from Utils import lerp, line_line_intersection, get_ball_initial_rel_vel, to_rel, to_abs, reset_ball_rel_vel
 from DifficultyLevel import DifficultyLevel
 
 
@@ -265,7 +265,7 @@ class Ball(BaseGameObject):
         self.x_vel_min_factor = x_vel_min_factor
         self.random_initial_vel_enabled = random_initial_vel_enabled
         self.rel_velx, self.rel_vely = 0, 0
-        self.reset_vel()
+        self.reset_ball_velocity(direction= 1)
 
     @property
     def radius(self):
@@ -292,14 +292,13 @@ class Ball(BaseGameObject):
     def move(self):
         self.move_by_rel(self.rel_velx, self.rel_vely)
 
-    def reset_vel(self):
-        self.rel_velx, self.rel_vely = get_ball_initial_rel_vel(rel_vel_max_component=self.rel_vel_max_component,
-                                                                _random=self.random_initial_vel_enabled,
-                                                                x_vel_min_factor=self.x_vel_min_factor)
+    def reset_ball_velocity(self, direction):
 
-    def reset(self):
+        self.rel_velx, self.rel_vely = reset_ball_rel_vel(rel_vel_max_component=self.rel_vel_max_component, direction=direction)
+
+    def reset(self, direction = 1):
         super(Ball, self).reset()
-        self.reset_vel()
+        self.reset_ball_velocity(direction)
 
     @property
     def center_left_rel(self) -> tuple:
@@ -498,16 +497,17 @@ class GameState:
 
         move_dir = -1  # -1: do not move, 0: down, 1: up
 
+        # t represents the predicted relative position of the ball on the paddle's Y-axis
         t = tu[0]
-        if Utils.outside01(t):
+        if t < 0 or t > 1:
             # ball will collide with top/bottom wall, so just flip the collision point about the x-axis
             if t < 0:  # t < 0: Top wall
                 t = abs(t)
             else:  # t > 1: Bottom wall
                 t = 2 - t
-        else:
-            # ball will directly hit the paddle
-            pass
+        # else:
+        #     # ball will directly hit the paddle
+        #     pass
 
         collision_point_y = int(lerp(to_abs(0), to_abs(1), t))
         center_y = to_abs(paddle.center_rely)
@@ -540,11 +540,11 @@ class GameState:
 
         if self.ball.relx < 0:
             self.score_right += 1
-            self.ball.reset()
+            self.ball.reset(direction = 1)
             result = GAME_UPDATE_RESULT_WON_RIGHT if self.is_right_won() else GAME_UPDATE_RESULT_SCORE_UP_RIGHT
         elif self.ball.relx > 1:
             self.score_left += 1
-            self.ball.reset()
+            self.ball.reset(direction = -1)
             result = GAME_UPDATE_RESULT_WON_LEFT if self.is_left_won() else GAME_UPDATE_RESULT_SCORE_UP_LEFT
 
         return result

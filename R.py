@@ -2,12 +2,12 @@ import os
 import sys
 from pygame import Color, mixer, image, surface
 
-from Constants import GAME_UPDATE_RESULT_SCORE_UP_LEFT, GAME_UPDATE_RESULT_BALL_HIT_TOP_WALL, \
-    GAME_UPDATE_RESULT_BALL_HIT_BOTTOM_WALL, GAME_UPDATE_RESULT_BALL_HIT_PADDLE_LEFT, \
-    GAME_UPDATE_RESULT_BALL_HIT_PADDLE_RIGHT, GAME_UPDATE_RESULT_SCORE_UP_RIGHT, GAME_UPDATE_RESULT_NORMAL, \
-    GAME_UPDATE_RESULT_WON_LEFT, GAME_UPDATE_RESULT_WON_RIGHT, LOCAL_CONFIG_KEY_PLAYER_NAME
+# from Constants import GAME_UPDATE_RESULT_SCORE_UP_LEFT, GAME_UPDATE_RESULT_BALL_HIT_TOP_WALL, \
+#     GAME_UPDATE_RESULT_BALL_HIT_BOTTOM_WALL, GAME_UPDATE_RESULT_BALL_HIT_PADDLE_LEFT, \
+#     GAME_UPDATE_RESULT_BALL_HIT_PADDLE_RIGHT, GAME_UPDATE_RESULT_SCORE_UP_RIGHT, GAME_UPDATE_RESULT_NORMAL, \
+#     GAME_UPDATE_RESULT_WON_LEFT, GAME_UPDATE_RESULT_WON_RIGHT, LOCAL_CONFIG_KEY_PLAYER_NAME
 
-from Utils import  remove_all_whitespaces
+# from Utils import  remove_all_whitespaces
 
 ID_NONE = -1
 ID_LEFT = 0
@@ -35,49 +35,6 @@ def decode_str(msg: bytes):
 
 def gray(i) -> Color:
     return Color(i, i, i)
-
-
-# def load_map(file_path: str, key_value_delimiter: str = '=', comment_token='#',
-#              remove_whitespaces: bool = True, key_filter=None, value_filter=None) -> dict:
-#     """
-#     Load key-value pairs from a given file
-#
-#     :param file_path: path of input file
-#     :param key_value_delimiter: delimiter for each entry, line format = key{delimiter}value
-#     :param comment_token: signifies starting of a comment
-#     :param remove_whitespaces: whether to remove whitespaces from each line
-#     :param key_filter: a predicate to decide whether an entry corresponding to key must be included
-#     :param value_filter: a predicate to decide whether an entry corresponding to value must be included
-#
-#     :return: dict containing key-value pairs (all as strings)
-#     """
-#     _map = {}
-#
-#     try:
-#         with open(file_path, "r+") as f:
-#             for line in f.readlines():
-#                 if comment_token:
-#                     comment_token_index = line.find(comment_token)
-#                     if comment_token_index >= 0:
-#                         line = line[:comment_token_index]
-#                 if remove_whitespaces:
-#                     line = remove_all_whitespaces(line)
-#                 line = line.replace('\n', '')
-#                 if line:
-#                     _dat = line.split(key_value_delimiter)
-#                     if len(_dat) == 2:
-#                         k, v = _dat[0], _dat[1]
-#                         if k and (not key_filter or key_filter(k)) and (not value_filter or value_filter(v)):
-#                             _map[_dat[0]] = _dat[1]
-#     except Exception as e:
-#         print(f"Error while loading data from file {file_path}: {e}")
-#
-#     return _map
-
-
-# DEFAULT_USER_NAME = "hahaha"
-# USER_NAME_LOCAL = "duy"
-# USER_NAME_LOCAL = get_user_name(default_user_name=DEFAULT_USER_NAME)
 
 # Main Vars
 DEFAULT_W_WIDTH, DEFAULT_W_HEIGHT = 1300, 700
@@ -197,20 +154,16 @@ def get_self_name_status(name):
 
 
 def get_enemy_name_status(name):
-    return name if name else DEFAULT_ENEMY_NAME
+    # return name if name else DEFAULT_ENEMY_NAME
+    return name
 
 
 def get_ai_name_status(ai_efficiency_percent: int):
     return f"{OFFLINE_SINGLE_PLAYER_AI_NAME} ({ai_efficiency_percent}%)"
 
-
 # Home Screen
 CLIENT_HOME_SCREEN_PADX = 20
 CLIENT_HOME_SCREEN_PADY = 20
-
-CLIENT_HOME_SCREEN_PADX_SOUND_LABEL = 26
-CLIENT_HOME_SCREEN_PADY_SOUND_LABEL = 26
-
 
 # Colors
 WHITE = gray(255)
@@ -244,11 +197,6 @@ TINT_SELF_LIGHT = Color(173, 255, 47)  # Light green
 TINT_ENEMY_DARK = Color(128, 0, 0)  # Dark red (for contrast with green)
 TINT_ENEMY_MEDIUM = Color(255, 0, 0)  # Medium red (for contrast with green)
 TINT_ENEMY_LIGHT = Color(255, 69, 0)  # Light red (for contrast with green)
-
-
-
-
-
 
 
 
@@ -301,268 +249,15 @@ FROZEN = getattr(sys, 'frozen', False)
 DIR_MAIN = os.path.dirname(sys.executable) if FROZEN else os.path.dirname(os.path.abspath(os.path.realpath(__file__)))
 
 DIR_RES = os.path.join(DIR_MAIN, "res")
-# DIR_RES_IMAGES = os.path.join(DIR_RES, "images")
-# DIR_RES_SOUND = os.path.join(DIR_RES, "sound")
 DIR_RES_FONT = os.path.join(DIR_RES, "font")
-
-DIR_CONFIG = os.path.join(DIR_MAIN, "config")
-
-
 def is_file(path: str) -> bool:
     return path and os.path.isfile(path)
 
 
-# Configs
-FILE_PATH_CLIENT_LOCAL_CONFIG = os.path.join(DIR_CONFIG, "local_config.ini")
-FILE_PATH_CLIENT_NETWORK_CONFIG = os.path.join(DIR_CONFIG, "client_net_config.ini")
-
-
-# class Config:
-#
-#     def __init__(self):
-#         self._client_local_config: dict = None
-#         self._client_network_config: dict = None
-#
-#     def invalidate(self):
-#         self._client_local_config = None
-#         self._client_network_config = None
-#
-#     def preload(self):
-#         a = self.client_local_config
-#         b = self.client_network_config
-
-    # @property
-    # def client_local_config(self) -> dict:
-    #     if not self._client_local_config and is_file(FILE_PATH_CLIENT_LOCAL_CONFIG):
-    #         self._client_local_config = load_map(FILE_PATH_CLIENT_LOCAL_CONFIG)
-    #     return self._client_local_config
-    #
-    # @property
-    # def client_network_config(self) -> dict:
-    #     if not self._client_network_config and is_file(FILE_PATH_CLIENT_NETWORK_CONFIG):
-    #         self._client_network_config = load_map(FILE_PATH_CLIENT_NETWORK_CONFIG)
-    #     return self._client_network_config
-    #
-    # def get_client_local_config_player_name(self, default=USER_NAME_LOCAL) -> str:
-    #     data = self.client_local_config
-    #     val = data.get(LOCAL_CONFIG_KEY_PLAYER_NAME, '')
-    #     return val if val else default
-
-
-# CONFIG = Config()
-
-
-# Images (set "" for None)
-# FILE_PATH_IMG_EXE_ICON = os.path.join(DIR_RES_IMAGES, "icon_64.ico")
-# FILE_PATH_IMG_WINDOW_ICON = os.path.join(DIR_RES_IMAGES, "pong_window_icon_32.png")
-# FILE_PATH_IMG_INTRO_ICON = os.path.join(DIR_RES_IMAGES, "pong_icon_dark_squircle_512.png")
-# FILE_PATH_IMG_HOME_BG = os.path.join(DIR_RES_IMAGES, "pong_home_bg_512.png")
-
-
-# class Images:
-#
-#     def __init__(self):
-#         self._window_icon: surface.Surface = None
-#         self._intro_icon: surface.Surface = None
-#         self._home_bg: surface.Surface = None
-#
-#     def invalidate(self):
-#         self._window_icon = None
-#         self._intro_icon = None
-#         self._home_bg = None
-#
-#     @property
-#     def window_icon(self) -> surface.Surface:
-#         if not self._window_icon and is_file(FILE_PATH_IMG_WINDOW_ICON):
-#             self._window_icon = image.load(FILE_PATH_IMG_WINDOW_ICON)
-#         return self._window_icon
-#
-#     @property
-#     def intro_icon(self) -> surface.Surface:
-#         if not self._intro_icon and is_file(FILE_PATH_IMG_INTRO_ICON):
-#             self._intro_icon = image.load(FILE_PATH_IMG_INTRO_ICON)
-#         return self._intro_icon
-#
-#     @property
-#     def home_bg(self) -> surface.Surface:
-#         if not self._home_bg and is_file(FILE_PATH_IMG_HOME_BG):
-#             self._home_bg = image.load(FILE_PATH_IMG_HOME_BG)
-#         return self._home_bg
-
-
-# IMAGES = Images()           # Singleton
-
-
-# Sounds (set "" for None)
-# FILE_PATH_SOUND_BALL_HIT_TOP_WALL = os.path.join(DIR_RES_SOUND, "ball_hit_top_wall.wav")
-# FILE_PATH_SOUND_BALL_HIT_BOTTOM_WALL = os.path.join(DIR_RES_SOUND, "ball_hit_bottom_wall.wav")
-# FILE_PATH_SOUND_BALL_HIT_SELF_PADDLE = os.path.join(DIR_RES_SOUND, "ball_hit_paddle_self.wav")
-# FILE_PATH_SOUND_BALL_HIT_ENEMY_PADDLE = os.path.join(DIR_RES_SOUND, "ball_hit_paddle_enemy.wav")
-# FILE_PATH_SOUND_SCORE_UP_SELF = os.path.join(DIR_RES_SOUND, "score_up_self.wav")
-# FILE_PATH_SOUND_SCORE_UP_ENEMY = os.path.join(DIR_RES_SOUND, "score_up_enemy.wav")
-# FILE_PATH_SOUND_WON_SELF = os.path.join(DIR_RES_SOUND, "won_self.wav")
-# FILE_PATH_SOUND_WON_ENEMY = os.path.join(DIR_RES_SOUND, "won_enemy.wav")
-#
-# FILE_PATH_SOUND_BUTTON_HOVER = os.path.join(DIR_RES_SOUND, "button_hover.wav")
-# FILE_PATH_SOUND_BUTTON_CLICK = os.path.join(DIR_RES_SOUND, "button_click.wav")
-#
-# CLIENT_DEFAULT_SOUNDS_ENABLED = False
-#
-# ID_SOUND_ON_BUTTON = 0xFF65A
-# ID_SOUND_OFF_BUTTON = 0xFB4C
-# LABEL_TEXT_SOUND = "Sound"
-# SWITCH_TEXT_SOUND_ON = "ON"
-# SWITCH_TEXT_SOUND_OFF = "OFF"
-#
-# STATUS_TEXT_SOUND_ON = "Sound On"
-# STATUS_TEXT_SOUND_OFF = "Sound Off"
 
 ID_EXIT_BUTTON = -0xFF0AC
 EXIT_BUTTON_TEXT = "Quit"
 
-
-# class Audio:
-#
-#     @staticmethod
-#     def play_once(sound: mixer.Sound) -> bool:
-#         if sound:
-#             sound.play()
-#             return True
-#         return False
-#
-#     def __init__(self):
-#         self._ball_hit_top_wall: mixer.Sound = None
-#         self._ball_hit_bottom_wall: mixer.Sound = None
-#         self._ball_hit_self_paddle: mixer.Sound = None
-#         self._ball_hit_enemy_paddle: mixer.Sound = None
-#         self._score_up_self: mixer.Sound = None
-#         self._score_up_enemy: mixer.Sound = None
-#         self._won_self: mixer.Sound = None
-#         self._won_enemy: mixer.Sound = None
-#
-#         self._button_hover: mixer.Sound = None
-#         self._button_click: mixer.Sound = None
-#
-#     def invalidate(self):
-#         self._ball_hit_top_wall = None
-#         self._ball_hit_bottom_wall = None
-#         self._ball_hit_self_paddle = None
-#         self._ball_hit_enemy_paddle = None
-#         self._score_up_self = None
-#         self._score_up_enemy = None
-#         self._won_self = None
-#         self._won_enemy = None
-#         self._button_hover = None
-#         self._button_click = None
-#
-#     @property
-#     def ball_hit_top_wall(self) -> mixer.Sound:
-#         if not self._ball_hit_top_wall and is_file(FILE_PATH_SOUND_BALL_HIT_TOP_WALL):
-#             self._ball_hit_top_wall = mixer.Sound(FILE_PATH_SOUND_BALL_HIT_TOP_WALL)
-#         return self._ball_hit_top_wall
-#
-#     @property
-#     def ball_hit_bottom_wall(self) -> mixer.Sound:
-#         if not self._ball_hit_bottom_wall and is_file(FILE_PATH_SOUND_BALL_HIT_BOTTOM_WALL):
-#             self._ball_hit_bottom_wall = mixer.Sound(FILE_PATH_SOUND_BALL_HIT_BOTTOM_WALL)
-#         return self._ball_hit_bottom_wall
-#
-#     @property
-#     def ball_hit_self_paddle(self) -> mixer.Sound:
-#         if not self._ball_hit_self_paddle and is_file(FILE_PATH_SOUND_BALL_HIT_SELF_PADDLE):
-#             self._ball_hit_self_paddle = mixer.Sound(FILE_PATH_SOUND_BALL_HIT_SELF_PADDLE)
-#         return self._ball_hit_self_paddle
-#
-#     @property
-#     def ball_hit_enemy_paddle(self) -> mixer.Sound:
-#         if not self._ball_hit_enemy_paddle and is_file(FILE_PATH_SOUND_BALL_HIT_ENEMY_PADDLE):
-#             self._ball_hit_enemy_paddle = mixer.Sound(FILE_PATH_SOUND_BALL_HIT_ENEMY_PADDLE)
-#         return self._ball_hit_enemy_paddle
-#
-#     def get_ball_hit_paddle(self, _self: bool) -> mixer.Sound:
-#         return self.ball_hit_self_paddle if _self else self.ball_hit_enemy_paddle
-#
-#     @property
-#     def score_up_self(self) -> mixer.Sound:
-#         if not self._score_up_self and is_file(FILE_PATH_SOUND_SCORE_UP_SELF):
-#             self._score_up_self = mixer.Sound(FILE_PATH_SOUND_SCORE_UP_SELF)
-#         return self._score_up_self
-#
-#     @property
-#     def score_up_enemy(self) -> mixer.Sound:
-#         if not self._score_up_enemy and is_file(FILE_PATH_SOUND_SCORE_UP_ENEMY):
-#             self._score_up_enemy = mixer.Sound(FILE_PATH_SOUND_SCORE_UP_ENEMY)
-#         return self._score_up_enemy
-#
-#     def get_score_up(self, _self: bool) -> mixer.Sound:
-#         return self.score_up_self if _self else self.score_up_enemy
-#
-#     @property
-#     def won_self(self) -> mixer.Sound:
-#         if not self._won_self and is_file(FILE_PATH_SOUND_WON_SELF):
-#             self._won_self = mixer.Sound(FILE_PATH_SOUND_WON_SELF)
-#         return self._won_self
-#
-#     @property
-#     def won_enemy(self) -> mixer.Sound:
-#         if not self._won_enemy and is_file(FILE_PATH_SOUND_WON_ENEMY):
-#             self._won_enemy = mixer.Sound(FILE_PATH_SOUND_WON_ENEMY)
-#         return self._won_enemy
-#
-#     def get_won(self, _self: bool) -> mixer.Sound:
-#         return self.won_self if _self else self.won_enemy
-#
-#     def get(self, _update_result: int, _self_left: bool) -> mixer.Sound:
-#         _sound = None
-#
-#         if _update_result == GAME_UPDATE_RESULT_NORMAL:
-#             pass
-#         elif _update_result == GAME_UPDATE_RESULT_BALL_HIT_TOP_WALL:
-#             _sound = self.ball_hit_top_wall
-#         elif _update_result == GAME_UPDATE_RESULT_BALL_HIT_BOTTOM_WALL:
-#             _sound = self.ball_hit_bottom_wall
-#         elif _update_result == GAME_UPDATE_RESULT_BALL_HIT_PADDLE_LEFT:
-#             _sound = self.get_ball_hit_paddle(_self_left)
-#         elif _update_result == GAME_UPDATE_RESULT_BALL_HIT_PADDLE_RIGHT:
-#             _sound = self.get_ball_hit_paddle(not _self_left)
-#         elif _update_result == GAME_UPDATE_RESULT_SCORE_UP_LEFT:
-#             _sound = self.get_score_up(_self_left)
-#         elif _update_result == GAME_UPDATE_RESULT_SCORE_UP_RIGHT:
-#             _sound = self.get_score_up(not _self_left)
-#         elif _update_result == GAME_UPDATE_RESULT_WON_LEFT:
-#             _sound = self.get_won(_self_left)
-#         elif _update_result == GAME_UPDATE_RESULT_WON_RIGHT:
-#             _sound = self.get_won(not _self_left)
-#
-#         return _sound
-#
-#     def consider_play_sound(self, _update_result: int, _self_left: bool) -> bool:
-#         _sound = self.get(_update_result=_update_result, _self_left=_self_left)
-#         return self.play_once(_sound)
-#
-#     @property
-#     def button_hover(self) -> mixer.Sound:
-#         if not self._button_hover and is_file(FILE_PATH_SOUND_BUTTON_HOVER):
-#             self._button_hover = mixer.Sound(FILE_PATH_SOUND_BUTTON_HOVER)
-#         return self._button_hover
-#
-#     def play_button_hover(self) -> bool:
-#         return self.play_once(self.button_hover)
-#
-#     @property
-#     def button_click(self) -> mixer.Sound:
-#         if not self._button_click and is_file(FILE_PATH_SOUND_BUTTON_CLICK):
-#             self._button_click = mixer.Sound(FILE_PATH_SOUND_BUTTON_CLICK)
-#         return self._button_click
-#
-#     def play_button_click(self) -> bool:
-#         return self.play_once(self.button_click)
-#
-#     def play_button_sound(self, hover: bool) -> bool:
-#         return self.play_button_hover() if hover else self.play_button_click()
-#
-
-# AUDIO: Audio = Audio()      # Singleton
 
 
 # Fonts

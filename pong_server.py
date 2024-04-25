@@ -5,8 +5,6 @@ import pygame
 from Constants import *
 # from R import SESSION_INFO_DELIMITER, decode_str, ID_LEFT, ID_RIGHT, DEFAULT_W_WIDTH, DEFAULT_W_HEIGHT
 from Resource import SESSION_INFO_DELIMITER, decode_str, ID_LEFT, ID_RIGHT, DEFAULT_W_WIDTH, DEFAULT_W_HEIGHT
-from Utils import is_valid_ip
-from pong_net_config import *
 from GameState import GameState
 from DifficultyLevel import DifficultyLevel, load_difficulty
 from pong_sessions import ServerSession
@@ -15,7 +13,7 @@ print("\n")
 
 sessions = []
 
-server_ip = "192.168.1.16"
+server_ip = "192.168.1.14"
 server_port = 5467
 
 
@@ -27,21 +25,7 @@ try:
 except Exception as e:
     print(f"Failed to initialize server at IP: {server_ip}, PORT: {server_port} -> {e}")
     sys.exit(2)
-    # if server_ip != DEFAULT_SERVER_IP or server_port != DEFAULT_SERVER_PORT:
-    #     print("Falling back to default ip and port...")
-    #     server_ip = DEFAULT_SERVER_IP
-    #     server_port = DEFAULT_SERVER_PORT
-    #     try:
-    #         sock.bind((server_ip, server_port))
-    #     except Exception as e:
-    #         print(f"Failed to initialize server at default address -> IP: {server_ip}, PORT: {server_port} -> {e}")
-    #         sys.exit(2)
-    # else:
-    #     sys.exit(2)
 
-#
-# if SERVER_TIMEOUT_SECS > 0:
-#     sock.settimeout(SERVER_TIMEOUT_SECS)
 print(f"Server UP -> IP: {server_ip}, PORT: {server_port}")
 
 pygame.init()
@@ -90,12 +74,7 @@ while True:
 
             _player = _session.add_player(addr, _player_name)
 
-            # session = sessions[-1]
-            # player = session.add_player(addr)
-            # if not player:
-            #     session = create_session(_id, _difficulty)
-            #     sessions.append(session)
-            #     player = session.add_player(addr)
+
 
             print(f"Session {_session.session_id} -> added {_player}")
 

@@ -4,8 +4,7 @@ import Utils
 import Constants
 
 HOST_NAME = socket.gethostname()
-# HOST_IP = socket.gethostbyname(HOST_NAME)
-HOST_IP = "192.168.1.16"
+HOST_IP = "192.168.1.14"
 
 
 
@@ -26,23 +25,3 @@ CLIENT_RECV_BUF_SIZE = 1024
 FPS_CLIENT = R.FPS
 
 
-# def load_server_addr(file_path: str = R.FILE_PATH_CLIENT_NETWORK_CONFIG,
-#                      default_ip: str = DEFAULT_SERVER_IP, default_port: int = DEFAULT_SERVER_PORT):
-#     data = R.load_map(file_path, remove_whitespaces=True)
-#     ip = data.get(C.NET_CONFIG_KEY_SERVER_IP, "")
-#     if not (ip and U.is_valid_ip(ip)):
-#         if ip:
-#             print(f"Invalid IP in file, IP: {ip}")
-#         host_name = data.get(C.NET_CONFIG_KEY_SERVER_HOST_NAME, "")
-#         if host_name:
-#             try:
-#                 ip = socket.gethostbyname(host_name)
-#             except Exception:
-#                 ip = default_ip
-#         else:
-#             ip = default_ip
-#
-#     port = default_port
-#
-#
-#     return ip, port

@@ -1,6 +1,6 @@
 import R
 from Utils import to_abs, to_rel, get_vel_max_total
-from Constants import LOCAL_CONFIG_KEY_AI_EFFICIENCY
+# from Constants import LOCAL_CONFIG_KEY_AI_EFFICIENCY
 # from R import CONFIG
 
 
@@ -34,9 +34,9 @@ class DifficultyLevel:
         # self.paddle_rel_vel: float = paddle_rel_vel * vel_factor
         self.paddle_rel_vel: float = paddle_rel_vel
 
-    @property
-    def local_config_key_ai_efficiency(self):
-        return LOCAL_CONFIG_KEY_AI_EFFICIENCY + "_" + self.key
+    # @property
+    # def local_config_key_ai_efficiency(self):
+    #     return LOCAL_CONFIG_KEY_AI_EFFICIENCY + "_" + self.key
 
     def reset_ai_efficiency(self):
         self.ai_efficiency_percent = self.default_ai_efficiency_percent
@@ -59,26 +59,12 @@ DIFFICULTY_LEVEL_EASY = DifficultyLevel(_id=0xAAA0, key="EASY", display_name="Ea
                                         ball_x_vel_min_factor=0.89,
                                         winning_socre=3, default_ai_efficiency_percent=20)
 
-# DIFFICULTY_LEVEL_NORMAL = DifficultyLevel(_id=0xAAA1, key="NORMAL", display_name="Normal",
-#                                           paddle_rel_width=0.00875, paddle_rel_height=0.11875, paddle_rel_vel=0.0098,
-#                                           ball_rel_radius=0.008, ball_rel_vel_max_component=0.00755,
-#                                           ball_reset_delay_secs=2, ball_random_initial_vel_enabled=True,
-#                                           ball_x_vel_min_factor=0.86,
-#                                           winning_socre=5, default_ai_efficiency_percent=40)
-
 DIFFICULTY_LEVEL_HARD = DifficultyLevel(_id=0xAAA2, key="HARD", display_name="Hard",
                                         paddle_rel_width=0.009, paddle_rel_height=0.1, paddle_rel_vel=0.011,
                                         ball_rel_radius=0.008, ball_rel_vel_max_component=0.0088,
                                         ball_reset_delay_secs=1.5, ball_random_initial_vel_enabled=True,
                                         ball_x_vel_min_factor=0.82,
                                         winning_socre=10, default_ai_efficiency_percent=60)
-#
-# DIFFICULTY_LEVEL_EXPERT = DifficultyLevel(_id=0xAAA3, key="EXPERT", display_name="Expert",
-#                                           paddle_rel_width=0.01125, paddle_rel_height=0.0925, paddle_rel_vel=0.014,
-#                                           ball_rel_radius=0.0072, ball_rel_vel_max_component=0.0098,
-#                                           ball_reset_delay_secs=1, ball_random_initial_vel_enabled=True,
-#                                           ball_x_vel_min_factor=0.8,
-#                                           winning_socre=10, default_ai_efficiency_percent=85)
 
 DIFFICULTY_LEVEL_DEFAULT = DIFFICULTY_LEVEL_EASY
 
@@ -97,17 +83,3 @@ def load_difficulty(_id: int, default: DifficultyLevel = DIFFICULTY_LEVEL_DEFAUL
             return d
     return default
 
-
-# def load_local_ai_efficiencies():
-#     data = CONFIG.client_local_config
-#
-#     for d in DIFFICULTY_LEVELS:
-#         key = d.local_config_key_ai_efficiency
-#         val = data.get(key, '')
-#         if val:
-#             try:
-#                 i_val = int(val)
-#                 if 0 <= i_val <= 100:
-#                     d.ai_efficiency_percent = i_val
-#             except ValueError:
-#                 pass

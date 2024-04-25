@@ -1,6 +1,4 @@
-# from R import __get_won_display_info_offline_single_player, \
-#     __get_won_display_info_offline_multiplayer, \
-#     __get_won_display_info_online_multiplayer
+
 
 from Resource import __get_won_display_info_offline_single_player, \
     __get_won_display_info_offline_multiplayer, \
@@ -9,11 +7,12 @@ from Resource import __get_won_display_info_offline_single_player, \
 class GameMode:
 
 
-    def __init__(self, _id: int, display_name: str, short_name: str, online: bool, self_left_preference: bool,
+
+    def __init__(self, _id: int, display_name: str, online: bool, self_left_preference: bool,
                  won_display_info_provider):
         self.id = _id
         self.display_name = display_name
-        self.short_name = short_name
+        # self.short_name = short_name
         self.online = online
         self.self_left_preference = self_left_preference
         self._won_display_info_provider = won_display_info_provider
@@ -34,20 +33,20 @@ class GameMode:
 
 # Game Modes
 GAME_MODE_OFFLINE_SINGLE_PLAYER = GameMode(_id=0xFFF0,
-                                           display_name="Offline - single player",
-                                           short_name="Single Player",
+                                           display_name="single player VS AI",
+                                           # short_name="Single Player",
                                            online=False, self_left_preference=False,
                                            won_display_info_provider=__get_won_display_info_offline_single_player)
 
 GAME_MODE_OFFLINE_MULTI_PLAYER = GameMode(_id=0xFFF1,
                                           display_name="Offline - 2 player",
-                                          short_name="Multi Player",
-                                          online=False, self_left_preference=False,
+                                          # short_name="Multi Player",
+                                          online=False, self_left_preference=True,
                                           won_display_info_provider=__get_won_display_info_offline_multiplayer)
 
 GAME_MODE_ONLINE_MULTI_PLAYER = GameMode(_id=0xFFF2,
-                                         display_name="Online",
-                                         short_name="Onliner",
+                                         display_name="Online - 2 Player",
+                                         # short_name="Onliner",
                                          online=True, self_left_preference=False,  # self_left pref does not matter
                                          won_display_info_provider=__get_won_display_info_online_multiplayer)
 
