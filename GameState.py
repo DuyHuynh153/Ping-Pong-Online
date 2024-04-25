@@ -6,7 +6,7 @@ import Utils
 # from R import *
 from Resource import *
 from Constants import *
-from Utils import lerp, line_line_intersection, get_ball_initial_rel_vel, to_rel, to_abs, reset_ball_rel_vel
+from Utils import lerp, line_line_intersection, to_rel, to_abs, reset_ball_rel_vel
 from DifficultyLevel import DifficultyLevel
 
 
