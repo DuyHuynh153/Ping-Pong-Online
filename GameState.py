@@ -347,13 +347,7 @@ class Ball(BaseGameObject):
 
         return result
 
-    # @property
-    # def heading_rad(self) -> float:
-    #     return math.atan2(self.rel_vely, self.rel_velx)
-    #
-    # @property
-    # def heading_deg(self):
-    #     return math.degrees(self.heading_rad)
+
 
 
 class GameState:
@@ -520,9 +514,6 @@ class GameState:
 
         if move_dir < 0:
             return
-
-
-
 
         # stochastic application of difficulty level
         make_mistake = self.should_ai_make_mistake(self.difficulty.ai_efficiency_percent)

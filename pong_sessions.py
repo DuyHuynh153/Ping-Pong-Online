@@ -10,7 +10,7 @@ from Resource import REMOTE_PLAYER_DELIMITER, SESSION_INFO_DELIMITER, encode_str
 from GameState import GameState
 from GameMode import *
 from DifficultyLevel import DifficultyLevel, load_difficulty
-from pong_net_config import FPS_SERVER, FPS_CLIENT, CLIENT_RECV_BUF_SIZE, CLIENT_TIMEOUT_SECS
+from pong_net_config import FPS_SERVER, FPS_CLIENT, CLIENT_TIMEOUT_SECS
 
 
 class RemotePlayer:
@@ -171,9 +171,6 @@ class ServerSession:
         return encode_str(f"{MSG_TYPE_COORDS_UPDATE}{SESSION_INFO_DELIMITER}{self.game_state.server_dump_all_coords()}"
                           f"{SESSION_INFO_DELIMITER}{update_result}")
 
-    # def create_score_update_msg(self, update_result: int) -> bytes:
-    #     return encode_str(f"{MSG_TYPE_SCORE_UPDATE}{SESSION_INFO_DELIMITER}{self.game_state.dump_score()}"
-    #                       f"{SESSION_INFO_DELIMITER}{update_result}")
 
     def create_coords_and_score_update_msg(self, update_result: int) -> bytes:
         return encode_str(
@@ -436,7 +433,6 @@ class ClientSession:
                         self._other_player = RemotePlayer.load_string(arr[1])
                     self._state = CLIENT_SESSION_STATE_ENEMY_LEFT
                     # self._game_state = None
-                else:
-                    print(f"Unknown message from server -> Type: {m_type}, Full msg: {msg}")
+
                 if send_coords_update:
                     self._send_msg(self.create_coords_update_msg())
