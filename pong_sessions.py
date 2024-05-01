@@ -137,8 +137,7 @@ class ServerSession:
 
         if player:
             self.game_state.reset()
-            if notify_other_player:
-                self._send_both(self.create_enemy_left_msg(player))       # as one is already removed
+            self._send_both(self.create_enemy_left_msg(player))       # as one is already removed
 
         return player
 

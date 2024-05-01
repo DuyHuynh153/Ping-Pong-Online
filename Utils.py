@@ -29,19 +29,25 @@ def lerp(start, stop, amt):
     return start + ((stop - start) * amt)
 
 
-def line_line_intersection(x1, y1, x2, y2, x3, y3, x4, y4, bound_line1: bool, bound_line2: bool) -> tuple:
-    den = ((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4))
-    if den == 0:
-        return None  # parallel
+def line_line_intersection(x1, y1, x2, y2, x3, y3, x4, y4) -> tuple:
 
-    t = (((x1 - x3) * (y3 - y4)) - ((y1 - y3) * (x3 - x4))) / den
-    if bound_line1 and (t < 0 or t > 1):
-        return None  # intersection not within first line
+    # paralell_checking is use to check if 2 lines are parallel
+    paralell_checking = ((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4))
+    if paralell_checking == 0:
+        return None  # 2 duong song song
 
-    u = (((x1 - x3) * (y1 - y2)) - ((y1 - y3) * (x1 - x2))) / den
-    if bound_line2 and (t < 0 or t > 1):
+    """
+    t: position where ball will hit paddle (t is the intersection point), t is relative value, 
+    example: t = 0.5 -> ball hit at the middle of the of line 1 (from x1, y1 to x2, y2)
+    -------------
+    u: is using for checking the direction of the ball
+    u < 0: The ball is moving away from the paddle. The AI does not move the paddle.
+    u >= 0: The ball is moving towards the paddle or is at the same level as the paddle on the y-axis. 
+    The AI calculates where the ball will hit the paddle and decides whether to move the paddle up or down.    
+    """
+    t = (((x1 - x3) * (y3 - y4)) - ((y1 - y3) * (x3 - x4))) / paralell_checking
+    u = (((x1 - x3) * (y1 - y2)) - ((y1 - y3) * (x1 - x2))) / paralell_checking
 
-        return None  # intersection not within second line
 
     return t, u
 

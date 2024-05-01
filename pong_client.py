@@ -1,5 +1,4 @@
 from itertools import chain
-from math import ceil
 from functools import reduce
 
 from Button import Button
@@ -13,7 +12,7 @@ from pong_sessions import ClientSession
 print("\n")
 
 
-def create_fullscreen_display() :
+def create_fullscreen_display():
     _win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     pygame.display.set_caption("Ping Pong")
     return _win

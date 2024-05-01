@@ -13,7 +13,7 @@ print("\n")
 
 sessions = []
 
-server_ip = "192.168.1.14"
+server_ip = "192.168.1.17"
 server_port = 5467
 
 

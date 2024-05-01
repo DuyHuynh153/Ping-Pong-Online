@@ -1,4 +1,4 @@
-import R
+# import R
 from Utils import to_abs, to_rel, get_vel_max_total
 # from Constants import LOCAL_CONFIG_KEY_AI_EFFICIENCY
 # from R import CONFIG
@@ -16,7 +16,7 @@ class DifficultyLevel:
         self.key = key
         self.display_name = display_name
 
-        vel_factor = 60 / R.FPS         # velocities are designed to work with 60 fps
+        # vel_factor = 60 / R.FPS         # velocities are designed to work with 60 fps
 
         self.ball_rel_radius: float = ball_rel_radius
         # self.ball_rel_vel_max_component: float = ball_rel_vel_max_component * vel_factor
@@ -53,7 +53,7 @@ class DifficultyLevel:
 
 # Difficulty Levels
 DIFFICULTY_LEVEL_EASY = DifficultyLevel(_id=0xAAA0, key="EASY", display_name="Easy",
-                                        paddle_rel_width=0.0087, paddle_rel_height=0.138, paddle_rel_vel=0.0095,
+                                        paddle_rel_width=0.009, paddle_rel_height=0.138, paddle_rel_vel=0.0095,
                                         ball_rel_radius=0.01, ball_rel_vel_max_component=0.00725,
                                         ball_reset_delay_secs=2.5, ball_random_initial_vel_enabled=True,
                                         ball_x_vel_min_factor=0.89,
@@ -71,7 +71,6 @@ DIFFICULTY_LEVEL_DEFAULT = DIFFICULTY_LEVEL_EASY
 
 DIFFICULTY_LEVELS: list = [
     DIFFICULTY_LEVEL_EASY,
-
     DIFFICULTY_LEVEL_HARD
 
 ]

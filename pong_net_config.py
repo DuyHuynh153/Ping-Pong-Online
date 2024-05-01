@@ -1,10 +1,10 @@
 import socket
-import R
+import Resource
 import Utils
 import Constants
 
 HOST_NAME = socket.gethostname()
-HOST_IP = "192.168.1.14"
+HOST_IP = "192.168.1.17"
 
 
 
@@ -17,11 +17,11 @@ SERVER_RECV_BUF_SIZE = 1024
 
 # SERVER_MAX_PLAYERS = 100
 
-FPS_SERVER = R.FPS
+FPS_SERVER = 60
 
 # Client
 CLIENT_TIMEOUT_SECS = 2
 CLIENT_RECV_BUF_SIZE = 1024
-FPS_CLIENT = R.FPS
+FPS_CLIENT = 60
 
 

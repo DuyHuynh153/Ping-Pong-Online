@@ -484,7 +484,7 @@ class GameState:
         tu = line_line_intersection(to_abs(paddle.relx), to_abs(0), to_abs(paddle.relx2), to_abs(1),
                                     to_abs(self.ball.relx), to_abs(self.ball.rely),
                                     to_abs(self.ball.relx + self.ball.rel_velx),
-                                    to_abs(self.ball.rely + self.ball.rel_vely), False, False)
+                                    to_abs(self.ball.rely + self.ball.rel_vely))
 
         if not tu or tu[1] < 0:  # ball moving || to Y-axis or going away from the paddle
             return
@@ -499,9 +499,7 @@ class GameState:
                 t = abs(t)
             else:  # t > 1: Bottom wall
                 t = 2 - t
-        # else:
-        #     # ball will directly hit the paddle
-        #     pass
+
 
         collision_point_y = int(lerp(to_abs(0), to_abs(1), t))
         center_y = to_abs(paddle.center_rely)
