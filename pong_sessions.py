@@ -344,8 +344,7 @@ class ClientSession:
         if not (self._state == CLIENT_SESSION_STATE_IDLE or self._state == CLIENT_SESSION_STATE_ENEMY_LEFT):
             return
 
-        # else if the state is  connecting or waiting or running
-        # self.log_out()
+
         self._last_req_difficulty = difficulty
 
         if self.game_mode == GAME_MODE_ONLINE_MULTI_PLAYER:
@@ -365,6 +364,8 @@ class ClientSession:
             update_game_state = False
             if self.game_mode == GAME_MODE_ONLINE_MULTI_PLAYER:
                 game_state.handle_keys_single_player(keys, self.is_self_left)
+                self._send_msg(self.create_coords_update_msg())
+
             elif self.game_mode == GAME_MODE_OFFLINE_SINGLE_PLAYER:
                 update_game_state = True
                 _self_left = self.is_self_left
@@ -431,7 +432,6 @@ class ClientSession:
                     if not self._other_player:
                         self._other_player = RemotePlayer.load_string(arr[1])
                     self._state = CLIENT_SESSION_STATE_ENEMY_LEFT
-                    # self._game_state = None
 
                 if send_coords_update:
                     self._send_msg(self.create_coords_update_msg())

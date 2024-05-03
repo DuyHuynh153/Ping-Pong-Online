@@ -1,10 +1,5 @@
-import socket
-import Resource
-import Utils
-import Constants
 
-HOST_NAME = socket.gethostname()
-HOST_IP = "192.168.1.17"
+HOST_IP = "172.20.10.2"
 
 
 

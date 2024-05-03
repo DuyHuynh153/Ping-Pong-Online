@@ -1,9 +1,6 @@
 import random
 import pygame
-import math
 
-import Utils
-# from R import *
 from Resource import *
 from Constants import *
 from Utils import lerp, line_line_intersection, to_rel, to_abs, reset_ball_rel_vel
@@ -479,7 +476,6 @@ class GameState:
     def ai_handle_player(self, left: bool):
         paddle = self.get_paddle(left)
         # enemy = self.get_paddle(not left)
-
         # Intersect the entire Paddle Y-axis with the trajectory of the ball
         tu = line_line_intersection(to_abs(paddle.relx), to_abs(0), to_abs(paddle.relx2), to_abs(1),
                                     to_abs(self.ball.relx), to_abs(self.ball.rely),
@@ -488,7 +484,6 @@ class GameState:
 
         if not tu or tu[1] < 0:  # ball moving || to Y-axis or going away from the paddle
             return
-
         move_dir = -1  # -1: do not move, 0: down, 1: up
 
         # t represents the predicted relative position of the ball on the paddle's Y-axis

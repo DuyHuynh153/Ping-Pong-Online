@@ -471,7 +471,6 @@ def handle_mouse_button_down(_event=None):
             return
 
         _got_diff = False
-        _got_game_mode = False
         for bt in home_difficulty_buttons:
             if bt.is_over(*m_pos):
                 home_selected_difficulty = bt.tag
@@ -492,8 +491,6 @@ def handle_mouse_button_down(_event=None):
                         session = ClientSession(win_getter=get_win, game_mode=bt.tag, server_addr=server_addr,
                                                player_name=player_name)
                         session.req_new_session(difficulty=home_selected_difficulty)
-                        _got_game_mode = True
-                        # break
 
 
 

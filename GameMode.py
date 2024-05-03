@@ -20,33 +20,22 @@ class GameMode:
     def get_won_display_info(self, self_won: bool, score_diff: int, enemy_name: str):
         return self._won_display_info_provider(self_won, score_diff, enemy_name)
 
-    def __eq__(self, other):
-        return isinstance(other, GameMode) and self.id == other.id
 
-    def __repr__(self):
-        return f"GameMode(id: {self.id}, name: {self.display_name}, online: {self.online}, " \
-               f"self_left_pref: {self.self_left_preference}) "
-
-    def __str__(self):
-        return self.display_name
 
 
 # Game Modes
 GAME_MODE_OFFLINE_SINGLE_PLAYER = GameMode(_id=0xFFF0,
                                            display_name="single player VS AI",
-                                           # short_name="Single Player",
                                            online=False, self_left_preference=False,
                                            won_display_info_provider=__get_won_display_info_offline_single_player)
 
 GAME_MODE_OFFLINE_MULTI_PLAYER = GameMode(_id=0xFFF1,
                                           display_name="Offline - 2 player",
-                                          # short_name="Multi Player",
                                           online=False, self_left_preference=True,
                                           won_display_info_provider=__get_won_display_info_offline_multiplayer)
 
 GAME_MODE_ONLINE_MULTI_PLAYER = GameMode(_id=0xFFF2,
                                          display_name="Online - 2 Player",
-                                         # short_name="Onliner",
                                          online=True, self_left_preference=False,  # self_left pref does not matter
                                          won_display_info_provider=__get_won_display_info_online_multiplayer)
 

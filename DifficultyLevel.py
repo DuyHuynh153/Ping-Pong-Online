@@ -1,7 +1,5 @@
-# import R
 from Utils import to_abs, to_rel, get_vel_max_total
-# from Constants import LOCAL_CONFIG_KEY_AI_EFFICIENCY
-# from R import CONFIG
+
 
 
 class DifficultyLevel:
@@ -16,10 +14,7 @@ class DifficultyLevel:
         self.key = key
         self.display_name = display_name
 
-        # vel_factor = 60 / R.FPS         # velocities are designed to work with 60 fps
-
         self.ball_rel_radius: float = ball_rel_radius
-        # self.ball_rel_vel_max_component: float = ball_rel_vel_max_component * vel_factor
         self.ball_rel_vel_max_component: float = ball_rel_vel_max_component
         self.ball_reset_delay_secs: float = ball_reset_delay_secs
         self.ball_random_initial_vel_enabled = ball_random_initial_vel_enabled
@@ -34,21 +29,11 @@ class DifficultyLevel:
         # self.paddle_rel_vel: float = paddle_rel_vel * vel_factor
         self.paddle_rel_vel: float = paddle_rel_vel
 
-    # @property
-    # def local_config_key_ai_efficiency(self):
-    #     return LOCAL_CONFIG_KEY_AI_EFFICIENCY + "_" + self.key
 
     def reset_ai_efficiency(self):
         self.ai_efficiency_percent = self.default_ai_efficiency_percent
 
-    def __eq__(self, other):
-        return isinstance(other, DifficultyLevel) and self.id == other.id
-
-    def __repr__(self):
-        return f"DifficultyLevel(id: {self.id}, key: {self.key}, display_name: {self.display_name})"
-
-    def __str__(self):
-        return self.display_name
+   
 
 
 # Difficulty Levels

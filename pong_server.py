@@ -3,7 +3,6 @@ import sys
 import pygame
 
 from Constants import *
-# from R import SESSION_INFO_DELIMITER, decode_str, ID_LEFT, ID_RIGHT, DEFAULT_W_WIDTH, DEFAULT_W_HEIGHT
 from Resource import SESSION_INFO_DELIMITER, decode_str, ID_LEFT, ID_RIGHT, DEFAULT_W_WIDTH, DEFAULT_W_HEIGHT
 from GameState import GameState
 from DifficultyLevel import DifficultyLevel, load_difficulty
@@ -13,7 +12,7 @@ print("\n")
 
 sessions = []
 
-server_ip = "192.168.1.17"
+server_ip = "172.20.10.2"
 server_port = 5467
 
 
@@ -48,7 +47,7 @@ while True:
         _bytes, addr = sock.recvfrom(1024)
         msg = decode_str(_bytes)  # decode the info about the game send by addr
 
-        arr = msg.split(SESSION_INFO_DELIMITER)  # arr = ['request', 'difficulty','player']
+        arr = msg.split(SESSION_INFO_DELIMITER)  # arr = ['request', 'difficulty','player_name']
         req = arr[0]
 
         if req == REQ_TYPE_NEW_PLAYER:                # '{req_code}:{difficulty_code}'

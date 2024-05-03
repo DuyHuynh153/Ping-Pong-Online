@@ -1,9 +1,7 @@
-import math
-import random
-import re
+
 import pygame
 
-REL_VALUE_MULTIPLIER = 10_000
+REL_VALUE_MULTIPLIER = 20_000
 
 
 def to_rel(abs_value: int) -> float:
@@ -16,12 +14,6 @@ def to_abs(rel_value: float) -> int:
 
 
 
-def signum(num) -> int:
-    if num > 0:
-        return 1
-    if num < 0:
-        return -1
-    return 0
 
 
 
@@ -58,21 +50,6 @@ def get_vel_max_total(vel_max_component: float) -> float:
 
 def reset_ball_rel_vel(rel_vel_max_component: float, direction: int) -> tuple:
     return direction * rel_vel_max_component, 0
-# def get_ball_initial_rel_vel(rel_vel_max_component: float, _random: bool,
-#                              x_vel_min_factor: float = 0.62,
-#                              total_vel_max_variance: float = 0.1) -> tuple:
-#
-#     if not _random:
-#         return random.choice((1, -1)) * rel_vel_max_component, 0  # Right or left
-#
-#     max_vel_sq = 2 * (rel_vel_max_component ** 2)
-#     vel_sq = max_vel_sq * random.uniform(1 - total_vel_max_variance, 1 + total_vel_max_variance)
-#
-#     # decompose total_vel velocity into components
-#     vel_x_sq = vel_sq * random.uniform(x_vel_min_factor ** 2, 0.9)
-#     vel_y_sq = vel_sq - vel_x_sq
-#
-#     return random.choice((1, -1)) * math.sqrt(vel_x_sq), random.choice((1, -1)) * math.sqrt(vel_y_sq)
 
 
 def blit_text(surface: pygame.Surface, text: str, pos: tuple, font: pygame.font.Font, color=pygame.Color('white')) -> tuple:
